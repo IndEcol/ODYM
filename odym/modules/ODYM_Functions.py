@@ -30,7 +30,8 @@ import xlrd
 #      Define functions            #
 ####################################
 
-def __version__(): # return version of this file
+
+def __version__():  # return version of this file
     return str('0.1')
 
 def function_logger(file_level, Name_Scenario, Path_Result, console_level): # initialize and configurate logger
@@ -42,7 +43,7 @@ def function_logger(file_level, Name_Scenario, Path_Result, console_level): # in
     if console_level != None:
         console_log = logging.StreamHandler() #StreamHandler logs to console
         console_log.setLevel(console_level)
-        console_log_format = logging.Formatter('%(message)s') # ('%(asctime)s - %(message)s')
+        console_log_format = logging.Formatter('%(message)s')  # ('%(asctime)s - %(message)s')
         console_log.setFormatter(console_log_format)
         logger.addHandler(console_log)
 

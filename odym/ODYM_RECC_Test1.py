@@ -19,7 +19,7 @@ dependencies:
 # Import required libraries:
 import os  
 import sys
-import logging
+import logging as log
 import xlrd, xlwt
 import numpy as np
 import time
@@ -34,21 +34,22 @@ import imp
 import getpass
 from copy import deepcopy
 
+
 #import re
 __version__ = str('0.1')
 #######################
 #     Initialize      #
 #######################
-ProjectSpecs_Path_Main = os.path.abspath(os.path.join(os.path.dirname(__file__), '..\\..')) + '\\'
-#NOTE: Hidden variable __file__ must be know to script for the directory structure to work.
+ProjectSpecs_Path_Main = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+# NOTE: Hidden variable __file__ must be know to script for the directory structure to work.
 # Therefore: When first using the model, run the entire script with F5 so that the __file__ variable can be created.
 
 #sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..\\..')))
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__) + '\\modules'))) # add ODYM module directory to system path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'modules'))) # add ODYM module directory to system path
 
 # Load project-specific config file
-ProjectSpecs_Name_ConFile  = 'ODYM_RECC_Config.xlsx'
-Model_Configfile = xlrd.open_workbook(ProjectSpecs_Path_Main + ProjectSpecs_Name_ConFile)
+ProjectSpecs_Name_ConFile = 'ODYM_RECC_Config.xlsx'
+Model_Configfile = xlrd.open_workbook(os.path.join(ProjectSpecs_Path_Main, ProjectSpecs_Name_ConFile))
 ScriptConfig = {'Model Setting': Model_Configfile.sheet_by_name('Config').cell_value(3,3)}
 Model_Configsheet = Model_Configfile.sheet_by_name('Setting_' + ScriptConfig['Model Setting'])
    
@@ -56,19 +57,21 @@ Model_Configsheet = Model_Configfile.sheet_by_name('Setting_' + ScriptConfig['Mo
 ProjectSpecs_User_Name     = getpass.getuser()
 
 # import packages whose location is now on the system path:    
-import ODYM_Classes as msc # import the ODYM class file
+import ODYM_Classes as msc  # import the ODYM class file
 imp.reload(msc)
-import ODYM_Functions as msf # import the ODYM function file
+import ODYM_Functions as msf  # import the ODYM function file
 imp.reload(msf)
-import dynamic_stock_model as dsm # import the dynamic stock model library
+import dynamic_stock_model as dsm  # import the dynamic stock model library
 imp.reload(dsm)
 
 
-Name_Script        = Model_Configsheet.cell_value(5,3)
-if Name_Script != 'ODYM_RECC_Test1': # Name of this script must equal the specified name in the Excel config file
-    print('Fatal error: The name of the current script does not match to the sript name specfied in the project configuration file. Exiting the script.')
-    sys.exit()
-# the model will terminate if the name of the scrip that is run is not identical to the scrip name specified in the config file.    
+Name_Script = Model_Configsheet.cell_value(5, 3)
+if Name_Script != 'ODYM_RECC_Test1':  # Name of this script must equal the specified name in the Excel config file
+    # TODO: This does not work because the logger was not yet initialized
+    # log.critical("The name of the current script '%s' does not match to the sript name specfied in the project configuration file '%s'. Exiting the script.",
+    #              Name_Script, 'ODYM_RECC_Test1')
+    raise AssertionError('Fatal: The name of the current script does not match to the sript name specfied in the project configuration file. Exiting the script.')
+# the model will terminate if the name of the script that is run is not identical to the script name specified in the config file.
 Name_Scenario      = Model_Configsheet.cell_value(3,3)
 StartTime          = datetime.datetime.now()
 TimeString         = str(StartTime.year) + '_' + str(StartTime.month) + '_' + str(StartTime.day) + '__' + str(StartTime.hour) + '_' + str(StartTime.minute) + '_' + str(StartTime.second)
@@ -77,43 +80,33 @@ Path_Result        = ProjectSpecs_Path_Main + 'Results' + '\\' + Name_Scenario +
 
 # Read control and selection parameters into dictionary
 SCix = 0
-while True: # search for script config list entry
-    if Model_Configsheet.cell_value(SCix,1) == 'General Info':
-        break
-    else:
-        SCix += 1
+# search for script config list entry
+while Model_Configsheet.cell_value(SCix, 1) != 'General Info':
+    SCix += 1
         
-SCix += 2 # start on first data row
-while True:
-    if len(Model_Configsheet.cell_value(SCix,3)) > 0:
-        ScriptConfig[Model_Configsheet.cell_value(SCix,2)] = Model_Configsheet.cell_value(SCix,3)
-        SCix += 1
-    else:
-        break
-    
+SCix += 2  # start on first data row
+while len(Model_Configsheet.cell_value(SCix, 3)) > 0:
+    ScriptConfig[Model_Configsheet.cell_value(SCix, 2)] = Model_Configsheet.cell_value(SCix,3)
+    SCix += 1
+
 SCix = 0
-while True: # search for script config list entry
-    if Model_Configsheet.cell_value(SCix,1) == 'Software version selection':
-        break
-    else:
-        SCix += 1
+# search for script config list entry
+while Model_Configsheet.cell_value(SCix, 1) != 'Software version selection':
+    SCix += 1
         
 SCix += 2 # start on first data row
-while True:
-    if len(Model_Configsheet.cell_value(SCix,3)) > 0:
-        ScriptConfig[Model_Configsheet.cell_value(SCix,2)] = Model_Configsheet.cell_value(SCix,3)
-        SCix += 1
-    else:
-        break    
-    
+while len(Model_Configsheet.cell_value(SCix, 3)) > 0:
+    ScriptConfig[Model_Configsheet.cell_value(SCix, 2)] = Model_Configsheet.cell_value(SCix,3)
+    SCix += 1
+
 ScriptConfig['Current_UUID'] = str(uuid.uuid4())
 
 # Create scenario folder
 msf.ensure_dir(Path_Result)
 #
-#Copy Config file into that folder
+# Copy Config file into that folder
 shutil.copy(ProjectSpecs_Path_Main + ProjectSpecs_Name_ConFile, Path_Result + ProjectSpecs_Name_ConFile)
-# Initialize logger    
+# Initialize logger
 [Mylog,console_log,file_log] = msf.function_logger(logging.DEBUG, Name_Scenario + '_' + TimeString, Path_Result, logging.DEBUG) 
 
 # log header and general information
