@@ -6,7 +6,7 @@ Created on Thu Mar  2 17:33:01 2017
 """
 
 """
-File ODYM_RECC_Test1
+File ODYM_RECC_Basic1
 Check https://github.com/IndEcol/ODYM for latest version.
 
 Contains the model instructions for the resource efficiency climate change project developed using ODYM: ODYM-RECC
@@ -17,9 +17,10 @@ dependencies:
 
 """
 # Import required libraries:
+# Import required libraries:
 import os  
 import sys
-import logging
+import logging as log
 import xlrd, xlwt
 import numpy as np
 import time
@@ -34,21 +35,24 @@ import imp
 import getpass
 from copy import deepcopy
 
+
 #import re
 __version__ = str('0.1')
-#######################
-#     Initialize      #
-#######################
-ProjectSpecs_Path_Main = os.path.abspath(os.path.join(os.path.dirname(__file__), '..\\..')) + '\\'
-#NOTE: Hidden variable __file__ must be know to script for the directory structure to work.
+##################################
+#    Section 1)  Initialize      #
+##################################
+ProjectSpecs_Path_Main = os.path.abspath(os.path.join(os.path.join(os.path.dirname(__file__), '..'), '..'))
+# NOTE: Hidden variable __file__ must be know to script for the directory structure to work.
 # Therefore: When first using the model, run the entire script with F5 so that the __file__ variable can be created.
+Slash = os.sep
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'modules'))) # add ODYM module directory to system path
 
-#sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..\\..')))
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__) + '\\modules'))) # add ODYM module directory to system path
-
-# Load project-specific config file
-ProjectSpecs_Name_ConFile  = 'ODYM_RECC_Config.xlsx'
-Model_Configfile = xlrd.open_workbook(ProjectSpecs_Path_Main + ProjectSpecs_Name_ConFile)
+### 1.1.) Read main script parameters
+#Load project-specific config file
+ProjectSpecs_Name_ConFile = 'ODYM_RECC_Config.xlsx'
+#ProjectSpecs_Path_ConFile = 'C:/Users/spauliuk/FILES/ARBEIT/PROJECTS/ODYM-RECC/ODYM_RECC_Config.xlsx'
+#Model_Configfile = xlrd.open_workbook(os.path.join(ProjectSpecs_Path_Main, ProjectSpecs_Name_ConFile))
+Model_Configfile = xlrd.open_workbook(os.path.join(ProjectSpecs_Path_Main, ProjectSpecs_Name_ConFile))
 ScriptConfig = {'Model Setting': Model_Configfile.sheet_by_name('Config').cell_value(3,3)}
 Model_Configsheet = Model_Configfile.sheet_by_name('Setting_' + ScriptConfig['Model Setting'])
    
@@ -63,58 +67,51 @@ imp.reload(msf)
 import dynamic_stock_model as dsm # import the dynamic stock model library
 imp.reload(dsm)
 
-
 Name_Script        = Model_Configsheet.cell_value(5,3)
-if Name_Script != 'ODYM_RECC_Basic1': # Name of this script must equal the specified name in the Excel config file
-    print('Fatal error: The name of the current script does not match to the sript name specfied in the project configuration file. Exiting the script.')
-    sys.exit()
-# the model will terminate if the name of the scrip that is run is not identical to the scrip name specified in the config file.    
-Name_Scenario      = Model_Configsheet.cell_value(3,3)
-StartTime          = datetime.datetime.now()
-TimeString         = str(StartTime.year) + '_' + str(StartTime.month) + '_' + str(StartTime.day) + '__' + str(StartTime.hour) + '_' + str(StartTime.minute) + '_' + str(StartTime.second)
-DateString         = str(StartTime.year) + '_' + str(StartTime.month) + '_' + str(StartTime.day)
-Path_Result        = ProjectSpecs_Path_Main + 'Results' + '\\' + Name_Scenario + '_' + TimeString + '\\'
+if Name_Script != 'ODYM_RECC_Basic1':  # Name of this script must equal the specified name in the Excel config file
+    # TODO: This does not work because the logger was not yet initialized
+    # log.critical("The name of the current script '%s' does not match to the sript name specfied in the project configuration file '%s'. Exiting the script.",
+    #              Name_Script, 'ODYM_RECC_Test1')
+    raise AssertionError('Fatal: The name of the current script does not match to the sript name specfied in the project configuration file. Exiting the script.')
+# the model will terminate if the name of the script that is run is not identical to the script name specified in the config file.
+Name_Scenario            = Model_Configsheet.cell_value(3,3)
+StartTime                = datetime.datetime.now()
+TimeString               = str(StartTime.year) + '_' + str(StartTime.month) + '_' + str(StartTime.day) + '__' + str(StartTime.hour) + '_' + str(StartTime.minute) + '_' + str(StartTime.second)
+DateString               = str(StartTime.year) + '_' + str(StartTime.month) + '_' + str(StartTime.day)
+ProjectSpecs_Path_Result = os.path.join(ProjectSpecs_Path_Main, 'Results', Name_Scenario + '_' + TimeString )
 
-# Read control and selection parameters into dictionary
+### 1.2) Read model control parameters
+#Read control and selection parameters into dictionary
 SCix = 0
-while True: # search for script config list entry
-    if Model_Configsheet.cell_value(SCix,1) == 'General Info':
-        break
-    else:
-        SCix += 1
+# search for script config list entry
+while Model_Configsheet.cell_value(SCix, 1) != 'General Info':
+    SCix += 1
+        
+SCix += 2  # start on first data row
+while len(Model_Configsheet.cell_value(SCix, 3)) > 0:
+    ScriptConfig[Model_Configsheet.cell_value(SCix, 2)] = Model_Configsheet.cell_value(SCix,3)
+    SCix += 1
+
+SCix = 0
+# search for script config list entry
+while Model_Configsheet.cell_value(SCix, 1) != 'Software version selection':
+    SCix += 1
         
 SCix += 2 # start on first data row
-while True:
-    if len(Model_Configsheet.cell_value(SCix,3)) > 0:
-        ScriptConfig[Model_Configsheet.cell_value(SCix,2)] = Model_Configsheet.cell_value(SCix,3)
-        SCix += 1
-    else:
-        break
-    
-SCix = 0
-while True: # search for script config list entry
-    if Model_Configsheet.cell_value(SCix,1) == 'Software version selection':
-        break
-    else:
-        SCix += 1
-        
-SCix += 2 # start on first data row
-while True:
-    if len(Model_Configsheet.cell_value(SCix,3)) > 0:
-        ScriptConfig[Model_Configsheet.cell_value(SCix,2)] = Model_Configsheet.cell_value(SCix,3)
-        SCix += 1
-    else:
-        break    
+while len(Model_Configsheet.cell_value(SCix, 3)) > 0:
+    ScriptConfig[Model_Configsheet.cell_value(SCix, 2)] = Model_Configsheet.cell_value(SCix,3)
+    SCix += 1  
     
 ScriptConfig['Current_UUID'] = str(uuid.uuid4())
 
-# Create scenario folder
-msf.ensure_dir(Path_Result)
-#
+if not os.path.exists(ProjectSpecs_Path_Result):
+    os.makedirs(ProjectSpecs_Path_Result)
+
+### 1.3) Organize model output folder and logger
 #Copy Config file into that folder
-shutil.copy(ProjectSpecs_Path_Main + ProjectSpecs_Name_ConFile, Path_Result + ProjectSpecs_Name_ConFile)
+shutil.copy(os.path.join(ProjectSpecs_Path_Main, ProjectSpecs_Name_ConFile), os.path.join(ProjectSpecs_Path_Result, ProjectSpecs_Name_ConFile))
 # Initialize logger    
-[Mylog,console_log,file_log] = msf.function_logger(logging.DEBUG, Name_Scenario + '_' + TimeString, Path_Result, logging.DEBUG) 
+[Mylog,console_log,file_log] = msf.function_logger(log.DEBUG, Name_Scenario + '_' + TimeString, ProjectSpecs_Path_Result, log.DEBUG) 
 
 # log header and general information
 Mylog.info('<html>\n<head>\n</head>\n<body bgcolor="#ffffff">\n<br>')
@@ -131,13 +128,13 @@ Mylog.info('Unique ID of scenario run: <b>' + ScriptConfig['Current_UUID'] + '</
 Time_Start = time.time()
 Mylog.info('<font "size=+4"> <b>Start of simulation: ' + time.asctime() + '.</b></font><br>')
 
-##########################################
-#     Read classifications and data      #
-##########################################
-
+#####################################################
+#     Section 2) Read classifications and data      #
+#####################################################
+### 2.1) # Read model run config data
 Mylog.info('<p><b>Read classification items and define all classifications.</b></p>')
 # Note: This part reads the items directly from the Exel master, will be replaced by reading them from version-managed csv file.
-Classfile  = xlrd.open_workbook(ProjectSpecs_Path_Main + 'ODYM_Classifications_Master_'  + str(ScriptConfig['Version of master classification']) + '.xlsx')
+Classfile  = xlrd.open_workbook(os.path.join(ProjectSpecs_Path_Main, 'ODYM_Classifications_Master_'  + str(ScriptConfig['Version of master classification']) + '.xlsx'))
 Classsheet = Classfile.sheet_by_name('MAIN_Table')
 ci = 1 # column index to start with
 MasterClassification = {} # Dict of master classifications
@@ -163,7 +160,7 @@ while True:
             TheseItems.append(ThisItem)
     MasterClassification[ThisName] = msc.Classification(Name = ThisName, Dimension = ThisDim, ID = ThisID, UUID = ThisUUID, Items = TheseItems)
     ci +=1 
-
+    
 Mylog.info('<p><b>Read index table from model config sheet.</b></p>')
 ITix = 0
 while True: # search for index table entry
@@ -283,6 +280,7 @@ for m in range(0,len(IT_Aspects)):
         Mylog.info('ITEM SELECT ERROR for aspect ' + IT_Aspects[m] + ' were found in datafile.</br>')
         break
     
+### 2.2) # Define model index table and parameter dictionary
 Model_Time_Start = int(min(ModelClassification['Time'].Items))
 Model_Time_End   = int(max(ModelClassification['Time'].Items))
 Model_Duration   = Model_Time_End - Model_Time_Start
@@ -312,16 +310,16 @@ Mylog.info('<p><b>Read model data and parameters.</b></p>')
 
 ParameterDict = {}
 for mo in range(0,len(PL_Names)):
-    ParPath = ProjectSpecs_Path_Main + 'ODYM_RECC_Database\\' + PL_Version[mo]    
+    ParPath = os.path.join(ProjectSpecs_Path_Main, 'ODYM_RECC_Database', PL_Version[mo])
     Mylog.info('<br> Reading parameter ' + PL_Names[mo])
     #MetaData, Values = msf.ReadParameter(ParPath = ParPath,ThisPar = PL_Names[mo], ThisParIx = PL_IndexStructure[mo], IndexMatch = PL_IndexMatch[mo], ThisParLayerSel = PL_IndexLayer[mo], MasterClassification,IndexTable,IndexTable_ClassificationNames,ScriptConfig,Mylog) # Do not change order of parameters handed over to function!
     MetaData, Values = msf.ReadParameter(ParPath,PL_Names[mo],PL_IndexStructure[mo], PL_IndexMatch[mo], PL_IndexLayer[mo], MasterClassification,IndexTable,IndexTable_ClassificationNames,ScriptConfig,Mylog) # Do not change order of parameters handed over to function!
     ParameterDict[PL_Names[mo]] = msc.Parameter(Name = MetaData['Dataset_Name'], ID = MetaData['Dataset_ID'], UUID = MetaData['Dataset_UUID'], P_Res = None, MetaData = MetaData, Indices = PL_IndexStructure[mo], Values=Values, Uncert=None, Unit = MetaData['Dataset_Unit'])
 
 
-###############################################
-#    Initialize dynamic MFA model for RECC    #
-###############################################
+##########################################################
+#    Section 3) Initialize dynamic MFA model for RECC    #
+##########################################################
 Mylog.info('<p><b>Define RECC system and processes.</b></p>')
 
 RECC_System = msc.MFAsystem(Name = 'TestSystem', 
@@ -353,6 +351,9 @@ RECC_System.StockDict['S_4']  = msc.Stock(Name = 'In-use stock'                 
 RECC_System.Initialize_StockValues() # Assign empty arrays to stocks according to dimensions.
 RECC_System.Initialize_FlowValues() # Assign empty arrays to flows according to dimensions.
 
+##########################################################
+#    Section 4) Solve dynamic MFA model for RECC         #
+##########################################################
 Mylog.info('<p><b>Calculate inflows and outflos for use phase.</b></p>') 
 # THIS IS WHERE WE LEAVE THE FORMAL MODEL STRUCTURE AND DO WHATEVER IS NECESSARY TO SOLVE THE MODEL EQUATIONS.
 
@@ -378,8 +379,11 @@ TotalStockCurves_S4_ss_IU = np.einsum('trgS,trgS->trgS', 1 / (1 - np.einsum('gtr
 # Apply RES 3: Product lifetime extension. NOTE: here, the time index t is replaced by the age-cohort index c
 # First, replicate lifetimes for the 5 scenarios
 RECC_System.ParameterDict['Par_ProductLifetime'].Values = np.einsum('S,grc->grcS',np.ones(NS),RECC_System.ParameterDict['Par_ProductLifetime'].Values)
+
 # Second, change lifetime of future age-cohorts according to lifetime extension parameter
+# This is equation 10 of the paper:
 RECC_System.ParameterDict['Par_ProductLifetime'].Values[:,:,Nc - Model_Duration - 1::,:] = np.einsum('crgS,grcS->grcS',1 + np.einsum('gcrS,grS->crgS',RECC_System.ParameterDict['Par_ImplemenationCurves'].Values,RECC_System.ParameterDict['Par_LifeTimeExtension'].Values),RECC_System.ParameterDict['Par_ProductLifetime'].Values[:,:,Nc -Model_Duration -1::,:])
+
 # Replicate lifetime values for region 0 and year 2017 from test dataset:
 RECC_System.ParameterDict['Par_ProductLifetime'].Values = np.einsum('G,abc->Gabc',RECC_System.ParameterDict['Par_ProductLifetime'].Values[:,0,167,0],np.ones((Nr,Nc,NS)))
 
@@ -400,7 +404,7 @@ for r in range(0,Nr):
             Var_S,Var_O,Var_I, ExitFlag = DSM_IntitialStock.compute_stock_driven_model_initialstock(InitialStock = RECC_System.ParameterDict['Par_HistoricStocks'].Values[G, 0 : Nc - Model_Duration - 1 , r], SwitchTime = Nc - Model_Duration -1)
             #Assign result to MFA system
             RECC_System.StockDict['S_4'].Values[:,Nc - Model_Duration - 1::,r,G,S,0]    = Var_S[Nc - Model_Duration - 1::,Nc - Model_Duration - 1::] 
-            RECC_System.FlowDict['F_3_4'].Values[:,r,G,S,0]                           = Var_I[Nc - Model_Duration - 1::]
+            RECC_System.FlowDict['F_3_4'].Values[:,r,G,S,0]                             = Var_I[Nc - Model_Duration - 1::]
             RECC_System.FlowDict['F_4_5'].Values[:,Nc - Model_Duration - 1::,r,G,S,0]   = Var_O[Nc - Model_Duration - 1::,Nc - Model_Duration - 1::]
 
 # Clean up
@@ -419,11 +423,11 @@ RECC_System.Consistency_Check() # Check whether flow value arrays match their in
 # Determine Mass Balance
 Bal = RECC_System.MassBalance()
 
-##########################################
-#   Evaluate results, save, and close    #
-##########################################
+#####################################################
+#   Section 5) Evaluate results, save, and close    #
+#####################################################
 
-# CREATE PLOTS and include them in log file
+### 5.1.) CREATE PLOTS and include them in log file
 Mylog.info('<p>Plot results. </p>')
 Figurecounter = 1
 
@@ -438,42 +442,43 @@ ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
 ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 plt.show()
 fig_name = 'TestFig.png'
-fig1.savefig(Path_Result + fig_name, dpi = 500) 
+fig1.savefig(os.path.join(ProjectSpecs_Path_Result, fig_name), dpi = 500) 
 # include figure in logfile:
 Mylog.info('<center><img src="'+ fig_name +'" width="857" height="600" alt="' + fig_name + '"></center>')
 Mylog.info('<font "size=+3"><center><b><i>Figure '+ str(Figurecounter) + ': ' + fig_name + '.</i></b></center></font><br>')
 Figurecounter += 1 
 #
-# 2) Export in Sankey format for Sankey app. Not working yet! Will be implemented once model code is stable.
+
+### 5.2) Export in Sankey format for Sankey app [http://www.visualisation.industrialecology.uni-freiburg.de/]. Not working yet! Will be implemented once model code is stable.
 # MyMFA.SankeyExport(Year = 2017,Path = Path_Result, Element = 0) # Export in Sankey format for D3.js Circular Sankey, 
 
-# 3) Export to Excel
+### 5.3) Export to Excel
 myfont = xlwt.Font()
 myfont.bold = True
 mystyle = xlwt.XFStyle()
 mystyle.font = myfont
 Result_workbook  = xlwt.Workbook(encoding = 'ascii') # Export element stock by region
 msf.ExcelSheetFill(Result_workbook,'ElementComposition', np.einsum('tcrge->re',RECC_System.StockDict['S_4'].Values[:,:,:,:,0,:]), topcornerlabel = 'Total in-use stock of elements, by region, in ' + RECC_System.Unit, rowlabels = RECC_System.IndexTable.set_index('IndexLetter').ix['r'].Classification.Items, collabels = RECC_System.IndexTable.set_index('IndexLetter').ix['e'].Classification.Items, Style = mystyle, rowselect = None, colselect = None)
-Result_workbook.save(Path_Result + 'ElementCompositionExample.xls') 
+Result_workbook.save(os.path.join(ProjectSpecs_Path_Result,'ElementCompositionExample.xls'))
 
-# 4) Export as .mat file
+### 5.4) Export as .mat file
 Mylog.info('Saving stock data to Matlab.<br>')
-Filestring_Matlab_out      = Path_Result + 'StockData.mat' 
+Filestring_Matlab_out      = os.path.join(ProjectSpecs_Path_Result, 'StockData.mat')
 scipy.io.savemat(Filestring_Matlab_out, mdict={'Stock':np.einsum('tcrgSe->trgS',RECC_System.StockDict['S_4'].Values)})
 
-# Model run is finished. Wrap up.                         
+### 5.5) Model run is finished. Wrap up.                         
 Mylog.info('<br> Script is finished. Terminating logging process and closing all log files.<br>')
 Time_End = time.time()
 Time_Duration = Time_End - Time_Start
 Mylog.info('<font "size=+4"> <b>End of simulation: ' + time.asctime() + '.</b></font><br>')
 Mylog.info('<font "size=+4"> <b>Duration of simulation: %.1f seconds.</b></font><br>' % Time_Duration)
-logging.shutdown()
+log.shutdown()
 # remove all handlers from logger
-root = logging.getLogger()
+root = log.getLogger()
 root.handlers = [] # required if you don't want to exit the shell
 
 
 
 #
 #
-# The End
+# The End.

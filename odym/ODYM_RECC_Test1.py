@@ -40,7 +40,7 @@ __version__ = str('0.1')
 #######################
 #     Initialize      #
 #######################
-ProjectSpecs_Path_Main = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+ProjectSpecs_Path_Main = os.path.abspath(os.path.join(os.path.join(os.path.dirname(__file__), '..'), '..'))
 # NOTE: Hidden variable __file__ must be know to script for the directory structure to work.
 # Therefore: When first using the model, run the entire script with F5 so that the __file__ variable can be created.
 
@@ -107,7 +107,7 @@ msf.ensure_dir(Path_Result)
 # Copy Config file into that folder
 shutil.copy(ProjectSpecs_Path_Main + ProjectSpecs_Name_ConFile, Path_Result + ProjectSpecs_Name_ConFile)
 # Initialize logger
-[Mylog,console_log,file_log] = msf.function_logger(logging.DEBUG, Name_Scenario + '_' + TimeString, Path_Result, logging.DEBUG) 
+[Mylog,console_log,file_log] = msf.function_logger(log.DEBUG, Name_Scenario + '_' + TimeString, Path_Result, log.DEBUG) 
 
 # log header and general information
 Mylog.info('<html>\n<head>\n</head>\n<body bgcolor="#ffffff">\n<br>')
@@ -478,9 +478,9 @@ Time_End = time.time()
 Time_Duration = Time_End - Time_Start
 Mylog.info('<font "size=+4"> <b>End of simulation: ' + time.asctime() + '.</b></font><br>')
 Mylog.info('<font "size=+4"> <b>Duration of simulation: %.1f seconds.</b></font><br>' % Time_Duration)
-logging.shutdown()
+log.shutdown()
 # remove all handlers from logger
-root = logging.getLogger()
+root = log.getLogger()
 root.handlers = [] # required if you don't want to exit the shell
 
 
