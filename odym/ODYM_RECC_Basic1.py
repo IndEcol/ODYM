@@ -4,6 +4,7 @@ Created on Thu Mar  2 17:33:01 2017
 
 @authors: spauliuk
 """
+from tqdm import tqdm
 
 """
 File ODYM_RECC_Basic1
@@ -41,7 +42,7 @@ __version__ = str('0.1')
 ##################################
 #    Section 1)  Initialize      #
 ##################################
-ProjectSpecs_Path_Main = os.path.abspath(os.path.join(os.path.join(os.path.dirname(__file__), '..'), '..'))
+ProjectSpecs_Path_Main = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 # NOTE: Hidden variable __file__ must be know to script for the directory structure to work.
 # Therefore: When first using the model, run the entire script with F5 so that the __file__ variable can be created.
 Slash = os.sep
@@ -388,24 +389,41 @@ RECC_System.ParameterDict['Par_ProductLifetime'].Values[:,:,Nc - Model_Duration 
 RECC_System.ParameterDict['Par_ProductLifetime'].Values = np.einsum('G,abc->Gabc',RECC_System.ParameterDict['Par_ProductLifetime'].Values[:,0,167,0],np.ones((Nr,Nc,NS)))
 
 # Build pdf array from lifetime distribution: Probability of discard
-for r in range(0,Nr): 
-    print(r) # Print region index to display progress.
-    for G in range(0,NG):
-        for S in range(0,NS):
-            PDF_Array[:,:,r,G,S] = dsm.DynamicStockModel(t = np.arange(0,Nc,1), lt = {'Type': 'Normal', 'Mean': RECC_System.ParameterDict['Par_ProductLifetime'].Values[G,r,:,S], 'StdDev': 0.3 * RECC_System.ParameterDict['Par_ProductLifetime'].Values[G,r,:,S] }).compute_outflow_pdf()[0].copy()    
-            #AA = dsm.DynamicStockModel(t = np.arange(0,Nc,1), lt = {'Type': 'Normal', 'Mean': RECC_System.ParameterDict['Par_ProductLifetime'].Values[G,r,:,S], 'StdDev': 0.3 * RECC_System.ParameterDict['Par_ProductLifetime'].Values[G,r,:,S] })
+for r in tqdm(range(0, Nr), unit='region'):
+    # print("Region", r)  # Print region index to display progress.
+    for G in range(0, NG):
+        for S in range(0, NS):
+            lt = {'Type': 'Normal',
+                  'Mean': RECC_System.ParameterDict['Par_ProductLifetime'].Values[G, r, :, S],
+                  'StdDev': 0.3 * RECC_System.ParameterDict['Par_ProductLifetime'].Values[G, r, :, S]}
+            PDF_Array[:, :, r, G, S] = dsm.DynamicStockModel(t=np.arange(0, Nc, 1),
+                                                         lt=lt).compute_outflow_pdf()[0].copy()
+            # AA = dsm.DynamicStockModel(t = np.arange(0,Nc,1), lt = {'Type': 'Normal', 'Mean': RECC_System.ParameterDict['Par_ProductLifetime'].Values[G,r,:,S], 'StdDev': 0.3 * RECC_System.ParameterDict['Par_ProductLifetime'].Values[G,r,:,S] })
 
-#Apply stock-driven model with historic stock as initial stock
-for r in range(0,Nr): 
-    print(r) # Print region index to display progress.
+# Apply stock-driven model with historic stock as initial stock
+for r in tqdm(range(0, Nr), unit='region'):
+    # print(r)  # Print region index to display progress.
     for G in range(0,NG):
         for S in range(0,NS):
-            DSM_IntitialStock = dsm.DynamicStockModel(t=np.arange(0,Nc,1), s = np.concatenate((np.zeros((Nc - Model_Duration - 1)),TotalStockCurves_S4_ss_IU[:,r,G,S]),axis=0), lt = {'Type': 'Normal', 'Mean': RECC_System.ParameterDict['Par_ProductLifetime'].Values[G,r,:,S], 'StdDev': 0.3 * RECC_System.ParameterDict['Par_ProductLifetime'].Values[G,r,:,S] }, pdf = PDF_Array[:,:,r,G,S])
-            Var_S,Var_O,Var_I, ExitFlag = DSM_IntitialStock.compute_stock_driven_model_initialstock(InitialStock = RECC_System.ParameterDict['Par_HistoricStocks'].Values[G, 0 : Nc - Model_Duration - 1 , r], SwitchTime = Nc - Model_Duration -1)
-            #Assign result to MFA system
-            RECC_System.StockDict['S_4'].Values[:,Nc - Model_Duration - 1::,r,G,S,0]    = Var_S[Nc - Model_Duration - 1::,Nc - Model_Duration - 1::] 
-            RECC_System.FlowDict['F_3_4'].Values[:,r,G,S,0]                             = Var_I[Nc - Model_Duration - 1::]
-            RECC_System.FlowDict['F_4_5'].Values[:,Nc - Model_Duration - 1::,r,G,S,0]   = Var_O[Nc - Model_Duration - 1::,Nc - Model_Duration - 1::]
+            lt = {'Type': 'Normal',
+                  'Mean': RECC_System.ParameterDict['Par_ProductLifetime'].Values[G, r, :, S],
+                  'StdDev': 0.3 * RECC_System.ParameterDict['Par_ProductLifetime'].Values[G, r, :, S]}
+            DSM_IntitialStock = dsm.DynamicStockModel(t=np.arange(0, Nc, 1),
+                                                      s=np.concatenate((np.zeros((Nc - Model_Duration - 1)),
+                                                                        TotalStockCurves_S4_ss_IU[:, r, G, S]),
+                                                                       axis=0),
+                                                      lt=lt,
+                                                      pdf=PDF_Array[:, :, r, G, S])
+            Var_S, Var_O, Var_I, ExitFlag = \
+                DSM_IntitialStock.compute_stock_driven_model_initialstock(InitialStock=RECC_System.ParameterDict['Par_HistoricStocks'].Values[G, 0: Nc - Model_Duration - 1, r],
+                                                                          SwitchTime=Nc - Model_Duration - 1)
+            # Assign result to MFA system
+            RECC_System.StockDict['S_4'].Values[:, Nc - Model_Duration - 1::, r, G, S, 0] = \
+                Var_S[Nc - Model_Duration - 1::, Nc - Model_Duration - 1::]
+            RECC_System.FlowDict['F_3_4'].Values[:, r, G, S, 0] = \
+                Var_I[Nc - Model_Duration - 1::]
+            RECC_System.FlowDict['F_4_5'].Values[:, Nc - Model_Duration - 1::, r, G, S, 0] = \
+                Var_O[Nc - Model_Duration - 1::, Nc - Model_Duration - 1::]
 
 # Clean up
 del TotalStockCurves_S4

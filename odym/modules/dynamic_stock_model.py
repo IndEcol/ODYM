@@ -214,10 +214,13 @@ class DynamicStockModel(object):
                         # year index, year larger or equal than cohort
                         #for n in range(m + 1, len(self.t)):
                         #    self.pdf[n, m] = scipy.stats.norm(self.lt['Mean'][m], self.lt['StdDev'][m]).pdf(n - m)  # Call scipy's Norm function with Mean, StdDev, and Age
-                        self.pdf[np.arange(m + 1, len(self.t)), m] = scipy.stats.norm(self.lt['Mean'][m], self.lt['StdDev'][m]).pdf(np.arange(m + 1, len(self.t)) - m)  # Call scipy's Norm function with Mean, StdDev, and Age
+                        # Call scipy's Norm function with Mean, StdDev, and Age
+                        self.pdf[np.arange(m + 1, len(self.t)), m] = \
+                            scipy.stats.norm(self.lt['Mean'][m],
+                                             self.lt['StdDev'][m]).pdf(np.arange(m + 1, len(self.t)) - m)
                 ExitFlag = 1
 
-            if self.lt['Type'] == 'Weibull': # Equivalent to the Frechet distribution
+            if self.lt['Type'] == 'Weibull':  # Equivalent to the Frechet distribution
                 for m in range(0, len(self.t)):  # cohort index
                     # year index, year larger or equal than cohort
                     for n in range(m + 1, len(self.t)):
