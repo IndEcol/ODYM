@@ -279,7 +279,9 @@ class DynamicStockModel(object):
             return None, ExitFlag
 
     def compute_i_from_s(self, InitialStock):
-        """Given a stock at t0 broken down by different cohorts tx ... t0, an "initial stock". This method calculates the original inflow that generated this stock."""
+        """Given a stock at t0 broken down by different cohorts tx ... t0, an "initial stock". This method calculates the original inflow that generated this stock.
+           Example: 
+        """
         if self.i == None:
             if len(InitialStock) == len(self.t):
                 self.i = np.zeros(len(self.t))
