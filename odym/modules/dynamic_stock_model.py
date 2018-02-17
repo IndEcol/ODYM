@@ -45,6 +45,8 @@ class DynamicStockModel(object):
     lt : lifetime distribution: dictionary
 
     pdf: probability density function, distribution of outflow from a specific age-cohort
+    
+    sf: survival function for different age-cohorts, year x age-cohort table
 
 
     name : string, optional
@@ -55,7 +57,7 @@ class DynamicStockModel(object):
     Basic initialisation and dimension check methods
     """
 
-    def __init__(self, t=None, i=None, o=None, s=None, lt=None, s_c=None, o_c=None, name='DSM', pdf=None):
+    def __init__(self, t=None, i=None, o=None, s=None, lt=None, s_c=None, o_c=None, name='DSM', pdf=None, sf=None):
         """ Init function. Assign the input data to the instance of the object."""
         self.t = t  # optional
 
@@ -79,6 +81,7 @@ class DynamicStockModel(object):
         self.name = name  # optional
 
         self.pdf = pdf # optional
+        self.sf  = sf # optional
 
     def return_version_info(self):
         """Return a brief version statement for this class."""
@@ -125,63 +128,60 @@ class DynamicStockModel(object):
                                  str(self.lt['Type']) + ' and mean ' + str(self.lt['Mean']) + '.<br>')
             else:
                 DimReport += str('Lifetime distribution is not present.<br>')
-            ExitFlag = 1 # Description of DSM was compiled successfully.
-            return DimReport, ExitFlag
+            return DimReport
         except:
-            ExitFlag = 0 # Unable to compile description of DSM.
-            return str('<br><b> Checking dimensions of dynamic stock model ' + self.name + ' failed.'), ExitFlag
+            return str('<br><b> Checking dimensions of dynamic stock model ' + self.name + ' failed.')
 
     def compute_stock_change(self):
         """ Determine stock change from time series for stock. Formula: stock_change(t) = stock(t) - stock(t-1)."""
         if self.s is not None:
             stock_change = np.zeros(len(self.s))
             stock_change[0] = self.s[0]
-            for m in range(1, len(self.s)):
-                stock_change[m] = self.s[m] - self.s[m - 1]
-            ExitFlag = 1  # Method went allright.
-            return stock_change, ExitFlag
+            stock_change[1::] = np.diff(self.s)
+            return stock_change
         else:
-            ExitFlag = 0  # No total stock. Calculation of stock change was not possible.
-            return None, ExitFlag
+            return None
 
     def check_stock_balance(self):
         """ Check wether inflow, outflow, and stock are balanced. If possible, the method returns the vector 'Balance', where Balance = inflow - outflow - stock_change"""
         try:
-            Balance = self.i - self.o - self.compute_stock_change()[0]
-            ExitFlag = 1  # balance computation allright
-            return Balance, ExitFlag
+            Balance = self.i - self.o - self.compute_stock_change()
+            return Balance
         except:
             # Could not determine balance. At least one of the variables is not defined.
-            ExitFlag = 0
-            return None, ExitFlag
+            return None
 
     def compute_stock_total(self):
         """Determine total stock as row sum of cohort-specific stock."""
         if self.s is not None:
-            ExitFlag = 2  # Total stock is already defined. Doing nothing.
-            return self.s, ExitFlag
+            return self.s
         else:
             try:
                 self.s = self.s_c.sum(axis=1)
-                ExitFlag = 1
-                return self.s, ExitFlag
+                return self.s
             except:
-                ExitFlag = 3  # Could not determine row sum of s_c.
-                return None, ExitFlag
+                return None # No stock by cohorts exists, and total stock cannot be computed
 
     def compute_outflow_total(self):
         """Determine total outflow as row sum of cohort-specific outflow."""
         if self.o is not None:
-            ExitFlag = 2  # Total outflow is already defined. Doing nothing.
-            return self.o, ExitFlag
+            # Total outflow is already defined. Doing nothing.
+            return self.o
         else:
             try:
                 self.o = self.o_c.sum(axis=1)
-                ExitFlag = 1
-                return self.o, ExitFlag
+                return self.o
             except:
-                ExitFlag = 3  # Could not determine row sum of o_c.
-                return None, ExitFlag
+                return None # No outflow by cohorts exists, and total outflow cannot be computed
+            
+    def compute_outflow_mb(self):
+        """Compute outflow from process via mass balance. 
+           Needed in cases where lifetime is zero."""
+        try:
+            self.o = self.i - self.compute_stock_change()
+            return self.o
+        except:
+            return None # Variables to compute outflow were not present
 
     """ Part 2: Lifetime model. """
 
@@ -193,44 +193,54 @@ class DynamicStockModel(object):
         The method does nothing if the pdf alreay exists.
         """
         if self.pdf is None:
-            self.pdf = np.zeros((len(self.t), len(self.t)))
+            self.compute_sf() # computation of pdfs moved to this method: compute survival functions sf first, then calculate pdfs from sf.
+            self.pdf   = np.zeros((len(self.t), len(self.t)))
+            self.pdf[np.diag_indices(len(self.t))] = np.ones(len(self.t)) - self.sf.diagonal(0)
+            for m in range(0,len(self.t)):
+                self.pdf[np.arange(m+1,len(self.t)),m] = -1 * np.diff(self.sf[np.arange(m,len(self.t)),m])            
+            return self.pdf
+        else:
+            # pdf already exists
+            return self.pdf
+        
+        
+    def compute_sf(self): # survival functions
+        """
+        Survival table self.sf(m,n) denotes the share of an inflow in year n (age-cohort) still present at the end of year m (after m-n years).
+        The computation is self.sf(m,n) = ProbDist.sf(m-n), where ProbDist is the appropriate scipy function for the lifetime model chosen.
+        For lifetimes 0 the sf is also 0, meaning that the age-cohort leaves during the same year of the inflow.
+        The method compute outflow_sf returns an array year-by-cohort of the surviving fraction of a flow added to stock in year m (aka cohort m) in in year n. This value equals sf(n,m).
+        This is the only method for the inflow-driven model where the lifetime distribution directly enters the computation. All other stock variables are determined by mass balance.
+        The shape of the output sf array is NoofYears * NoofYears, and the meaning is years by age-cohorts.
+        The method does nothing if the sf alreay exists.
+        """
+        if self.sf is None:
+            self.sf = np.zeros((len(self.t), len(self.t)))
             # Perform specific computations and checks for each lifetime distribution:
 
             if self.lt['Type'] == 'Fixed':
                 for m in range(0, len(self.t)):  # cohort index
-                    if self.lt['Mean'][m] == 0:  # For produts with lifetime of zero modelling steps.
-                        self.pdf[m, m] = 1
-                    else:
-                        ExitYear = m + self.lt['Mean'][m]
-                        if ExitYear <= len(self.t) - 1:
-                            self.pdf[ExitYear, m] = 1
-                ExitFlag = 1
+                    self.sf[m::,m] = np.multiply(1, (np.arange(0,len(self.t)-m) < self.lt['Mean'][m])) # converts bool to 0/1
+                # Example: if Lt is 3.5 years fixed, product will still be there after 0, 1, 2, and 3 years, gone after 4 years.
 
             if self.lt['Type'] == 'Normal':
                 for m in range(0, len(self.t)):  # cohort index
-                    if self.lt['Mean'][m] == 0:  # For products with lifetime of zero modelling steps.
-                        self.pdf[m, m] = 1
-                    else:
-                        # year index, year larger or equal than cohort
-                        #for n in range(m + 1, len(self.t)):
-                        #    self.pdf[n, m] = scipy.stats.norm(self.lt['Mean'][m], self.lt['StdDev'][m]).pdf(n - m)  # Call scipy's Norm function with Mean, StdDev, and Age
-                        # Call scipy's Norm function with Mean, StdDev, and Age
-                        self.pdf[np.arange(m + 1, len(self.t)), m] = \
-                            scipy.stats.norm(self.lt['Mean'][m],
-                                             self.lt['StdDev'][m]).pdf(np.arange(m + 1, len(self.t)) - m)
-                ExitFlag = 1
+                    if self.lt['Mean'][m] != 0:  # For products with lifetime of 0, sf == 0
+                        self.sf[m::,m] = scipy.stats.norm.sf(np.arange(0,len(self.t)-m), loc=self.lt['Mean'][m], scale=self.lt['StdDev'][m])
+                        self.sf[np.diag_indices(len(self.t))] = 1 # NOTE: As normal distributions have nonzero pdf for negative ages, which are physically impossible, 
+                        # these outflow contributions can either be ignored (violates the mass balance) or
+                        # allocated to the first year of residence, implemented by the line self.sf[np.diag_indices(len(self.t))] = 1
 
-            if self.lt['Type'] == 'Weibull':  # Equivalent to the Frechet distribution
+            if self.lt['Type'] == 'Weibull':
                 for m in range(0, len(self.t)):  # cohort index
-                    # year index, year larger or equal than cohort
-                    for n in range(m + 1, len(self.t)):
-                        self.pdf[n, m] = scipy.stats.weibull_min(self.lt['Shape'][m], 0, self.lt['Scale'][m]).cdf(n -m) - scipy.stats.weibull_min(self.lt['Shape'][m], 0, self.lt['Scale'][m]).cdf(n -m -1) # Call scipy's Weibull_min function with Shape, offset (0), Scale, and Age
-                ExitFlag = 1
+                    if self.lt['Shape'][m] != 0:  # For products with lifetime of 0, sf == 0
+                        self.sf[m::,m] = scipy.stats.weibull_min.sf(np.arange(0,len(self.t)-m), c=self.lt['Shape'][m], loc = 0, scale=self.lt['Scale'][m])
 
-            return self.pdf, ExitFlag
+            return self.sf
         else:
-            ExitFlag = 2  # pdf already exists
-            return self.pdf, ExitFlag
+            # sf already exists
+            return self.sf
+        
 
     """
     Part 3: Inflow driven model
@@ -248,62 +258,56 @@ class DynamicStockModel(object):
         """
         if self.i is not None:
             if self.lt is not None:
-                self.s_c = np.zeros((len(self.i), len(self.i)))
-                # construct the pdf of a product of cohort tc leaving the stock in year t
-                self.compute_outflow_pdf()
-                for m in range(0, len(self.i)):  # cohort index
-                    self.s_c[m, m] = self.i[m]  # inflow on diagonal
-                    for n in range(m, len(self.i)):  # year index, year >= cohort year
-                        self.s_c[n, m] = self.i[m] * (1 - self.pdf[0:n + 1, m].sum())
-                    ExitFlag = 1
-                return self.s_c, ExitFlag
+                self.compute_sf()
+                self.s_c = np.einsum('c,tc->tc', self.i, self.sf) 
+                # from the perspective of the stock the inflow has the dimension age-cohort, 
+                # as each inflow(t) is added to the age-cohort c = t
+                return self.s_c
             else:
-                ExitFlag = 2  # No lifetime distribution specified
-                return None, ExitFlag
+                # No lifetime distribution specified
+                return None
         else:
-            ExitFlag = 3  # No inflow specified
-            return None, ExitFlag
+            # No inflow specified
+            return None
 
     def compute_o_c_from_s_c(self):
         """Compute outflow by cohort from stock by cohort."""
         if self.s_c is not None:
-            if self.o_c == None:
+            if self.o_c is None:
                 self.o_c = np.zeros(self.s_c.shape)
-                for m in range(0, len(self.s_c)):  # for all cohorts
-                    for n in range(m + 1, len(self.s_c)):  # for all years each cohort exists
-                        self.o_c[n, m] = self.s_c[n - 1, m] - self.s_c[n, m]
-                ExitFlag = 1
-                return self.o_c, ExitFlag
+                self.o_c[1::,:] = -1 * np.diff(self.s_c,n=1,axis=0)
+                self.o_c[np.diag_indices(len(self.t))] = 0
+                return self.o_c
             else:
-                ExitFlag = 3  # o_c already exists. Doing nothing.
-                return self.o_c, ExitFlag
+                # o_c already exists. Doing nothing.
+                return self.o_c
         else:
-            ExitFlag = 2  # s_c does not exist. Doing nothing
-            return None, ExitFlag
+            # s_c does not exist. Doing nothing
+            return None
 
     def compute_i_from_s(self, InitialStock):
-        """Given a stock at t0 broken down by different cohorts tx ... t0, an "initial stock". This method calculates the original inflow that generated this stock.
+        """Given a stock at t0 broken down by different cohorts tx ... t0, an "initial stock". 
+           This method calculates the original inflow that generated this stock.
            Example: 
         """
-        if self.i == None:
+        if self.i is None: # only in cases where no inflow has been specified.
             if len(InitialStock) == len(self.t):
                 self.i = np.zeros(len(self.t))
-                # construct the pdf of a product of cohort tc leaving the stock in year t
-                self.compute_outflow_pdf()
-                Cumulative_Leaving_Probability = self.pdf.sum(axis=0)
+                # construct the sf of a product of cohort tc surviving year t 
+                # using the lifetime distributions of the past age-cohorts
+                self.compute_sf()
                 for Cohort in range(0, len(self.t)):
-                    if Cumulative_Leaving_Probability[Cohort] != 1:
-                        self.i[Cohort] = InitialStock[Cohort] / (1 - Cumulative_Leaving_Probability[Cohort])
+                    if self.sf[-1,Cohort] != 0:
+                        self.i[Cohort] = InitialStock[Cohort] / self.sf[-1,Cohort]
                     else:
                         self.i[Cohort] = 0  # Not possible with given lifetime distribution
-                ExitFlag = 1
-                return self.i, ExitFlag
+                return self.i
             else:
-                ExitFlag = 3  # The length of t and InitialStock needs to be equal
-                return None, ExitFlag
+                # The length of t and InitialStock needs to be equal
+                return None
         else:
-            ExitFlag = 2  # i already exists. Doing nothing
-            return None, ExitFlag
+            # i already exists. Doing nothing
+            return None
 
     """
     Part 4: Stock driven model
@@ -311,37 +315,38 @@ class DynamicStockModel(object):
     Default order of methods:
     1) determine inflow, outflow by cohort, and stock by cohort
     2) determine total outflow
-    3) check mass balance.
+    3) determine stock change
+    4) check mass balance.
     """
 
     def compute_stock_driven_model(self):
-        """ With given total stock and lifetime distribution, the method builds the stock by cohort and the inflow."""
+        """ With given total stock and lifetime distribution, 
+            the method builds the stock by cohort and the inflow.
+        """
         if self.s is not None:
             if self.lt is not None:
                 self.s_c = np.zeros((len(self.t), len(self.t)))
                 self.o_c = np.zeros((len(self.t), len(self.t)))
                 self.i = np.zeros(len(self.t))
-                # construct the pdf of a product of cohort tc leaving the stock in year t
-                self.compute_outflow_pdf() # Computes pdf if not present already.
+                # construct the sf of a product of cohort tc remaining in the stock in year t
+                self.compute_sf() # Computes sf if not present already.
                 # First year:
                 self.i[0] = self.s[0]
-                self.s_c[0, 0] = self.s[0]
+                self.s_c[:, 0] = self.s[0] * self.sf[:,0] # Future decay of age-cohort of year 0.
                 for m in range(1, len(self.t)):  # for all years m, starting in second year
-                    for n in range(0, m):  # for all cohort n from first to last year
-                        # 1) determine outflow and remaining stock:
-                        self.o_c[m, n] = self.pdf[m, n] * self.i[n]  # outflow
-                        # remaining stock
-                        self.s_c[m, n] = (1 - self.pdf[0:m + 1, n].sum()) * self.i[n]
-                    self.i[m] = self.s[m] - self.s_c[m, :].sum()  # mass balance
-                    self.s_c[m, m] = self.i[m]  # add inflow to stock
-                    ExitFlag = 1
-                return self.s_c, self.o_c, self.i, ExitFlag
+                    # 1) Compute outflow from previous years
+                    self.o_c[m,0:m] = self.s_c[m-1,0:m] - self.s_c[m,0:m] # outflow table is filled row-wise, for each year m.
+                    # 2) Determine inflow from mass balance:
+                    self.i[m] = self.s[m] - self.s_c[m,:].sum()
+                    # 3) Add new inflow to stock and determine future decay of new age-cohort
+                    self.s_c[m::,m] = self.i[m] * self.sf[m::,m]
+                return self.s_c, self.o_c, self.i
             else:
-                ExitFlag = 2  # No lifetime distribution specified
-                return None, None, None, ExitFlag
+                # No lifetime distribution specified
+                return None, None, None
         else:
-            ExitFlag = 3  # No stock specified
-            return None, None, None, ExitFlag
+            # No stock specified
+            return None, None, None
         
 
     def compute_stock_driven_model_initialstock(self,InitialStock,SwitchTime):

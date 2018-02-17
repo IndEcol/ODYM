@@ -4,7 +4,6 @@ Created on Thu Mar  2 17:33:01 2017
 
 @authors: spauliuk
 """
-from tqdm import tqdm
 
 """
 File ODYM_RECC_Basic1
@@ -35,6 +34,7 @@ import matplotlib.pyplot as plt
 import imp
 import getpass
 from copy import deepcopy
+from tqdm import tqdm
 
 
 #import re
@@ -45,7 +45,6 @@ __version__ = str('0.1')
 ProjectSpecs_Path_Main = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 # NOTE: Hidden variable __file__ must be know to script for the directory structure to work.
 # Therefore: When first using the model, run the entire script with F5 so that the __file__ variable can be created.
-Slash = os.sep
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'modules'))) # add ODYM module directory to system path
 
 ### 1.1.) Read main script parameters
@@ -79,7 +78,7 @@ Name_Scenario            = Model_Configsheet.cell_value(3,3)
 StartTime                = datetime.datetime.now()
 TimeString               = str(StartTime.year) + '_' + str(StartTime.month) + '_' + str(StartTime.day) + '__' + str(StartTime.hour) + '_' + str(StartTime.minute) + '_' + str(StartTime.second)
 DateString               = str(StartTime.year) + '_' + str(StartTime.month) + '_' + str(StartTime.day)
-ProjectSpecs_Path_Result = os.path.join(ProjectSpecs_Path_Main, 'Results', Name_Scenario + '_' + TimeString )
+ProjectSpecs_Path_Result = os.path.join(os.path.abspath(os.path.join(ProjectSpecs_Path_Main, '..')), 'Results', Name_Scenario + '_' + TimeString )
 
 ### 1.2) Read model control parameters
 #Read control and selection parameters into dictionary
@@ -311,7 +310,7 @@ Mylog.info('<p><b>Read model data and parameters.</b></p>')
 
 ParameterDict = {}
 for mo in range(0,len(PL_Names)):
-    ParPath = os.path.join(ProjectSpecs_Path_Main, 'ODYM_RECC_Database', PL_Version[mo])
+    ParPath = os.path.join(os.path.abspath(os.path.join(ProjectSpecs_Path_Main, '..')), 'ODYM_RECC_Database', PL_Version[mo])
     Mylog.info('<br> Reading parameter ' + PL_Names[mo])
     #MetaData, Values = msf.ReadParameter(ParPath = ParPath,ThisPar = PL_Names[mo], ThisParIx = PL_IndexStructure[mo], IndexMatch = PL_IndexMatch[mo], ThisParLayerSel = PL_IndexLayer[mo], MasterClassification,IndexTable,IndexTable_ClassificationNames,ScriptConfig,Mylog) # Do not change order of parameters handed over to function!
     MetaData, Values = msf.ReadParameter(ParPath,PL_Names[mo],PL_IndexStructure[mo], PL_IndexMatch[mo], PL_IndexLayer[mo], MasterClassification,IndexTable,IndexTable_ClassificationNames,ScriptConfig,Mylog) # Do not change order of parameters handed over to function!
@@ -390,7 +389,6 @@ RECC_System.ParameterDict['Par_ProductLifetime'].Values = np.einsum('G,abc->Gabc
 
 # Build pdf array from lifetime distribution: Probability of discard
 for r in tqdm(range(0, Nr), unit='region'):
-    # print("Region", r)  # Print region index to display progress.
     for G in range(0, NG):
         for S in range(0, NS):
             lt = {'Type': 'Normal',
@@ -402,7 +400,6 @@ for r in tqdm(range(0, Nr), unit='region'):
 
 # Apply stock-driven model with historic stock as initial stock
 for r in tqdm(range(0, Nr), unit='region'):
-    # print(r)  # Print region index to display progress.
     for G in range(0,NG):
         for S in range(0,NS):
             lt = {'Type': 'Normal',
@@ -416,7 +413,7 @@ for r in tqdm(range(0, Nr), unit='region'):
                                                       pdf=PDF_Array[:, :, r, G, S])
             Var_S, Var_O, Var_I, ExitFlag = \
                 DSM_IntitialStock.compute_stock_driven_model_initialstock(InitialStock=RECC_System.ParameterDict['Par_HistoricStocks'].Values[G, 0: Nc - Model_Duration - 1, r],
-                                                                          SwitchTime=Nc - Model_Duration - 1)
+                                                                          SwitchTime=Nc - Model_Duration - 1)              
             # Assign result to MFA system
             RECC_System.StockDict['S_4'].Values[:, Nc - Model_Duration - 1::, r, G, S, 0] = \
                 Var_S[Nc - Model_Duration - 1::, Nc - Model_Duration - 1::]

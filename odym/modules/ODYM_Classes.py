@@ -245,8 +245,7 @@ class MFAsystem(Obj):
             
         Result_workbook.save(Path + self.Name + '_' + str(TimeIndex) + '_' + str(Element) + '_Sankey.xls')  
         
- 
-           
+        
 class Process(Obj):
 
     """
