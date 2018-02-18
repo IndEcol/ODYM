@@ -362,7 +362,7 @@ TotalStockCurves_S4   = np.zeros((Nt,Nr,NG,NS))    # Stock   by year, region, sc
 #TotalStockCurves_C    = np.zeros((Nt,Nc,Nr,NG,NS)) # Stock   by year, age-cohort, region, scenario, and product
 #TotalInflowCurves     = np.zeros((Nt,Nr,NG,NS))    # Inflow  by year, region, scenario, and product
 #TotalOutflowCurves    = np.zeros((Nt,Nc,Nr,NG,NS)) # Outflow by year, age-cohort, region, scenario, and product
-PDF_Array             = np.zeros((Nc,Nc,Nr,NG,NS)) # Stock   by year, age-cohort, region, scenario, and product. PDFs are stored externally because recreating them with scipy.stats is slow.
+SF_Array             = np.zeros((Nc,Nc,Nr,NG,NS)) # Stock   by year, age-cohort, region, scenario, and product. PDFs are stored externally because recreating them with scipy.stats is slow.
 
 if ScriptConfig['StockExtrapolation'] == 'Linear': #Apply linear extrapolation from current to future target stock levels
     StockStart          = RECC_System.ParameterDict['Par_HistoricStocks'].Values.sum(axis=1) # NG x NR start value
@@ -394,8 +394,8 @@ for r in tqdm(range(0, Nr), unit='region'):
             lt = {'Type': 'Normal',
                   'Mean': RECC_System.ParameterDict['Par_ProductLifetime'].Values[G, r, :, S],
                   'StdDev': 0.3 * RECC_System.ParameterDict['Par_ProductLifetime'].Values[G, r, :, S]}
-            PDF_Array[:, :, r, G, S] = dsm.DynamicStockModel(t=np.arange(0, Nc, 1),
-                                                         lt=lt).compute_outflow_pdf()[0].copy()
+            SF_Array[:, :, r, G, S] = dsm.DynamicStockModel(t=np.arange(0, Nc, 1),
+                                                         lt=lt).compute_sf()[0].copy()
             # AA = dsm.DynamicStockModel(t = np.arange(0,Nc,1), lt = {'Type': 'Normal', 'Mean': RECC_System.ParameterDict['Par_ProductLifetime'].Values[G,r,:,S], 'StdDev': 0.3 * RECC_System.ParameterDict['Par_ProductLifetime'].Values[G,r,:,S] })
 
 # Apply stock-driven model with historic stock as initial stock
@@ -410,8 +410,8 @@ for r in tqdm(range(0, Nr), unit='region'):
                                                                         TotalStockCurves_S4_ss_IU[:, r, G, S]),
                                                                        axis=0),
                                                       lt=lt,
-                                                      pdf=PDF_Array[:, :, r, G, S])
-            Var_S, Var_O, Var_I, ExitFlag = \
+                                                      sf=SF_Array[:, :, r, G, S])
+            Var_S, Var_O, Var_I = \
                 DSM_IntitialStock.compute_stock_driven_model_initialstock(InitialStock=RECC_System.ParameterDict['Par_HistoricStocks'].Values[G, 0: Nc - Model_Duration - 1, r],
                                                                           SwitchTime=Nc - Model_Duration - 1)              
             # Assign result to MFA system

@@ -256,6 +256,7 @@ class KnownResultsTestCase(unittest.TestCase):
         np.testing.assert_array_equal(myDSM2.check_stock_balance(), Bal.transpose())
 #
 #
+        
     def test_inflow_driven_model_normallyDistrLifetime_0(self):
         """Test Inflow Driven Model with Fixed product lifetime of 0."""
         np.testing.assert_array_equal(myDSM0n.compute_s_c_inflow_driven(), np.zeros(Stock_TC_FixedLT.shape))
@@ -266,13 +267,11 @@ class KnownResultsTestCase(unittest.TestCase):
             
     def test_inflow_driven_model_normallyDistLifetime(self):
         """Test Inflow Driven Model with normally distributed product lifetime."""
-        np.testing.assert_array_almost_equal(
-            myDSM3.compute_s_c_inflow_driven(), Stock_TC_NormLT, 9)
+        np.testing.assert_array_almost_equal(myDSM3.compute_s_c_inflow_driven(), Stock_TC_NormLT, 9)
         np.testing.assert_array_almost_equal(myDSM3.compute_stock_total()[0], Stock_T_NormLT, 8)
         np.testing.assert_array_almost_equal(myDSM3.compute_o_c_from_s_c()[0], Outflow_TC_NormLT, 9)
         np.testing.assert_array_almost_equal(myDSM3.compute_outflow_total()[0], Outflow_T_NormLT, 9)
-        np.testing.assert_array_almost_equal(
-            myDSM3.compute_stock_change()[0], StockChange_T_NormLT, 9)
+        np.testing.assert_array_almost_equal(myDSM3.compute_stock_change()[0], StockChange_T_NormLT, 9)
         np.testing.assert_array_almost_equal(myDSM3.check_stock_balance()[0], Bal.transpose(), 12)
 #
     def test_stock_driven_model_normallyDistLifetime(self):

@@ -227,10 +227,10 @@ class DynamicStockModel(object):
                 for m in range(0, len(self.t)):  # cohort index
                     if self.lt['Mean'][m] != 0:  # For products with lifetime of 0, sf == 0
                         self.sf[m::,m] = scipy.stats.norm.sf(np.arange(0,len(self.t)-m), loc=self.lt['Mean'][m], scale=self.lt['StdDev'][m])
-                        self.sf[np.diag_indices(len(self.t))] = 1 # NOTE: As normal distributions have nonzero pdf for negative ages, which are physically impossible, 
+                        # NOTE: As normal distributions have nonzero pdf for negative ages, which are physically impossible, 
                         # these outflow contributions can either be ignored (violates the mass balance) or
-                        # allocated to the first year of residence, implemented by the line self.sf[np.diag_indices(len(self.t))] = 1
-
+                        # allocated to the zeroth year of residence, the latter being implemented in the method compute compute_o_c_from_s_c.
+                        
             if self.lt['Type'] == 'Weibull':
                 for m in range(0, len(self.t)):  # cohort index
                     if self.lt['Shape'][m] != 0:  # For products with lifetime of 0, sf == 0
@@ -276,7 +276,7 @@ class DynamicStockModel(object):
             if self.o_c is None:
                 self.o_c = np.zeros(self.s_c.shape)
                 self.o_c[1::,:] = -1 * np.diff(self.s_c,n=1,axis=0)
-                self.o_c[np.diag_indices(len(self.t))] = 0
+                self.o_c[np.diag_indices(len(self.t))] = self.i - np.diag(self.s_c) # allow for outflow in year 0 already
                 return self.o_c
             else:
                 # o_c already exists. Doing nothing.
@@ -319,7 +319,7 @@ class DynamicStockModel(object):
     4) check mass balance.
     """
 
-    def compute_stock_driven_model(self):
+    def compute_stock_driven_model(self, NegativeInflowCorrect = False):
         """ With given total stock and lifetime distribution, 
             the method builds the stock by cohort and the inflow.
         """
@@ -331,15 +331,34 @@ class DynamicStockModel(object):
                 # construct the sf of a product of cohort tc remaining in the stock in year t
                 self.compute_sf() # Computes sf if not present already.
                 # First year:
-                self.i[0] = self.s[0]
-                self.s_c[:, 0] = self.s[0] * self.sf[:,0] # Future decay of age-cohort of year 0.
+                if self.sf[0, 0] != 0: # Else, inflow is 0.
+                    self.i[0] = self.s[0] / self.sf[0, 0]
+                self.s_c[:, 0] = self.i[0] * self.sf[:, 0] # Future decay of age-cohort of year 0.
+                self.o_c[0, 0] = self.i[0] - self.s_c[0, 0]
+                # all other years:
                 for m in range(1, len(self.t)):  # for all years m, starting in second year
                     # 1) Compute outflow from previous years
-                    self.o_c[m,0:m] = self.s_c[m-1,0:m] - self.s_c[m,0:m] # outflow table is filled row-wise, for each year m.
+                    self.o_c[m, 0:m] = self.s_c[m-1, 0:m] - self.s_c[m, 0:m] # outflow table is filled row-wise, for each year m.
                     # 2) Determine inflow from mass balance:
-                    self.i[m] = self.s[m] - self.s_c[m,:].sum()
+                    if self.sf[m,m] != 0: # Else, inflow is 0.
+                        self.i[m] = (self.s[m] - self.s_c[m, :].sum()) / self.sf[m,m] # allow for outflow during first year by rescaling with 1/sf[m,m]
+                    # 2a) Correct remaining stock in cases where inflow would be negative:
+                    if NegativeInflowCorrect is True:
+                        if self.i[m] < 0: # if stock-driven model yield negative inflow
+                            Delta = -1 * self.i[m].copy() # Delta > 0!
+                            self.i[m] = 0 # Set inflow to 0 and distribute mass balance gap onto remaining cohorts:
+                            if self.o_c[m,:].sum() != 0:
+                                Delta_c = Delta * self.o_c[m, :] / self.o_c[m,:].sum() # Distribute gap proportionally to outflow
+                            else:
+                                Delta_c = 0
+                            self.o_c[m, :] = self.o_c[m, :] - Delta_c # reduce outflow by Delta_c
+                            self.s_c[m, :] = self.s_c[m, :] + Delta_c # augment stock by Delta_c
+                            # NOTE: This method is only of of many plausible methods of reducing the outflow to keep stock levels high.
+                            # It may lead to implausible results, and, if Delta > sum(self.o_c[m,:]), also to negative outflows.
+                            # In such situations it is much better to change the lifetime assumption than using the NegativeInflowCorrect option.
                     # 3) Add new inflow to stock and determine future decay of new age-cohort
-                    self.s_c[m::,m] = self.i[m] * self.sf[m::,m]
+                    self.s_c[m::, m] = self.i[m] * self.sf[m::, m]
+                    self.o_c[m, m]   = self.i[m] * (1 - self.sf[m, m])
                 return self.s_c, self.o_c, self.i
             else:
                 # No lifetime distribution specified
@@ -349,7 +368,7 @@ class DynamicStockModel(object):
             return None, None, None
         
 
-    def compute_stock_driven_model_initialstock(self,InitialStock,SwitchTime):
+    def compute_stock_driven_model_initialstock(self,InitialStock,SwitchTime, NegativeInflowCorrect = False):
         """ With given total stock and lifetime distribution, the method builds the stock by cohort and the inflow.
         The extra parameter InitialStock is a vector that contains the age structure of the stock at time t0, and it covers as many historic cohorts as there are elements in it.
         In the year SwitchTime the model switches from the historic stock to the stock-driven approach.
@@ -361,28 +380,42 @@ class DynamicStockModel(object):
                 self.s_c[SwitchTime,0:SwitchTime] = InitialStock # assign initialstock to stock-by-cohort variable
                 self.o_c = np.zeros((len(self.t), len(self.t)))
                 self.i = np.zeros(len(self.t))
-                # construct the pdf of a product of cohort tc leaving the stock in year t
-                self.compute_outflow_pdf() # Computes pdf if not present already.
+                # construct the sdf of a product of cohort tc leaving the stock in year t
+                self.compute_sf() # Computes sf if not present already.
                 # Construct historic inflows
                 for c in range(0,SwitchTime):
-                    if self.pdf[0:SwitchTime,c].sum() != 0:
-                         self.i[c] = InitialStock[c] / (1 - self.pdf[0:SwitchTime,c].sum())
+                    if self.sf[SwitchTime,c] != 0:
+                         self.i[c] = InitialStock[c] / self.sf[SwitchTime,c]
                     else:
                          self.i[c] = InitialStock[c]
                 # year-by-year computation, starting from SwitchTime
                 for m in range(SwitchTime, len(self.t)):  # for all years m, starting at SwitchTime
-                    for n in range(0, m):  # for all cohort n from first to last year
-                        # 1) determine outflow and remaining stock:
-                        self.o_c[m, n] = self.pdf[m, n] * self.i[n]  # outflow
-                        # remaining stock
-                        self.s_c[m, n] = (1 - self.pdf[0:m + 1, n].sum()) * self.i[n]
-                    self.i[m] = self.s[m] - self.s_c[m, :].sum()  # mass balance
-                    self.s_c[m, m] = self.i[m]  # add inflow to stock
-                    ExitFlag = 1
-                return self.s_c, self.o_c, self.i, ExitFlag
+                    # 1) Compute outflow from previous years
+                    self.o_c[m, 0:m] = self.s_c[m-1, 0:m] - self.s_c[m, 0:m] # outflow table is filled row-wise, for each year m.
+                    # 2) Determine inflow from mass balance:
+                    if self.sf[m,m] != 0: # Else, inflow is 0.
+                        self.i[m] = (self.s[m] - self.s_c[m, :].sum()) / self.sf[m,m] # allow for outflow during first year by rescaling with 1/sf[m,m]
+                    # 2a) Correct remaining stock in cases where inflow would be negative:
+                    if NegativeInflowCorrect is True:
+                        if self.i[m] < 0: # if stock-driven model yield negative inflow
+                            Delta = -1 * self.i[m].copy() # Delta > 0!
+                            self.i[m] = 0 # Set inflow to 0 and distribute mass balance gap onto remaining cohorts:
+                            if self.o_c[m,:].sum() != 0:
+                                Delta_c = Delta * self.o_c[m, :] / self.o_c[m,:].sum() # Distribute gap proportionally to outflow
+                            else:
+                                Delta_c = 0
+                            self.o_c[m, :] = self.o_c[m, :] - Delta_c # reduce outflow by Delta_c
+                            self.s_c[m, :] = self.s_c[m, :] + Delta_c # augment stock by Delta_c
+                            # NOTE: This method is only of of many plausible methods of reducing the outflow to keep stock levels high.
+                            # It may lead to implausible results, and, if Delta > sum(self.o_c[m,:]), also to negative outflows.
+                            # In such situations it is much better to change the lifetime assumption than using the NegativeInflowCorrect option.
+                    # 3) Add new inflow to stock and determine future decay of new age-cohort
+                    self.s_c[m::, m] = self.i[m] * self.sf[m::, m]
+                    self.o_c[m, m]   = self.i[m] * (1 - self.sf[m, m])
+                return self.s_c, self.o_c, self.i
             else:
-                ExitFlag = 2  # No lifetime distribution specified
-                return None, None, None, ExitFlag
+                # No lifetime distribution specified
+                return None, None, None
         else:
-            ExitFlag = 3  # No stock specified
-            return None, None, None, ExitFlag        
+            # No stock specified
+            return None, None, None       
