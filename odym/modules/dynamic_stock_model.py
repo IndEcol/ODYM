@@ -259,7 +259,8 @@ class DynamicStockModel(object):
         if self.i is not None:
             if self.lt is not None:
                 self.compute_sf()
-                self.s_c = np.einsum('c,tc->tc', self.i, self.sf) 
+                self.s_c = np.einsum('c,tc->tc', self.i, self.sf) # See numpy's np.einsum for documentation.
+                # This command means: s_c[t,c] = i[c] * sf[t,c] for all t, c
                 # from the perspective of the stock the inflow has the dimension age-cohort, 
                 # as each inflow(t) is added to the age-cohort c = t
                 return self.s_c
