@@ -406,12 +406,12 @@ for r in range(0,Nr): # Apply simple linear growth model
         if r == 0:
             TotalStockCurves[:,r,G] = np.arange(0,Nt) * MyMFA2.ParameterDict['Par_SaturationLevelStocks'].Values[G,r,0] / Nt # forSSP1, linear growth model
             DSM_StockDriven = dsm.DynamicStockModel(t = np.arange(0,Nt,1), s = TotalStockCurves[:,r,G], lt = {'Type': 'Normal', 'Mean': [LT_Estimate[G]], 'StdDev': [0.3 * LT_Estimate[G]] })    
-            TotalStockCurves_C[:,:,r,G], TotalOutflowCurves[:,:,r,G], TotalInflowCurves[:,r,G], ExitFlag = DSM_StockDriven.compute_stock_driven_model()
+            TotalStockCurves_C[:,:,r,G], TotalOutflowCurves[:,:,r,G], TotalInflowCurves[:,r,G] = DSM_StockDriven.compute_stock_driven_model()
             PDF_Array[:,:,G] = DSM_StockDriven.pdf.copy()
         else:
             TotalStockCurves[:,r,G] = np.arange(0,Nt) * MyMFA2.ParameterDict['Par_SaturationLevelStocks'].Values[G,r,0] / Nt # forSSP1, linear growth model
             DSM_StockDriven = dsm.DynamicStockModel(t = np.arange(0,Nt,1), s = TotalStockCurves[:,r,G], lt = {'Type': 'Normal', 'Mean': [LT_Estimate[G]], 'StdDev': [0.3 * LT_Estimate[G]] }, pdf = PDF_Array[:,:,G])    
-            TotalStockCurves_C[:,:,r,G], TotalOutflowCurves[:,:,r,G], TotalInflowCurves[:,r,G], ExitFlag = DSM_StockDriven.compute_stock_driven_model()
+            TotalStockCurves_C[:,:,r,G], TotalOutflowCurves[:,:,r,G], TotalInflowCurves[:,r,G] = DSM_StockDriven.compute_stock_driven_model()
             
 # 2) Apply material composition of products and element composition of materials to determine the elemement-by-material flows and stocks:
 TotalStockCurves_C_a            = np.einsum('tcrG,Ga->tcrGa',   TotalStockCurves_C,  MyMFA2.ParameterDict['Par_MaterialContentProducts'].Values) # Stock by material

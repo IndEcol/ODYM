@@ -394,8 +394,7 @@ for r in tqdm(range(0, Nr), unit='region'):
             lt = {'Type': 'Normal',
                   'Mean': RECC_System.ParameterDict['Par_ProductLifetime'].Values[G, r, :, S],
                   'StdDev': 0.3 * RECC_System.ParameterDict['Par_ProductLifetime'].Values[G, r, :, S]}
-            SF_Array[:, :, r, G, S] = dsm.DynamicStockModel(t=np.arange(0, Nc, 1),
-                                                         lt=lt).compute_sf()[0].copy()
+            SF_Array[:, :, r, G, S] = dsm.DynamicStockModel(t=np.arange(0, Nc, 1), lt=lt).compute_sf().copy()
             # AA = dsm.DynamicStockModel(t = np.arange(0,Nc,1), lt = {'Type': 'Normal', 'Mean': RECC_System.ParameterDict['Par_ProductLifetime'].Values[G,r,:,S], 'StdDev': 0.3 * RECC_System.ParameterDict['Par_ProductLifetime'].Values[G,r,:,S] })
 
 # Apply stock-driven model with historic stock as initial stock
