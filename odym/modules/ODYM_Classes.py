@@ -197,6 +197,13 @@ class MFAsystem(Obj):
             elif self.StockDict[key].Type == 2:
                 Bal[:,self.StockDict[key].P_Res,:] += self.Stock_Sum_By_Element(key) # 2: removal/release from stock
             
+        #add stock changes to process with number 0 ('system boundary')
+        for key in self.StockDict:
+            if  self.StockDict[key].Type == 1:
+                Bal[:,0,:] += self.Stock_Sum_By_Element(key) # 1: net stock change or addition to stock
+            elif self.StockDict[key].Type == 2:
+                Bal[:,0,:] -= self.Stock_Sum_By_Element(key) # 2: removal/release from stock
+            
         return Bal
         
         

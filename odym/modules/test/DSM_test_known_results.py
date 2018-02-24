@@ -2,7 +2,6 @@
 """
 Created on Mon Aug 11 16:19:39 2014
 
-@authors: Georgios Pallas, Stefan Pauliuk, NTNU Trondheim, Norway
 """
 import os
 import sys
