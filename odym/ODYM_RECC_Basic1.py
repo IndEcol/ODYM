@@ -17,8 +17,7 @@ dependencies:
 
 """
 # Import required libraries:
-# Import required libraries:
-import os  
+import os
 import sys
 import logging as log
 import xlrd, xlwt
@@ -45,7 +44,9 @@ __version__ = str('0.1')
 ProjectSpecs_Path_Main = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 # NOTE: Hidden variable __file__ must be know to script for the directory structure to work.
 # Therefore: When first using the model, run the entire script with F5 so that the __file__ variable can be created.
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'modules'))) # add ODYM module directory to system path
+
+# add ODYM module directory to system path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'modules')))
 
 ### 1.1.) Read main script parameters
 #Load project-specific config file
@@ -310,7 +311,7 @@ Mylog.info('<p><b>Read model data and parameters.</b></p>')
 
 ParameterDict = {}
 for mo in range(0,len(PL_Names)):
-    ParPath = os.path.join(os.path.abspath(os.path.join(ProjectSpecs_Path_Main, '..')), 'ODYM_RECC_Database', PL_Version[mo])
+    ParPath = os.path.join(os.path.abspath(os.path.join(ProjectSpecs_Path_Main, '.')), 'ODYM_RECC_Database', PL_Version[mo])
     Mylog.info('<br> Reading parameter ' + PL_Names[mo])
     #MetaData, Values = msf.ReadParameter(ParPath = ParPath,ThisPar = PL_Names[mo], ThisParIx = PL_IndexStructure[mo], IndexMatch = PL_IndexMatch[mo], ThisParLayerSel = PL_IndexLayer[mo], MasterClassification,IndexTable,IndexTable_ClassificationNames,ScriptConfig,Mylog) # Do not change order of parameters handed over to function!
     MetaData, Values = msf.ReadParameter(ParPath,PL_Names[mo],PL_IndexStructure[mo], PL_IndexMatch[mo], PL_IndexLayer[mo], MasterClassification,IndexTable,IndexTable_ClassificationNames,ScriptConfig,Mylog) # Do not change order of parameters handed over to function!
@@ -322,21 +323,23 @@ for mo in range(0,len(PL_Names)):
 ##########################################################
 Mylog.info('<p><b>Define RECC system and processes.</b></p>')
 
-RECC_System = msc.MFAsystem(Name = 'TestSystem', 
-                      Geogr_Scope = 'World', 
-                      Unit = 'Mt', 
-                      ProcessList = [], 
-                      FlowDict = {}, 
-                      StockDict = {},
-                      ParameterDict = ParameterDict, 
-                      Time_Start = Model_Time_Start, 
-                      Time_End = Model_Time_End, 
-                      IndexTable = IndexTable, 
-                      Elements = IndexTable.ix['Element'].Classification.Items, 
-                      Graphical = None) # Initialize MFA system
+# Initialize MFA system
+RECC_System = msc.MFAsystem(Name='TestSystem',
+                            Geogr_Scope='World',
+                            Unit='Mt',
+                            ProcessList=[],
+                            FlowDict={},
+                            StockDict={},
+                            ParameterDict=ParameterDict,
+                            Time_Start=Model_Time_Start,
+                            Time_End=Model_Time_End,
+                            IndexTable=IndexTable,
+                            Elements=IndexTable.loc['Element'].Classification.Items,
+                            Graphical=None)
                       
 # Check Validity of index tables:
-RECC_System.IndexTableCheck() # returns true if dimensions are OK and time index is present and element list is not empty
+# returns true if dimensions are OK and time index is present and element list is not empty
+RECC_System.IndexTableCheck()
 
 # Add processes to system
 for m in range(0, len(PrL_Number)):
@@ -354,7 +357,7 @@ RECC_System.Initialize_FlowValues() # Assign empty arrays to flows according to 
 ##########################################################
 #    Section 4) Solve dynamic MFA model for RECC         #
 ##########################################################
-Mylog.info('<p><b>Calculate inflows and outflos for use phase.</b></p>') 
+Mylog.info('<p><b>Calculate inflows and outflows for use phase.</b></p>')
 # THIS IS WHERE WE LEAVE THE FORMAL MODEL STRUCTURE AND DO WHATEVER IS NECESSARY TO SOLVE THE MODEL EQUATIONS.
 
 # 1) Determine total stock from regression model, and apply stock-driven model
@@ -472,7 +475,7 @@ myfont.bold = True
 mystyle = xlwt.XFStyle()
 mystyle.font = myfont
 Result_workbook  = xlwt.Workbook(encoding = 'ascii') # Export element stock by region
-msf.ExcelSheetFill(Result_workbook,'ElementComposition', np.einsum('tcrge->re',RECC_System.StockDict['S_4'].Values[:,:,:,:,0,:]), topcornerlabel = 'Total in-use stock of elements, by region, in ' + RECC_System.Unit, rowlabels = RECC_System.IndexTable.set_index('IndexLetter').ix['r'].Classification.Items, collabels = RECC_System.IndexTable.set_index('IndexLetter').ix['e'].Classification.Items, Style = mystyle, rowselect = None, colselect = None)
+msf.ExcelSheetFill(Result_workbook,'ElementComposition', np.einsum('tcrge->re',RECC_System.StockDict['S_4'].Values[:,:,:,:,0,:]), topcornerlabel = 'Total in-use stock of elements, by region, in ' + RECC_System.Unit, rowlabels = RECC_System.IndexTable.set_index('IndexLetter').loc['r'].Classification.Items, collabels = RECC_System.IndexTable.set_index('IndexLetter').loc['e'].Classification.Items, Style = mystyle, rowselect = None, colselect = None)
 Result_workbook.save(os.path.join(ProjectSpecs_Path_Result,'ElementCompositionExample.xls'))
 
 ### 5.4) Export as .mat file
@@ -490,7 +493,7 @@ log.shutdown()
 # remove all handlers from logger
 root = log.getLogger()
 root.handlers = [] # required if you don't want to exit the shell
-
+print('done.')
 
 
 #
