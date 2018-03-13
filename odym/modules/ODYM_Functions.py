@@ -20,11 +20,13 @@ dependencies:
 Repository for this class, documentation, and tutorials: https://github.com/IndEcol/ODYM
 
 """
+
 import os
 import logging
 import numpy as np
 import pandas as pd
 import xlrd
+import pypandoc
 
 ####################################
 #      Define functions            #
@@ -34,29 +36,49 @@ import xlrd
 def __version__():  # return version of this file
     return str('0.1')
 
-def function_logger(file_level, Name_Scenario, Path_Result, console_level): # initialize and configurate logger
-    # remove all handlers from logger
+
+def function_logger(log_filename, log_pathname, file_level=logging.DEBUG, console_level=logging.WARNING):
+    """
+    This is the logging routine of the model. It returns alogger that can be used by other functions to write to the
+    log(file).
+
+    :param file_level: Verbosity level for the logger's output file. This can be log.WARNING (default),
+        log.INFO, log.DEBUG
+    :param log_filename: The filename for the logfile.
+    :param log_pathname: The pathname for the logfile.
+    :param console_level: Verbosity level for the logger's output file.
+    out
+    :param logfile_type: Type of file to write. Mardown syntax is the default.
+        TODO: If other outputs types are desired, they can be converted via pandoc.
+    :return: A logger that can be used by other files to write to the log(file)
+    """
+
+    log_file = os.path.join(log_pathname, '..', log_filename)
+    # logging.basicConfig(format='%(levelname)s (%(filename)s <%(funcName)s>): %(message)s',
+    #                     filename=log_file,
+    #                     level=logging.INFO)
     logger = logging.getLogger()
-    logger.handlers = [] # required if you don't want to exit the shell
-    logger.setLevel(logging.DEBUG) #By default, logs all messages
+    logger.handlers = []  # required if you don't want to exit the shell
+    logger.setLevel(file_level)
 
-    if console_level != None:
-        console_log = logging.StreamHandler() #StreamHandler logs to console
-        console_log.setLevel(console_level)
-        console_log_format = logging.Formatter('%(message)s')  # ('%(asctime)s - %(message)s')
-        console_log.setFormatter(console_log_format)
-        logger.addHandler(console_log)
+    # The logger for console output
+    console_log = logging.StreamHandler() #StreamHandler logs to console
+    console_log.setLevel(console_level)
+    # console_log_format = logging.Formatter('%(message)s')
+    console_log_format = logging.Formatter('%(levelname)s (%(filename)s <%(funcName)s>): %(message)s')
+    console_log.setFormatter(console_log_format)
+    logger.addHandler(console_log)
 
-    file_log = logging.FileHandler(Path_Result + '\\' + Name_Scenario + '.html', mode='w', encoding=None, delay=False)
+    # The logger for log file output
+    file_log = logging.FileHandler(log_file, mode='w', encoding=None, delay=False)
     file_log.setLevel(file_level)
-    #file_log_format = logging.Formatter('%(asctime)s - %(lineno)d - %(levelname)-8s - %(message)s<br>')
-    file_log_format = logging.Formatter('%(message)s<br>')
+    file_log_format = logging.Formatter('%(message)s\n')
     file_log.setFormatter(file_log_format)
     logger.addHandler(file_log)
 
-    return logger, console_log, file_log
-    
-    
+    return logger,  console_log, file_log
+
+
 def ensure_dir(f): # Checks whether a given directory f exists, and creates it if not
     d = os.path.dirname(f)
     if not os.path.exists(d):
@@ -163,11 +185,12 @@ def ModelIndexPositions_FromData(Positions,RowPos,ColPos):
     return TargetPosition
 
 
-def ReadParameter(ParPath,ThisPar,ThisParIx,IndexMatch,ThisParLayerSel, MasterClassification,IndexTable,IndexTable_ClassificationNames,ScriptConfig,Mylog):
+def ReadParameter(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, MasterClassification,
+                  IndexTable, IndexTable_ClassificationNames, ScriptConfig, Mylog):
     """
     This function reads a model parameter from the corresponding parameter file
     """
-    Parfile   = xlrd.open_workbook(ParPath +'.xlsx')
+    Parfile   = xlrd.open_workbook(ParPath + '.xlsx')
     ParHeader = Parfile.sheet_by_name('Cover')
     
     IM = eval(IndexMatch) # List that matches model aspects to parameter indices
@@ -184,11 +207,13 @@ def ReadParameter(ParPath,ThisPar,ThisParIx,IndexMatch,ThisParLayerSel, MasterCl
             # Now we are in the row of Dataset_RecordType
     
     # Check whether parameter file uses same classification:
-    if 'ODYM_Classifications_Master_' + ScriptConfig['Version of master classification'] != MetaData['Dataset_Classification_version_number']:
-        Mylog.error('<p><b>CLASSIFICATION FILE FATAL ERROR: Classification file of parameter ' + ThisPar + ' is not identical to the classification master file used for the current model run.</b></p>')
+    if 'ODYM_Classifications_Master_' + \
+            ScriptConfig['Version of master classification'] != MetaData['Dataset_Classification_version_number']:
+        Mylog.critical('CLASSIFICATION FILE FATAL ERROR: Classification file of parameter ' + ThisPar +
+                       ' is not identical to the classification master file used for the current model run.')
         
     if ParHeader.cell_value(ri,1) == 'List':
-        IList        = []
+        IList = []
         IListMeaning = []
         ci = 1 # column index
         while True:
@@ -199,7 +224,7 @@ def ReadParameter(ParPath,ThisPar,ThisParIx,IndexMatch,ThisParLayerSel, MasterCl
             else:
                 break
         # Re-Order indices to fit model aspect order:
-        IList        = [IList[i] for i in IM]
+        IList = [IList[i] for i in IM]
         IListMeaning = [IListMeaning[i] for i in IM]
             
         ValueList = []
@@ -215,7 +240,8 @@ def ReadParameter(ParPath,ThisPar,ThisParIx,IndexMatch,ThisParLayerSel, MasterCl
         
         # Check whether all indices are present in the index table of the model  
         if set(IList).issubset(set(IndexTable_ClassificationNames)) is False:
-            Mylog.error('<p><b>CLASSIFICATION ERROR: Index list of data file for parameter ' + ThisPar + ' contains indices that are not part of the current model run.</b></p>')
+            Mylog.error('CLASSIFICATION ERROR: Index list of data file for parameter ' + ThisPar +
+                        ' contains indices that are not part of the current model run.')
     
         # Check how well items match between model and data, select items to import
         IndexSizesM  = [] # List of dimension size for model
@@ -224,8 +250,10 @@ def ReadParameter(ParPath,ThisPar,ThisParIx,IndexMatch,ThisParLayerSel, MasterCl
             # Check whether index is present in parameter file:
             ThisDimClassificationName  = IndexTable.set_index('IndexLetter').ix[ThisDim].Classification.Name
             if ThisDimClassificationName != IList[m]:
-                Mylog.error('<p><b>CLASSIFICATION ERROR: Classification ' + ThisDimClassificationName + ' for aspect ' + ThisDim + ' of parameter ' + ThisPar + ' must be identical to the specified classification of the corresponding parameter dimension, which is ' + IList[m] + '.</b></p>')
-                break # Stop parsing parameter, will cause model to halt
+                Mylog.error('CLASSIFICATION ERROR: Classification ' + ThisDimClassificationName + ' for aspect ' +
+                            ThisDim + ' of parameter ' + ThisPar +
+                            ' must be identical to the specified classification of the corresponding parameter dimension, which is ' + IList[m])
+                break  # Stop parsing parameter, will cause model to halt
             
             IndexSizesM.append(IndexTable.set_index('IndexLetter').ix[ThisDim]['IndexSize'])
 
@@ -253,8 +281,8 @@ def ReadParameter(ParPath,ThisPar,ThisParIx,IndexMatch,ThisParLayerSel, MasterCl
                 ValIns[tuple(TargetPosition)] = 1
             cx += 1
             
-        Mylog.info('<br>A total of ' + str(cx+1) + ' values was read from file for parameter ' + ThisPar + '.')
-        Mylog.info('<br>' + str(ValIns.sum()) + ' of ' + str(np.prod(IndexSizesM)) + ' values for parameter ' + ThisPar + ' were assigned.')
+        Mylog.info('A total of ' + str(cx+1) + ' values was read from file for parameter ' + ThisPar + '.')
+        Mylog.info(str(ValIns.sum()) + ' of ' + str(np.prod(IndexSizesM)) + ' values for parameter ' + ThisPar + ' were assigned.')
          
         
         
@@ -306,9 +334,9 @@ def ReadParameter(ParPath,ThisPar,ThisParIx,IndexMatch,ThisParLayerSel, MasterCl
         
         # Check whether all indices are present in the index table of the model  
         if set(RIList).issubset(set(IndexTable_ClassificationNames)) is False:
-            Mylog.error('<p><b>CLASSIFICATION ERROR: Row index list of data file for parameter ' + ThisPar + ' contains indices that are not part of the current model run.</b></p>')
+            Mylog.error('CLASSIFICATION ERROR: Row index list of data file for parameter ' + ThisPar + ' contains indices that are not part of the current model run.')
         if set(CIList).issubset(set(IndexTable_ClassificationNames)) is False:
-            Mylog.error('<p><b>CLASSIFICATION ERROR: Column index list of data file for parameter ' + ThisPar + ' contains indices that are not part of the current model run.</b></p>')
+            Mylog.error('CLASSIFICATION ERROR: Column index list of data file for parameter ' + ThisPar + ' contains indices that are not part of the current model run.')
             
         # Determine index letters for RIList and CIList
         RIIndexLetter = []
@@ -324,8 +352,11 @@ def ReadParameter(ParPath,ThisPar,ThisParIx,IndexMatch,ThisParLayerSel, MasterCl
             ThisDim = ThisParIx[m]
             ThisDimClassificationName  = IndexTable.set_index('IndexLetter').ix[ThisDim].Classification.Name
             if ThisDimClassificationName != ComIList[m]:
-                Mylog.error('<p><b>CLASSIFICATION ERROR: Classification ' + ThisDimClassificationName + ' for aspect ' + ThisDim + ' of parameter ' + ThisPar + ' must be identical to the specified classification of the corresponding parameter dimension, which is ' + ComIList[m] + '.</b></p>')
-                break # Stop parsing parameter, will cause model to halt            
+                Mylog.error('CLASSIFICATION ERROR: Classification ' + ThisDimClassificationName + ' for aspect ' +
+                            ThisDim + ' of parameter ' + ThisPar +
+                            ' must be identical to the specified classification of the corresponding parameter dimension, which is ' +
+                            ComIList[m])
+                break  # Stop parsing parameter, will cause model to halt
                 
             IndexSizesM.append(IndexTable.set_index('IndexLetter').ix[ThisDim]['IndexSize'])
         
@@ -386,17 +417,21 @@ def ReadParameter(ParPath,ThisPar,ThisParIx,IndexMatch,ThisParLayerSel, MasterCl
                     Values[tuple(TargetPosition)] = ValuesSheet.cell_value(m + RowOffset, n + ColOffset)
                     ValIns[tuple(TargetPosition)] = 1
                     
-        Mylog.info('<br>' + str(ValIns.sum()) + ' of ' + str(np.prod(IndexSizesM)) + ' values for parameter ' + ThisPar + ' were assigned.')
+        Mylog.info(str(ValIns.sum()) + ' of ' + str(np.prod(IndexSizesM)) + ' values for parameter ' + ThisPar +
+                   ' were assigned.')
        
     return MetaData, Values
 
-def ExcelSheetFill(Workbook,Sheetname, values, topcornerlabel = None, rowlabels = None, collabels = None, Style = None, rowselect = None, colselect = None):
+
+def ExcelSheetFill(Workbook, Sheetname, values, topcornerlabel=None,
+                   rowlabels=None, collabels=None, Style=None,
+                   rowselect=None, colselect=None):
     Sheet = Workbook.add_sheet(Sheetname)
     if topcornerlabel is not None:
         if Style is not None:
-            Sheet.write(0,0,label = topcornerlabel, style = Style) #write top corner label
+            Sheet.write(0,0,label = topcornerlabel, style = Style)  # write top corner label
         else:
-            Sheet.write(0,0,label = topcornerlabel) #write top corner label
+            Sheet.write(0,0,label = topcornerlabel)  # write top corner label
     if rowselect is None: # assign row select if not present (includes all rows in that case)
         rowselect = np.ones((values.shape[0]))
     if colselect is None: # assign col select if not present (includes all columns in that case)
@@ -426,12 +461,21 @@ def ExcelSheetFill(Workbook,Sheetname, values, topcornerlabel = None, rowlabels 
             colindexcount = 0
             for n in range(0,values.shape[1]): # for all columns
                 if colselect[n] == 1:
-                    Sheet.write(rowindexcount +1, colindexcount +1, label = values[m,n])  
+                    Sheet.write(rowindexcount +1, colindexcount + 1, label=values[m, n])
                     colindexcount += 1
             rowindexcount += 1
                               
-    
-#
-#
+
+def convert_log(file, file_format='html'):
+    """
+    Converts the log file to a given file format
+
+    :param file: The filename and path
+    :param file_format: The desired format
+    """
+    output_filename = os.path.splitext(file)[0] + '.' + file_format
+    output = pypandoc.convert_file(file, file_format, outputfile=output_filename)
+    assert output == ""
+
 # The End
-    
+
