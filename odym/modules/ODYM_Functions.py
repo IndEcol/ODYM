@@ -117,6 +117,7 @@ def MI_Tuple(value, Is):
     Define function for obtaining multiindex tuple from index value
     value: flattened index position, Is: Number of values for each index dimension
     Example: MI_Tuple(10, [3,4,2,6]) returns [0,0,1,4]
+    MI_Tuple is the inverse of Tuple_MI.    
     """
     IsValuesRev = []
     CurrentValue = value
@@ -124,6 +125,22 @@ def MI_Tuple(value, Is):
         IsValuesRev.append(CurrentValue % Is[len(Is)-m-1])
         CurrentValue = CurrentValue // Is[len(Is)-m-1]
     return IsValuesRev[::-1]
+
+def Tuple_MI(Tuple, IdxLength): 
+    """
+    Function to return the absolution position of a multiindex when the index tuple
+    and the index hierarchy and size are given.
+    Example: Tuple_MI([2,7,3],[100,10,5]) = 138
+    Tuple_MI is the inverse of MI_Tuple.
+    """
+    # First, generate the index position offset values
+    A =  IdxLength[1:] +  IdxLength[:1] # Shift 1 to left
+    A[-1] = 1 # Replace lowest index by 1
+    A.reverse()
+    IdxPosOffset = np.cumproduct(A).tolist()
+    IdxPosOffset.reverse()
+    Position = np.sum([a*b for a,b in zip(Tuple,IdxPosOffset)])
+    return Position
 
 def ModelIndexPositions_FromData(Positions,RowPos,ColPos):
     """
