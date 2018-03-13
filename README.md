@@ -12,7 +12,7 @@ The novel features of ODYM include:\
 •	Flexibility regarding different data formats (table and list) and subsets of classifications used (only certain years or chemical elements, for example).\
 •	Representation of system variables and parameters as objects, general data structures serve as interfaces to a wide spectrum of modules for stock-driven modelling, waste cascade optimisation, etc.
 
-More information is available:
-•	Wiki pages in this repository.
-•	Tutorials (Jupyther notebooks) in the docs folder.
+More information is available:\
+•	Wiki pages in this repository.\
+•	Tutorials (Jupyther notebooks) in the docs folder.\
 •	A journal paper (in preparation).
