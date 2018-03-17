@@ -185,19 +185,21 @@ class MFAsystem(Obj):
         and apply it to the flow values. 
         Sum to t and e is subtracted from process where flow is leaving from and added to destination process.
         """
-        Bal = np.zeros((len(self.Time_L),len(self.ProcessList),len(self.Elements))) # Balance array: years x process x element: process position 0 is the balance for the system boundary, the other positions are for the processes, element position 0 is the balance for the entire mass, the other are for the balance of the individual elements
+        Bal = np.zeros((len(self.Time_L),len(self.ProcessList),len(self.Elements))) # Balance array: years x process x element: 
+        #process position 0 is the balance for the system boundary, the other positions are for the processes, 
+        #element position 0 is the balance for the entire mass, the other are for the balance of the individual elements
         
-        for key in self.FlowDict:
-            Bal[:,self.FlowDict[key].P_Start,:] -= self.Flow_Sum_By_Element(key)
-            Bal[:,self.FlowDict[key].P_End,:]   += self.Flow_Sum_By_Element(key)
+        for key in self.FlowDict: # Add all flows to mass balance
+            Bal[:,self.FlowDict[key].P_Start,:] -= self.Flow_Sum_By_Element(key) # Flow leaving a process
+            Bal[:,self.FlowDict[key].P_End,:]   += self.Flow_Sum_By_Element(key) # Flow entering a process
             
-        for key in self.StockDict:
+        for key in self.StockDict: # Add all stock changes to the mass balance
             if  self.StockDict[key].Type == 1:
                 Bal[:,self.StockDict[key].P_Res,:] -= self.Stock_Sum_By_Element(key) # 1: net stock change or addition to stock
             elif self.StockDict[key].Type == 2:
                 Bal[:,self.StockDict[key].P_Res,:] += self.Stock_Sum_By_Element(key) # 2: removal/release from stock
             
-        #add stock changes to process with number 0 ('system boundary')
+        #add stock changes to process with number 0 ('system boundary, environment of system')
         for key in self.StockDict:
             if  self.StockDict[key].Type == 1:
                 Bal[:,0,:] += self.Stock_Sum_By_Element(key) # 1: net stock change or addition to stock

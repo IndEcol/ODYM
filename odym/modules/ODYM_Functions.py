@@ -53,7 +53,7 @@ def function_logger(log_filename, log_pathname, file_level=logging.DEBUG, consol
     :return: A logger that can be used by other files to write to the log(file)
     """
 
-    log_file = os.path.join(log_pathname, '..', log_filename)
+    log_file = os.path.join(log_pathname, log_filename)
     # logging.basicConfig(format='%(levelname)s (%(filename)s <%(funcName)s>): %(message)s',
     #                     filename=log_file,
     #                     level=logging.INFO)
