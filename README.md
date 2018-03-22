@@ -1,4 +1,4 @@
-ODYM   -   Open Dynamic Material Systems Model
+## ODYM   -   Open Dynamic Material Systems Model
 
 __Please note that ODYM is still in its inception phase. Documentation on this repo and a scientific publication are in preparation.__
 
@@ -21,9 +21,9 @@ More information is available:\
 
 ODYM was developed to handle the typical types of model equations and approaches in a dynamic MFA model in a systematic manner. 
 These approaches include:\
-a)	Regression models: Socioeconomic parameters, such as in-use stocks or final consumption are required to determine the basic material balance or material flows. They are often determined from regression models fed by exogenous parameters such as GDP. A typical example for a regression model is the Gompertz function, where a(p,r) and b(p,r) are product-and region-dependent scaling parameters. Regression models can also be used to determine future scenarios.
+a)	Regression models: Socioeconomic parameters, such as in-use stocks or final consumption are required to determine the basic material balance or material flows. They are often determined from regression models fed by exogenous parameters such as GDP. A typical example for a regression model is the Gompertz function, where $a(p,r)$ and $b(p,r)$ are product-and region-dependent scaling parameters. Regression models can also be used to determine future scenarios.
 	   
-     
+     $$ i(p,r,t) = i_{Sat}\cdot exp^{-b(p,r)\cdot expt^{-a(p,r)\cdot t}} $$
      
 b)	Dynamic stock model: The material stock S and outflow o can be estimated from inflow data i, using a product lifetime distribution lambda, which describes the probability of a product of age-cohort c being discarded at time t 
 
