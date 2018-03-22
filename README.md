@@ -24,13 +24,13 @@ These approaches include:\
 
 a)	Regression models: Socioeconomic parameters, such as in-use stocks or final consumption are required to determine the basic material balance or material flows. They are often determined from regression models fed by exogenous parameters such as GDP. A typical example for a regression model is the Gompertz function, where $a(p,r)$ and $b(p,r)$ are product-and region-dependent scaling parameters. Regression models can also be used to determine future scenarios.
 	   
-$$ i(p,r,t) = i_{Sat}\cdot exp^{-b(p,r)\cdot exp^{-a(p,r)\cdot t}} $$
+	$$ i(p,r,t) = i_{Sat}\cdot exp^{-b(p,r)\cdot exp^{-a(p,r)\cdot t}} $$
      
 b)	Dynamic stock model: The material stock S and outflow o can be estimated from inflow data i, using a product lifetime distribution lambda, which describes the probability of a product of age-cohort c being discarded at time t 
 
 c)	Parameter equation with transfer coefficient: The distribution of a material flow to different processes is determined by the transfer coefficient. Consider a flow of different end-of-life products p, Fp, with chemical element composition mu. The products are sent to waste treatment by different technologies w, and each technology has its own element-specific yield factor Gamma, which assigns the incoming elements to different scrap groups s and which varies depending on when the technology was installed (age-cohort dependency): Gamma = Gamma(w,e,s,c). The flow of chemical elements in the different scrap groups Fs is then
 
-$$ F_s(t,s,e) = \sum_{w,p,c}\Gamma(w,e,s,c)\cdot C(w,t,c)\cdot F_p(t,p)\cdot \mu(p,e)$$
+	$$ F_s(t,s,e) = \sum_{w,p,c}\Gamma(w,e,s,c)\cdot C(w,t,c)\cdot F_p(t,p)\cdot \mu(p,e)$$
 
 
 Where C(w,t,c) is the capacity of the different waste treatment technologies w of age-cohort c in a year t.
