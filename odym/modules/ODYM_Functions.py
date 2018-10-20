@@ -34,7 +34,7 @@ import pypandoc
 
 
 def __version__():  # return version of this file
-    return str('0.1')
+    return str('1.0')
 
 
 
@@ -687,6 +687,89 @@ def ReadParameterV2(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, Ma
        
     return MetaData, Values
 
+
+def compute_stock_driven_model_initialstock_typesplit(FutureStock,InitialStock,SFArrayCombined,TypeSplit, NegativeInflowCorrect = False):
+    """ 
+    With given total future stock and lifetime distribution, the method builds the stock by cohort and the inflow.
+    The age structure of the initial stock is given for each technology, and a type split of total inflow into different technology types is given as well.
+    
+    SPECIFICATION: Stocks are always measured AT THE END of the discrete time interval.
+    
+    Indices:
+      t: time: Entire time frame: from earliest age-cohort to latest model year.
+      c: age-cohort: same as time.
+      T: Switch time: DEFINED as first year where historic stock is NOT present, = last year where historic stock is present +1.
+      g: product type
+    
+    Data:
+      FutureStock[t],           total future stock at end of each year, starting at T
+      InitialStock[c,g],        0...T-1;0...T-1, stock at the end of T-1, by age-cohort c and product type g
+      SFArrayCombined[t,c,g],   Survival function of age-cohort c at end of year t for product type g
+      Typesplit[t,g],           splits total inflow into product types for future years 
+      NegativeInflowCorrect     BOOL, retains items in stock if their leaving would lead to negative inflows. 
+        
+    The extra parameter InitialStock is a vector that contains the age structure of the stock at time t0, and it covers as many historic cohorts as there are elements in it.
+    In the year SwitchTime the model switches from the historic stock to the stock-driven approach.
+    Only future years, i.e., years after SwitchTime, are computed and returned.
+    The InitialStock is a vector of the age-cohort composition of the stock at SwitchTime, with length SwitchTime.
+    The parameter TypeSplit splits the total inflow into Ng types. """
+    
+    SwitchTime = SFArrayCombined.shape[0] - FutureStock.shape[0]
+    Ntt        = SFArrayCombined.shape[0] # Total no of years
+    Nt0        = FutureStock.shape[0]     # No of future years
+    Ng         = SFArrayCombined.shape[2] # No of product groups
+    
+    s_cg = np.zeros((Nt0,Ntt,Ng)) # stock year, cohort and product
+    o_cg = np.zeros((Nt0,Ntt,Ng)) # outflow by year, cohort and product
+    i_g  = np.zeros((Ntt,Ng))     # inflow by product
+    
+    # Construct historic inflows
+    for c in range(0,SwitchTime): # for all historic age-cohorts til SwitchTime - 1:
+        for g in range(0,Ng):
+            if SFArrayCombined[SwitchTime-1,c,g] != 0:
+             i_g[c,g] = InitialStock[c,g] / SFArrayCombined[SwitchTime-1,c,g]
+             
+             # if InitialStock is 0, historic inflow also remains 0, 
+             # as it has no impact on future anymore.
+             
+             # If survival function is 0 but initial stock is not, the data are inconsisent and need to be revised.
+             # For example, a safety-relevant device with 5 years fixed lifetime but a 10 year old device is present.
+             # Such items will be ignored and break the mass balance.
+
+    # year-by-year computation, starting from SwitchTime
+    for t in range(SwitchTime, Ntt):  # for all years t, starting at SwitchTime
+        # 1) Compute stock at the end of the year:
+        s_cg[t - SwitchTime,:,:] = np.einsum('cg,cg->cg',i_g,SFArrayCombined[t,:,:])
+        # 2) Compute outflow during year t from previous age-cohorts:
+        if t == SwitchTime:
+            o_cg[t -SwitchTime,:,:] = InitialStock - s_cg[t -SwitchTime,:,:]
+        else:
+            o_cg[t -SwitchTime,:,:] = s_cg[t -SwitchTime -1,:,:] - s_cg[t -SwitchTime,:,:] # outflow table is filled row-wise, for each year t.
+        # 3) Determine total inflow from mass balance:
+        i0 = FutureStock[t -SwitchTime] - s_cg[t - SwitchTime,:,:].sum()
+        # 3a) Correct remaining stock in cases where inflow would be negative:
+#        if NegativeInflowCorrect is True:
+#            if self.i[m] < 0: # if stock-driven model yield negative inflow
+#                Delta = -1 * self.i[m].copy() # Delta > 0!
+#                self.i[m] = 0 # Set inflow to 0 and distribute mass balance gap onto remaining cohorts:
+#                if self.o_c[m,:].sum() != 0:
+#                    Delta_c = Delta * self.o_c[m, :] / self.o_c[m,:].sum() # Distribute gap proportionally to outflow
+#                else:
+#                    Delta_c = 0
+#                self.o_c[m, :] = self.o_c[m, :] - Delta_c # reduce outflow by Delta_c
+#                self.s_c[m, :] = self.s_c[m, :] + Delta_c # augment stock by Delta_c
+#                # NOTE: This method is only of of many plausible methods of reducing the outflow to keep stock levels high.
+#                # It may lead to implausible results, and, if Delta > sum(self.o_c[m,:]), also to negative outflows.
+#                # In such situations it is much better to change the lifetime assumption than using the NegativeInflowCorrect option.
+        # 4) Add new inflow to stock and determine future decay of new age-cohort
+        i_g[t,:] = TypeSplit[t -SwitchTime,:] * i0
+        for g in range(0,Ng): # Correct for share of inflow leaving during first year.
+            if SFArrayCombined[t,t,g] != 0: # Else, inflow leaves within the same year and stock modelling is useless
+                i_g[t,g] = i_g[t,g] / SFArrayCombined[t,t,g] # allow for outflow during first year by rescaling with 1/SF[t,t,g]
+            s_cg[t -SwitchTime,t,g]  = i_g[t,g] * SFArrayCombined[t,t,g]
+            o_cg[t -SwitchTime,t,g]  = i_g[t,g] * (1 - SFArrayCombined[t,t,g])
+        
+    return s_cg, o_cg, i_g
 
 
 def ExcelSheetFill(Workbook, Sheetname, values, topcornerlabel=None,

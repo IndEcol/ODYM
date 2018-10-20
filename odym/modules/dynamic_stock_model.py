@@ -310,6 +310,25 @@ class DynamicStockModel(object):
             # i already exists. Doing nothing
             return None
 
+    def compute_evolution_initialstock(self,InitialStock,SwitchTime):
+        """ Assume InitialStock is a vector that contains the age structure of the stock at time t0, 
+        and it covers as many historic cohorts as there are elements in it.
+        This method then computes the future stock and outflow from the year SwitchTime onwards.
+        Only future years, i.e., years after SwitchTime, are computed.
+        NOTE: This method ignores and deletes previously calculated s_c and o_c.
+        The InitialStock is a vector of the age-cohort composition of the stock at SwitchTime, with length SwitchTime"""
+        if self.lt is not None:
+            self.s_c = np.zeros((len(self.t), len(self.t)))
+            self.o_c = np.zeros((len(self.t), len(self.t)))
+            self.compute_sf()
+            # Extract and renormalize array describing fate of initialstock:
+            Shares_Left = self.sf[SwitchTime,0:SwitchTime].copy()
+            self.s_c[SwitchTime,0:SwitchTime] = InitialStock # Add initial stock to s_c
+            self.s_c[SwitchTime::,0:SwitchTime] = np.tile(InitialStock.transpose(),(len(self.t)-SwitchTime,1)) * self.sf[SwitchTime::,0:SwitchTime] / np.tile(Shares_Left,(len(self.t)-SwitchTime,1))
+        return self.s_c
+    
+    
+
     """
     Part 4: Stock driven model
     Given: total stock, lifetime dist.
@@ -420,3 +439,4 @@ class DynamicStockModel(object):
         else:
             # No stock specified
             return None, None, None       
+

@@ -31,7 +31,7 @@ import xlrd, xlwt
 ####################################
 
 def __version__():
-    return str('0.1') # version number of this file
+    return str('1.0') # version number of this file
 
 
 class Obj(object):
