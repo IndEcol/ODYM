@@ -49,7 +49,7 @@ def function_logger(log_filename, log_pathname, file_level=logging.DEBUG, consol
     :param log_pathname: The pathname for the logfile.
     :param console_level: Verbosity level for the logger's output file.
     out
-    :param logfile_type: Type of file to write. Mardown syntax is the default.
+    :param logfile_type: Type of file to write. Markdown syntax is the default.
         TODO: If other outputs types are desired, they can be converted via pandoc.
     :return: A logger that can be used by other files to write to the log(file)
     """
@@ -439,7 +439,7 @@ def ReadParameter(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, Mast
 
 
 def ReadParameterV2(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, MasterClassification,
-                    IndexTable, IndexTable_ClassificationNames, ScriptConfig, Mylog):
+                    IndexTable, IndexTable_ClassificationNames, ScriptConfig, Mylog, ParseUncertainty):
     """
     This function reads a model parameter from the corresponding parameter file
     """
@@ -459,8 +459,11 @@ def ReadParameterV2(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, Ma
                     MetaData['Unit_Global']         = ParHeader.cell_value(ri,2)
                     MetaData['Unit_Global_Comment'] = ParHeader.cell_value(ri,3) 
             if ThisItem == 'Dataset_Uncertainty':
+                # if LIST is specified, nothing happens here.
                 if ParHeader.cell_value(ri,1) == 'GLOBAL':
                     MetaData['Dataset_Uncertainty_Global'] = ParHeader.cell_value(ri,2)
+                if ParHeader.cell_value(ri,1) == 'TABLE':
+                    MetaData['Dataset_Uncertainty_Sheet']  = ParHeader.cell_value(ri,2)                    
             if ThisItem == 'Dataset_Comment':
                 if ParHeader.cell_value(ri,1) == 'GLOBAL':
                     MetaData['Dataset_Comment_Global']     = ParHeader.cell_value(ri,2)                    
@@ -482,6 +485,7 @@ def ReadParameterV2(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, Ma
         else:
             ri += 1
         
+    ### List version ###        
     if ParHeader.cell_value(ri,1) == 'LIST':
         IList = []
         IListMeaning = []
@@ -527,9 +531,10 @@ def ReadParameterV2(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, Ma
             
             IndexSizesM.append(IndexTable.set_index('IndexLetter').ix[ThisDim]['IndexSize'])
 
-        # Read parameter values into array:
-        Values = np.zeros((IndexSizesM))
-        ValIns = np.zeros((IndexSizesM)) # Array to check how many values are actually loaded
+        # Read parameter values into array, uncertainty into list:
+        Values      = np.zeros((IndexSizesM)) # Array for parameter values
+        Uncertainty = [None] * np.product(IndexSizesM) # parameter value uncertainties  
+        ValIns      = np.zeros((IndexSizesM)) # Array to check how many values are actually loaded
         ValuesSheet = Parfile.sheet_by_name('Values_Master')
         ColOffset = len(IList)
         RowOffset = 1 # fixed for this format, different quantification layers (value, error, etc.) will be read later
@@ -549,6 +554,7 @@ def ReadParameterV2(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, Ma
             if len(TargetPosition) == len(ThisParIx):
                 Values[tuple(TargetPosition)] = CV
                 ValIns[tuple(TargetPosition)] = 1
+                Uncertainty[Tuple_MI(TargetPosition, IndexSizesM)] = ValuesSheet.cell_value(cx + RowOffset, ColOffset + 3)
             cx += 1
             
         Mylog.info('A total of ' + str(cx) + ' values was read from file for parameter ' + ThisPar + '.')
@@ -627,11 +633,15 @@ def ReadParameterV2(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, Ma
             IndexSizesM.append(IndexTable.set_index('IndexLetter').ix[ThisDim]['IndexSize'])
         
         # Read parameter values into array:
-        Values = np.zeros((IndexSizesM))
-        ValIns = np.zeros((IndexSizesM)) # Array to check how many values are actually loaded, contains 0 or 1.
+        Values      = np.zeros((IndexSizesM)) # Array for parameter values
+        Uncertainty = [None] * np.product(IndexSizesM) # parameter value uncertainties  
+        ValIns      = np.zeros((IndexSizesM)) # Array to check how many values are actually loaded, contains 0 or 1.
         ValuesSheet = Parfile.sheet_by_name(ValueList[ThisParLayerSel[0]])
-        ColOffset = len(RIList)
-        RowOffset = len(CIList)
+        if 'Dataset_Uncertainty_Sheet' in MetaData:
+            UncertSheet = Parfile.sheet_by_name(MetaData['Dataset_Uncertainty_Sheet'])
+        ColOffset   = len(RIList)
+        RowOffset   = len(CIList)
+        cx          = 0
         
         TargetPos_R = [] # Determine all row target positions in data array
         for m in range(0,RowNos):
@@ -668,7 +678,7 @@ def ReadParameterV2(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, Ma
                     break  
             TargetPos_C.append(TP_CD)
         
-        for m in range(0,RowNos):
+        for m in range(0,RowNos): # Read values from excel template
             for n in range(0,ColNos):
                 TargetPosition = [0 for i in range(0,len(ComIList))]
                 try:
@@ -678,15 +688,23 @@ def ReadParameterV2(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, Ma
                         TargetPosition[TargetPos_C[n][i][0]] = TargetPos_C[n][i][1] 
                 except:
                     TargetPosition = [0]
-                if len(TargetPosition) == len(ComIList):
+                if len(TargetPosition) == len(ComIList): # Read value if TargetPosition Tuple has same length as indexList
                     Values[tuple(TargetPosition)] = ValuesSheet.cell_value(m + RowOffset, n + ColOffset)
                     ValIns[tuple(TargetPosition)] = 1
-                    
+                    # Add uncertainty
+                    if 'Dataset_Uncertainty_Global' in MetaData:
+                        Uncertainty[Tuple_MI(TargetPosition, IndexSizesM)] = MetaData['Dataset_Uncertainty_Global']
+                    if 'Dataset_Uncertainty_Sheet' in MetaData:
+                        Uncertainty[Tuple_MI(TargetPosition, IndexSizesM)] = UncertSheet.cell_value(m + RowOffset, n + ColOffset)
+                cx += 1
+
+        Mylog.info('A total of ' + str(cx) + ' values was read from file for parameter ' + ThisPar + '.')                    
         Mylog.info(str(ValIns.sum()) + ' of ' + str(np.prod(IndexSizesM)) + ' values for parameter ' + ThisPar +
                    ' were assigned.')
-       
-    return MetaData, Values
-
+    if ParseUncertainty == True:
+        return MetaData, Values, Uncertainty
+    else:
+        return MetaData, Values
 
 def compute_stock_driven_model_initialstock_typesplit(FutureStock,InitialStock,SFArrayCombined,TypeSplit, NegativeInflowCorrect = False):
     """ 
