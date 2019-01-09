@@ -208,7 +208,7 @@ TestInflow_XX = myDSMX.compute_i_from_s(InitialStock=InitialStock_XX)
 myDSMXY = dsm.DynamicStockModel(t=Time_T_FixedLT_XX, i=TestInflow_XX, lt=lifetime_NormLT)
 
 TestDSM_IntitialStock = dsm.DynamicStockModel(t=Time_T_FixedLT_2, s=FutureStock_2, lt=lifetime_NormLT_2)
-Sc_InitialStock_2,Oc_InitialStock_2,I_InitialStock_2, ExitFlag = TestDSM_IntitialStock.compute_stock_driven_model_initialstock(InitialStock = InitialStock_2, SwitchTime = ThisSwitchTime)
+Sc_InitialStock_2,Oc_InitialStock_2,I_InitialStock_2 = TestDSM_IntitialStock.compute_stock_driven_model_initialstock(InitialStock = InitialStock_2, SwitchTime = ThisSwitchTime)
 # Compute full stock model in correct order
 
 # For Weibull-distributed Lt

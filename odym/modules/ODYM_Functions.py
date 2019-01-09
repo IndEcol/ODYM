@@ -99,6 +99,9 @@ def sort_index(mylist,direction): # returns index that sorts a list, either asce
 
 
 def GroupingDict2Array(GroupingDict, ElementList):
+    '''
+    Tbd.
+    '''
     NoOfItems = len(GroupingDict.keys())
     GroupingList = []
     for m in GroupingDict.keys():
@@ -123,7 +126,10 @@ def ListStringToListNumbers(ListStr):
 
 
 
-def EvalItemSelectString(ItemSelectStr,IndexLength): # Extract index item selection lists from ODYM datafile information
+def EvalItemSelectString(ItemSelectStr,IndexLength): 
+    '''
+    Extract index item selection lists from ODYM datafile information
+    '''
     if ItemSelectStr == 'All' or ItemSelectStr == 'ALL' or ItemSelectStr == 'all':
         Res = 'all' # Selects all from list
     elif ItemSelectStr.find('except') > -1: # type 'All except', return full list [0,1,2,5,6,7]
