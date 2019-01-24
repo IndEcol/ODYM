@@ -212,7 +212,7 @@ class DynamicStockModel(object):
         The method compute outflow_sf returns an array year-by-cohort of the surviving fraction of a flow added to stock in year m (aka cohort m) in in year n. This value equals sf(n,m).
         This is the only method for the inflow-driven model where the lifetime distribution directly enters the computation. All other stock variables are determined by mass balance.
         The shape of the output sf array is NoofYears * NoofYears, and the meaning is years by age-cohorts.
-        The method does nothing if the sf alreay exists.
+        The method does nothing if the sf alreay exists. For example, sf could be assigned to the dynamic stock model from an exogenous computation to save time.
         """
         if self.sf is None:
             self.sf = np.zeros((len(self.t), len(self.t)))
@@ -388,50 +388,50 @@ class DynamicStockModel(object):
             return None, None, None
         
 
-    def compute_stock_driven_model_initialstock(self,InitialStock,SwitchTime, NegativeInflowCorrect = False):
+    def compute_stock_driven_model_initialstock(self,InitialStock,SwitchTime):
         """ With given total stock and lifetime distribution, the method builds the stock by cohort and the inflow.
-        The extra parameter InitialStock is a vector that contains the age structure of the stock at time t0, and it covers as many historic cohorts as there are elements in it.
-        In the year SwitchTime the model switches from the historic stock to the stock-driven approach.
-        Only future years, i.e., years after SwitchTime, are computed.
-        The InitialStock is a vector of the age-cohort composition of the stock at SwitchTime, with length SwitchTime"""
+        The extra parameter InitialStock is a vector that contains the age structure of the stock at the END of the year Switchtime -1 = t0.
+        In the year SwitchTime (start counting from 1) the model switches from the historic stock to the stock-driven approach. SwithTime is the first year with the stock-driven approach.
+        Convention: Stocks are measured AT THE END OF THE YEAR. Flows occur DURING THE YEAR.
+        InitialStock contains the age-cohort composition of the stock AT THE END of year SwitchTime -1, counting from 1 not 0.
+        InitialStock must have length = SwithTime -1.
+        """
         if self.s is not None:
             if self.lt is not None:
                 self.s_c = np.zeros((len(self.t), len(self.t)))
-                self.s_c[SwitchTime,0:SwitchTime] = InitialStock # assign initialstock to stock-by-cohort variable
+                self.s_c[SwitchTime -2,0:SwitchTime-1] = InitialStock # assign initialstock to stock-by-cohort variable at END OF YEAR SwitchTime (here -1, because indexing starts at 0.).
                 self.o_c = np.zeros((len(self.t), len(self.t)))
                 self.i = np.zeros(len(self.t))
+                
                 # construct the sdf of a product of cohort tc leaving the stock in year t
                 self.compute_sf() # Computes sf if not present already.
+                
                 # Construct historic inflows
-                for c in range(0,SwitchTime):
-                    if self.sf[SwitchTime,c] != 0:
-                         self.i[c] = InitialStock[c] / self.sf[SwitchTime,c]
+                for c in range(0,SwitchTime -1):
+                    if self.sf[SwitchTime -2,c] != 0:
+                         self.i[c] = InitialStock[c] / self.sf[SwitchTime -2,c]
                     else:
                          self.i[c] = InitialStock[c]
-                # year-by-year computation, starting from SwitchTime
-                for m in range(SwitchTime, len(self.t)):  # for all years m, starting at SwitchTime
-                    # 1) Compute outflow from previous years
-                    self.o_c[m, 0:m] = self.s_c[m-1, 0:m] - self.s_c[m, 0:m] # outflow table is filled row-wise, for each year m.
-                    # 2) Determine inflow from mass balance:
+                         
+                # Add stock from historic inflow
+                self.s_c[:,0:SwitchTime-1] = np.einsum('tc,c->tc',self.sf[:,0:SwitchTime-1],self.i[0:SwitchTime-1])
+                # calculate historic outflow
+                for m in range(0,SwitchTime-1):
+                    self.o_c[m, m]    = self.i[m] * (1 - self.sf[m, m])
+                    self.o_c[m+1::,m] = self.s_c[m:-1,m] - self.s_c[m+1::,m]
+                # for future: year-by-year computation, starting from SwitchTime
+                for m in range(SwitchTime-1, len(self.t)):  # for all years m, starting at SwitchTime
+                    # 1) Determine inflow from mass balance:
                     if self.sf[m,m] != 0: # Else, inflow is 0.
                         self.i[m] = (self.s[m] - self.s_c[m, :].sum()) / self.sf[m,m] # allow for outflow during first year by rescaling with 1/sf[m,m]
-                    # 2a) Correct remaining stock in cases where inflow would be negative:
-                    if NegativeInflowCorrect is True:
-                        if self.i[m] < 0: # if stock-driven model yield negative inflow
-                            Delta = -1 * self.i[m].copy() # Delta > 0!
-                            self.i[m] = 0 # Set inflow to 0 and distribute mass balance gap onto remaining cohorts:
-                            if self.o_c[m,:].sum() != 0:
-                                Delta_c = Delta * self.o_c[m, :] / self.o_c[m,:].sum() # Distribute gap proportionally to outflow
-                            else:
-                                Delta_c = 0
-                            self.o_c[m, :] = self.o_c[m, :] - Delta_c # reduce outflow by Delta_c
-                            self.s_c[m, :] = self.s_c[m, :] + Delta_c # augment stock by Delta_c
-                            # NOTE: This method is only of of many plausible methods of reducing the outflow to keep stock levels high.
-                            # It may lead to implausible results, and, if Delta > sum(self.o_c[m,:]), also to negative outflows.
-                            # In such situations it is much better to change the lifetime assumption than using the NegativeInflowCorrect option.
-                    # 3) Add new inflow to stock and determine future decay of new age-cohort
-                    self.s_c[m::, m] = self.i[m] * self.sf[m::, m]
-                    self.o_c[m, m]   = self.i[m] * (1 - self.sf[m, m])
+                    # NOTE: The stock-driven method may lead negative inflows, if the stock development is in contradiction with the lifetime model.
+                    # In such situations the lifetime assumption must be changed, either by directly using different lifetime values or by adjusting the outlfows, 
+                    # cf. the option NegativeInflowCorrect in the method compute_stock_driven_model.
+                    # 2) Add new inflow to stock and determine future decay of new age-cohort
+                    self.s_c[m::, m]  = self.i[m] * self.sf[m::, m]
+                    self.o_c[m, m]    = self.i[m] * (1 - self.sf[m, m])
+                    self.o_c[m+1::,m] = self.s_c[m:-1,m] - self.s_c[m+1::,m]
+                    
                 return self.s_c, self.o_c, self.i
             else:
                 # No lifetime distribution specified
