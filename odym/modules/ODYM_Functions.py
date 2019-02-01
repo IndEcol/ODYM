@@ -643,8 +643,9 @@ def ReadParameterV2(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, Ma
         Uncertainty = [None] * np.product(IndexSizesM) # parameter value uncertainties  
         ValIns      = np.zeros((IndexSizesM)) # Array to check how many values are actually loaded, contains 0 or 1.
         ValuesSheet = Parfile.sheet_by_name(ValueList[ThisParLayerSel[0]])
-        if 'Dataset_Uncertainty_Sheet' in MetaData:
-            UncertSheet = Parfile.sheet_by_name(MetaData['Dataset_Uncertainty_Sheet'])
+        if ParseUncertainty == True:
+            if 'Dataset_Uncertainty_Sheet' in MetaData:
+                UncertSheet = Parfile.sheet_by_name(MetaData['Dataset_Uncertainty_Sheet'])
         ColOffset   = len(RIList)
         RowOffset   = len(CIList)
         cx          = 0
@@ -698,10 +699,11 @@ def ReadParameterV2(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, Ma
                     Values[tuple(TargetPosition)] = ValuesSheet.cell_value(m + RowOffset, n + ColOffset)
                     ValIns[tuple(TargetPosition)] = 1
                     # Add uncertainty
-                    if 'Dataset_Uncertainty_Global' in MetaData:
-                        Uncertainty[Tuple_MI(TargetPosition, IndexSizesM)] = MetaData['Dataset_Uncertainty_Global']
-                    if 'Dataset_Uncertainty_Sheet' in MetaData:
-                        Uncertainty[Tuple_MI(TargetPosition, IndexSizesM)] = UncertSheet.cell_value(m + RowOffset, n + ColOffset)
+                    if ParseUncertainty == True:
+                        if 'Dataset_Uncertainty_Global' in MetaData:
+                            Uncertainty[Tuple_MI(TargetPosition, IndexSizesM)] = MetaData['Dataset_Uncertainty_Global']
+                        if 'Dataset_Uncertainty_Sheet' in MetaData:
+                            Uncertainty[Tuple_MI(TargetPosition, IndexSizesM)] = UncertSheet.cell_value(m + RowOffset, n + ColOffset)
                 cx += 1
 
         Mylog.info('A total of ' + str(cx) + ' values was read from file for parameter ' + ThisPar + '.')                    
