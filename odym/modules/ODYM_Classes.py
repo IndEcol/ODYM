@@ -207,7 +207,22 @@ class MFAsystem(Obj):
                 Bal[:,0,:] -= self.Stock_Sum_By_Element(key) # 2: removal/release from stock
             
         return Bal
-        
+    
+    def Check_If_All_Chem_Elements_Are_present(self,FlowKey,AllElementsIndex):
+        """
+        This method is applicable to systems where the chemical element list contains both 0 ('all' chemical elements) and individual elements.
+        It checks whether the sum of the system variable of the other elements equals the entry for element 0.
+        This means that the breakdown of the system variable into individual elements has the same mass as the total for all elements.
+        AllElementsindex is the position of the element 0 in the element list, typically, it is also 0.
+        """
+        txe = self.Flow_Sum_By_Element(FlowKey)
+        txe_0 = txe[:,AllElementsIndex]
+        txe_o = np.delete(txe,AllElementsIndex,axis=1).sum(axis=1)
+        if np.array_equal(txe_0,txe_o):
+            Check = True
+        else:
+            Check = False
+        return Check, txe_0, txe_o
         
     def SankeyExport(self,Year, Path, Element): # Export data for given year in excel format for the D3.js Circular Sankey method
         """ Exports MFAsystem to xls Template for the Circular Sankey method."""
