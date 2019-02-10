@@ -218,7 +218,7 @@ class MFAsystem(Obj):
         txe = self.Flow_Sum_By_Element(FlowKey)
         txe_0 = txe[:,AllElementsIndex]
         txe_o = np.delete(txe,AllElementsIndex,axis=1).sum(axis=1)
-        if np.array_equal(txe_0,txe_o):
+        if np.allclose(txe_0,txe_o):
             Check = True
         else:
             Check = False
