@@ -222,7 +222,7 @@ class MFAsystem(Obj):
             Check = True
         else:
             Check = False
-        return Check, txe_0, txe_o
+        return Check, txe_0, txe_o  # Check flag, time series for element 'all', time series for all 'other' elements.
         
     def SankeyExport(self,Year, Path, Element): # Export data for given year in excel format for the D3.js Circular Sankey method
         """ Exports MFAsystem to xls Template for the Circular Sankey method."""
