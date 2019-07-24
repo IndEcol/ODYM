@@ -13,6 +13,9 @@ The novel features of ODYM include:\
 __More information is available:__\
 •	Wiki pages in this repository.\
 •	Tutorials (Jupyther notebooks) in the docs folder.\
+•	Documentation of the ODYM classes: http://htmlpreview.github.com/?https://github.com/IndEcol/ODYM/blob/master/docs/ODYM_Classes.html \
+•	Documentation of the ODYM functions: http://htmlpreview.github.com/?https://github.com/IndEcol/ODYM/blob/master/docs/ODYM_Functions.html \
+•	Documentation of the dynamic stock model class: http://htmlpreview.github.com/?https://github.com/IndEcol/ODYM/blob/master/docs/dynamic_stock_model.html \
 •	A journal paper (in preparation).
 
 ## Background
