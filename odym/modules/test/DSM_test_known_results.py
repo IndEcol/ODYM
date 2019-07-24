@@ -548,6 +548,9 @@ myDSM_FN = dsm.DynamicStockModel(t=Time_T_FN, i=Inflow_FN, lt=lifetime_FoldNorm)
 FN_Stock = myDSM_FN.compute_s_c_inflow_driven()
 FN_Stock_60 = FN_Stock.sum(axis =1)
 
+
+
+
 ###############################################################################
 """Unit Test Class"""
 

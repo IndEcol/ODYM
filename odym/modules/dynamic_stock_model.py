@@ -746,10 +746,10 @@ class DynamicStockModel(object):
             
             else:
                 # No lifetime distribution specified
-                return None, None, None
+                return None, None, None, None
         else:
             # No stock specified
-            return None, None, None       
+            return None, None, None, None
       
         
 
