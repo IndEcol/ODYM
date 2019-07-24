@@ -1,0 +1,1746 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.6.3" />
+<title>modules.ODYM_Functions API documentation</title>
+<meta name="description" content="Created on Thu Mar
+2 17:33:00 2017 …" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>modules.ODYM_Functions</code></h1>
+</header>
+<section id="section-intro">
+<p>Created on Thu Mar
+2 17:33:00 2017</p>
+<p>@author: spauliuk</p>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python"># -*- coding: utf-8 -*-
+&#34;&#34;&#34;
+Created on Thu Mar  2 17:33:00 2017
+
+@author: spauliuk
+&#34;&#34;&#34;
+
+&#34;&#34;&#34;
+File ODYM_Functions
+Check https://github.com/IndEcol/ODYM for latest version.
+
+Contains class definitions for ODYM
+
+standard abbreviation: msf (material-system-functions)
+
+dependencies:
+    numpy &gt;= 1.9
+    scipy &gt;= 0.14
+
+Repository for this class, documentation, and tutorials: https://github.com/IndEcol/ODYM
+
+&#34;&#34;&#34;
+
+import os
+import logging
+import numpy as np
+import pandas as pd
+import xlrd
+import pypandoc
+
+####################################
+#      Define functions            #
+####################################
+
+
+def __version__():  # return version of this file
+    return str(&#39;1.0&#39;)
+
+
+
+def function_logger(log_filename, log_pathname, file_level=logging.DEBUG, console_level=logging.WARNING):
+    &#34;&#34;&#34;
+    This is the logging routine of the model. It returns alogger that can be used by other functions to write to the
+    log(file).
+
+    :param file_level: Verbosity level for the logger&#39;s output file. This can be log.WARNING (default),
+        log.INFO, log.DEBUG
+    :param log_filename: The filename for the logfile.
+    :param log_pathname: The pathname for the logfile.
+    :param console_level: Verbosity level for the logger&#39;s output file.
+    out
+    :param logfile_type: Type of file to write. Markdown syntax is the default.
+        TODO: If other outputs types are desired, they can be converted via pandoc.
+    :return: A logger that can be used by other files to write to the log(file)
+    &#34;&#34;&#34;
+
+    log_file = os.path.join(log_pathname, log_filename)
+    # logging.basicConfig(format=&#39;%(levelname)s (%(filename)s &lt;%(funcName)s&gt;): %(message)s&#39;,
+    #                     filename=log_file,
+    #                     level=logging.INFO)
+    logger = logging.getLogger()
+    logger.handlers = []  # required if you don&#39;t want to exit the shell
+    logger.setLevel(file_level)
+
+    # The logger for console output
+    console_log = logging.StreamHandler() #StreamHandler logs to console
+    console_log.setLevel(console_level)
+    # console_log_format = logging.Formatter(&#39;%(message)s&#39;)
+    console_log_format = logging.Formatter(&#39;%(levelname)s (%(filename)s &lt;%(funcName)s&gt;): %(message)s&#39;)
+    console_log.setFormatter(console_log_format)
+    logger.addHandler(console_log)
+
+    # The logger for log file output
+    file_log = logging.FileHandler(log_file, mode=&#39;w&#39;, encoding=None, delay=False)
+    file_log.setLevel(file_level)
+    file_log_format = logging.Formatter(&#39;%(message)s\n&#39;)
+    file_log.setFormatter(file_log_format)
+    logger.addHandler(file_log)
+
+    return logger,  console_log, file_log
+
+
+
+def ensure_dir(f): # Checks whether a given directory f exists, and creates it if not
+    d = os.path.dirname(f)
+    if not os.path.exists(d):
+        os.makedirs(d)     
+        
+        
+        
+def sort_index(mylist,direction): # returns index that sorts a list, either ascending or descending
+    if direction == &#39;ascending&#39;:
+        return sorted(range(len(mylist)), key=lambda k: mylist[k])       
+    elif direction == &#39;descending&#39;:
+        return sorted(range(len(mylist)), key=lambda k: mylist[k], reverse=True)
+    else:
+        return None
+
+
+
+def GroupingDict2Array(GroupingDict, ElementList):
+    &#39;&#39;&#39;
+    Tbd.
+    &#39;&#39;&#39;
+    NoOfItems = len(GroupingDict.keys())
+    GroupingList = []
+    for m in GroupingDict.keys():
+        GroupingList.append(m)
+    ElementContentArray = np.zeros((100,NoOfItems))
+    PosCount = 0
+    for m in GroupingList:
+        for n in GroupingDict[m].keys():
+            ElInd = ElementList.index(n)
+            ElementContentArray[ElInd,PosCount] = GroupingDict[m][n]
+        PosCount += 1
+    return GroupingList, ElementContentArray
+
+
+
+def ListStringToListNumbers(ListStr):
+    &#34;&#34;&#34;
+    Extracts numbers from a string that looks like a list commant in python, and returns them as proper list
+    Examples: ListStringToListNumbers(&#39;[1,2,3]&#39;) yields [1,2,3]
+    &#34;&#34;&#34;
+    return [int(s) for s in ListStr[ListStr.find(&#39;[&#39;):ListStr.find(&#39;]&#39;)+1].replace(&#39;[&#39;,&#39;,&#39;).replace(&#39;]&#39;,&#39;,&#39;).split(&#39;,&#39;) if s.isdigit()]
+
+
+
+def EvalItemSelectString(ItemSelectStr,IndexLength): 
+    &#39;&#39;&#39;
+    Extract index item selection lists from ODYM datafile information
+    &#39;&#39;&#39;
+    if ItemSelectStr == &#39;All&#39; or ItemSelectStr == &#39;ALL&#39; or ItemSelectStr == &#39;all&#39;:
+        Res = &#39;all&#39; # Selects all from list
+    elif ItemSelectStr.find(&#39;except&#39;) &gt; -1: # type &#39;All except&#39;, return full list [0,1,2,5,6,7]
+        Res = np.arange(0,IndexLength)
+        b = ItemSelectStr[ItemSelectStr.find(&#39;[&#39;):ItemSelectStr.find(&#39;]&#39;)+1].replace(&#39;[&#39;,&#39;,&#39;).replace(&#39;]&#39;,&#39;,&#39;)
+        RemoveList = [int(s) for s in b.split(&#39;,&#39;) if s.isdigit()]   
+        Res = np.delete(Res,RemoveList)      
+        Res = Res.tolist() 
+    elif ItemSelectStr.find(&#39;]&#39;) &gt; -1: # type &#39;[...]&#39;, return full list
+        Res = ItemSelectStr[ItemSelectStr.find(&#39;[&#39;)::]
+    elif ItemSelectStr.find(&#39;)&#39;) &gt; -1: # type &#39;[..:..)&#39;, return range a:b
+        Res = ItemSelectStr[ItemSelectStr.find(&#39;[&#39;)+1:-1]
+    else:
+        Res = &#39;ItemSelectString could not be detected.&#39;
+    
+    return Res
+
+
+
+def MI_Tuple(value, Is): 
+    &#34;&#34;&#34;
+    Define function for obtaining multiindex tuple from index value
+    value: flattened index position, Is: Number of values for each index dimension
+    Example: MI_Tuple(10, [3,4,2,6]) returns [0,0,1,4]
+    MI_Tuple is the inverse of Tuple_MI.    
+    &#34;&#34;&#34;
+    IsValuesRev = []
+    CurrentValue = value
+    for m in range(0,len(Is)):
+        IsValuesRev.append(CurrentValue % Is[len(Is)-m-1])
+        CurrentValue = CurrentValue // Is[len(Is)-m-1]
+    return IsValuesRev[::-1]
+
+
+
+def Tuple_MI(Tuple, IdxLength): 
+    &#34;&#34;&#34;
+    Function to return the absolution position of a multiindex when the index tuple
+    and the index hierarchy and size are given.
+    Example: Tuple_MI([2,7,3],[100,10,5]) = 138
+    Tuple_MI is the inverse of MI_Tuple.
+    &#34;&#34;&#34;
+    # First, generate the index position offset values
+    A =  IdxLength[1:] +  IdxLength[:1] # Shift 1 to left
+    A[-1] = 1 # Replace lowest index by 1
+    A.reverse()
+    IdxPosOffset = np.cumproduct(A).tolist()
+    IdxPosOffset.reverse()
+    Position = np.sum([a*b for a,b in zip(Tuple,IdxPosOffset)])
+    return Position
+
+
+
+def ModelIndexPositions_FromData(Positions,RowPos,ColPos):
+    &#34;&#34;&#34;
+    This function is needed to read data files into ODYM. It takes the positions of a given data point 
+    in the parameter file and checks where in the model index structure this data points belongs, 
+    if it is needed at all.
+    &#34;&#34;&#34;
+    TargetPosition = []
+    for m in range(0,len(Positions)):
+        if m &lt; len(RowPos):
+            try:
+                TargetPosition.append(Positions[m].index(RowPos[m]))
+            except:
+                break
+        else:
+            try:
+                TargetPosition.append(Positions[m].index(ColPos[m-len(RowPos)]))
+            except:
+                break
+    return TargetPosition
+
+
+
+def ReadParameter(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, MasterClassification,
+                  IndexTable, IndexTable_ClassificationNames, ScriptConfig, Mylog):
+    &#34;&#34;&#34;
+    This function reads a model parameter from the corresponding parameter file
+    &#34;&#34;&#34;
+    Parfile   = xlrd.open_workbook(ParPath + &#39;.xlsx&#39;)
+    ParHeader = Parfile.sheet_by_name(&#39;Cover&#39;)
+    
+    IM = eval(IndexMatch) # List that matches model aspects to parameter indices
+    
+    ri = 1 # row index
+    MetaData = {}
+    while True: # read cover sheet info
+        ThisItem = ParHeader.cell_value(ri,0)
+        if ThisItem != &#39;Dataset_RecordType&#39;:
+            MetaData[ThisItem] = ParHeader.cell_value(ri,1)
+            ri += 1
+        else:
+            break # terminate while loop when all meta information is read.
+            # Now we are in the row of Dataset_RecordType
+    
+    # Check whether parameter file uses same classification:
+    if &#39;ODYM_Classifications_Master_&#39; + \
+            ScriptConfig[&#39;Version of master classification&#39;] != MetaData[&#39;Dataset_Classification_version_number&#39;]:
+        Mylog.critical(&#39;CLASSIFICATION FILE FATAL ERROR: Classification file of parameter &#39; + ThisPar +
+                       &#39; is not identical to the classification master file used for the current model run.&#39;)
+        
+    if ParHeader.cell_value(ri,1) == &#39;List&#39;:
+        IList = []
+        IListMeaning = []
+        ci = 1 # column index
+        while True:
+            if ParHeader.cell_value(ri +1,ci) != &#39;&#39;:
+                IList.append(ParHeader.cell_value(ri +1,ci))
+                IListMeaning.append(ParHeader.cell_value(ri +2,ci))
+                ci += 1
+            else:
+                break
+        # Re-Order indices to fit model aspect order:
+        IList = [IList[i] for i in IM]
+        IListMeaning = [IListMeaning[i] for i in IM]
+            
+        ValueList = []
+        VIComment = []
+        ci = 1 # column index
+        while True:
+            if ParHeader.cell_value(ri +4,ci) != &#39;&#39;:
+                ValueList.append(ParHeader.cell_value(ri +3,ci))
+                VIComment.append(ParHeader.cell_value(ri +4,ci))
+                ci += 1
+            else:
+                break
+        
+        # Check whether all indices are present in the index table of the model  
+        if set(IList).issubset(set(IndexTable_ClassificationNames)) is False:
+            Mylog.error(&#39;CLASSIFICATION ERROR: Index list of data file for parameter &#39; + ThisPar +
+                        &#39; contains indices that are not part of the current model run.&#39;)
+    
+        # Check how well items match between model and data, select items to import
+        IndexSizesM  = [] # List of dimension size for model
+        for m in range(0,len(ThisParIx)):
+            ThisDim = ThisParIx[m]
+            # Check whether index is present in parameter file:
+            ThisDimClassificationName  = IndexTable.set_index(&#39;IndexLetter&#39;).ix[ThisDim].Classification.Name
+            if ThisDimClassificationName != IList[m]:
+                Mylog.error(&#39;CLASSIFICATION ERROR: Classification &#39; + ThisDimClassificationName + &#39; for aspect &#39; +
+                            ThisDim + &#39; of parameter &#39; + ThisPar +
+                            &#39; must be identical to the specified classification of the corresponding parameter dimension, which is &#39; + IList[m])
+                break  # Stop parsing parameter, will cause model to halt
+            
+            IndexSizesM.append(IndexTable.set_index(&#39;IndexLetter&#39;).ix[ThisDim][&#39;IndexSize&#39;])
+
+        # Read parameter values into array:
+        Values = np.zeros((IndexSizesM))
+        ValIns = np.zeros((IndexSizesM)) # Array to check how many values are actually loaded
+        ValuesSheet = Parfile.sheet_by_name(&#39;Values_Master&#39;)
+        ColOffset = len(IList)
+        RowOffset = 1 # fixed for this format, different quantification layers (value, error, etc.) will be read later
+        cx        = 0
+        while True:
+            try:
+                CV = ValuesSheet.cell_value(cx + RowOffset, ColOffset)
+            except:
+                break
+            TargetPosition = []
+            for mx in range(0,len(IList)): # mx iterates over the aspects of the parameter 
+                CurrentItem = ValuesSheet.cell_value(cx + RowOffset, IM[mx])
+                try:
+                    TargetPosition.append(IndexTable.set_index(&#39;IndexLetter&#39;).ix[ThisParIx[mx]].Classification.Items.index(CurrentItem))
+                except:
+                    break # Current parameter value is not needed for model, outside scope for a certain aspect. 
+            if len(TargetPosition) == len(ThisParIx):
+                Values[tuple(TargetPosition)] = CV
+                ValIns[tuple(TargetPosition)] = 1
+            cx += 1
+            
+        Mylog.info(&#39;A total of &#39; + str(cx+1) + &#39; values was read from file for parameter &#39; + ThisPar + &#39;.&#39;)
+        Mylog.info(str(ValIns.sum()) + &#39; of &#39; + str(np.prod(IndexSizesM)) + &#39; values for parameter &#39; + ThisPar + &#39; were assigned.&#39;)
+         
+        
+        
+    ### Table version ###
+    if ParHeader.cell_value(ri,1) == &#39;Table&#39;: # have 3 while loops, one for row indices, one for column indices, one for value layers
+       
+        RIList        = []
+        RISize        = []
+        RIListMeaning = []
+        ci = 1 # column index
+        while True:
+            if ParHeader.cell_value(ri +1,ci) != &#39;&#39;:
+                RIList.append(ParHeader.cell_value(ri +1,ci))
+                RISize.append(int(ParHeader.cell_value(ri +2,1)))
+                RIListMeaning.append(ParHeader.cell_value(ri +3,ci))
+                ci += 1
+            else:
+                break
+        RISize = RISize[0]      
+            
+        CIList        = []
+        CISize        = []
+        CIListMeaning = []
+        ci = 1 # column index
+        while True:
+            if ParHeader.cell_value(ri +4,ci) != &#39;&#39;:
+                CIList.append(ParHeader.cell_value(ri +4,ci))
+                CISize.append(int(ParHeader.cell_value(ri +5,1)))
+                CIListMeaning.append(ParHeader.cell_value(ri +6,ci))
+                ci += 1
+            else:
+                break
+        CISize = CISize[0]
+        
+        # Re-Order indices to fit model aspect order:
+        ComIList        = RIList        + CIList    
+        ComIList        = [ComIList[i] for i in IM]                
+            
+        ValueList = []
+        VIComment = []
+        ci = 1 # column index
+        while True:
+            if ParHeader.cell_value(ri +7,ci) != &#39;&#39;:
+                ValueList.append(ParHeader.cell_value(ri +7,ci))
+                VIComment.append(ParHeader.cell_value(ri +8,ci))
+                ci += 1
+            else:
+                break
+        
+        # Check whether all indices are present in the index table of the model  
+        if set(RIList).issubset(set(IndexTable_ClassificationNames)) is False:
+            Mylog.error(&#39;CLASSIFICATION ERROR: Row index list of data file for parameter &#39; + ThisPar + &#39; contains indices that are not part of the current model run.&#39;)
+        if set(CIList).issubset(set(IndexTable_ClassificationNames)) is False:
+            Mylog.error(&#39;CLASSIFICATION ERROR: Column index list of data file for parameter &#39; + ThisPar + &#39; contains indices that are not part of the current model run.&#39;)
+            
+        # Determine index letters for RIList and CIList
+        RIIndexLetter = []
+        for m in range(0,len(RIList)):
+            RIIndexLetter.append(ThisParIx[IM.index(m)])    
+        CIIndexLetter = []
+        for m in range(0,len(CIList)):
+            CIIndexLetter.append(ThisParIx[IM.index(m+len(RIList))])    
+        
+        # Check how well items match between model and data, select items to import
+        IndexSizesM  = [] # List of dimension size for model
+        for m in range(0,len(ThisParIx)):
+            ThisDim = ThisParIx[m]
+            ThisDimClassificationName  = IndexTable.set_index(&#39;IndexLetter&#39;).ix[ThisDim].Classification.Name
+            if ThisDimClassificationName != ComIList[m]:
+                Mylog.error(&#39;CLASSIFICATION ERROR: Classification &#39; + ThisDimClassificationName + &#39; for aspect &#39; +
+                            ThisDim + &#39; of parameter &#39; + ThisPar +
+                            &#39; must be identical to the specified classification of the corresponding parameter dimension, which is &#39; +
+                            ComIList[m])
+                break  # Stop parsing parameter, will cause model to halt
+                
+            IndexSizesM.append(IndexTable.set_index(&#39;IndexLetter&#39;).ix[ThisDim][&#39;IndexSize&#39;])
+        
+        # Read parameter values into array:
+        Values = np.zeros((IndexSizesM))
+        ValIns = np.zeros((IndexSizesM)) # Array to check how many values are actually loaded
+        ValuesSheet = Parfile.sheet_by_name(ValueList[ThisParLayerSel[0]])
+        ColOffset = len(RIList)
+        RowOffset = len(CIList)
+        RowNos    = RISize   
+        ColNos    = CISize
+        
+        TargetPos_R = []
+        for m in range(0,RowNos):
+            TP_RD = []
+            for mc in range(0,len(RIList)):
+                try:
+                    CurrentItem = int(ValuesSheet.cell_value(m + RowOffset, mc))
+                except:
+                    CurrentItem = ValuesSheet.cell_value(m + RowOffset, mc)
+                try:
+                    IX   = ThisParIx.find(RIIndexLetter[mc])
+                    TPIX = IndexTable.set_index(&#39;IndexLetter&#39;).ix[RIIndexLetter[mc]].Classification.Items.index(CurrentItem)
+                    TP_RD.append((IX,TPIX))
+                except:
+                    TP_RD.append(None)
+                    break
+            TargetPos_R.append(TP_RD)           
+
+        TargetPos_C = []                
+        for n in range(0,ColNos):
+            TP_CD = []
+            for mc in range(0,len(CIList)):
+                try:
+                    CurrentItem = int(ValuesSheet.cell_value(mc, n + ColOffset))
+                except:
+                    CurrentItem = ValuesSheet.cell_value(mc, n + ColOffset)
+                try:
+                    IX = ThisParIx.find(CIIndexLetter[mc])
+                    TPIX = IndexTable.set_index(&#39;IndexLetter&#39;).ix[CIIndexLetter[mc]].Classification.Items.index(CurrentItem)
+                    TP_CD.append((IX,TPIX))
+                except:
+                    TP_CD.append(None)
+                    break  
+            TargetPos_C.append(TP_CD)
+        
+        for m in range(0,RowNos):
+            for n in range(0,ColNos):
+                TargetPosition = [0 for i in range(0,len(ComIList))]
+                try:
+                    for i in range(0,len(RIList)):
+                        TargetPosition[TargetPos_R[m][i][0]] = TargetPos_R[m][i][1] 
+                    for i in range(0,len(CIList)):
+                        TargetPosition[TargetPos_C[n][i][0]] = TargetPos_C[n][i][1] 
+                except:
+                    TargetPosition = [0]
+                if len(TargetPosition) == len(ComIList):
+                    Values[tuple(TargetPosition)] = ValuesSheet.cell_value(m + RowOffset, n + ColOffset)
+                    ValIns[tuple(TargetPosition)] = 1
+                    
+        Mylog.info(str(ValIns.sum()) + &#39; of &#39; + str(np.prod(IndexSizesM)) + &#39; values for parameter &#39; + ThisPar +
+                   &#39; were assigned.&#39;)
+       
+    return MetaData, Values
+
+
+
+def ReadParameterV2(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, MasterClassification,
+                    IndexTable, IndexTable_ClassificationNames, ScriptConfig, Mylog, ParseUncertainty):
+    &#34;&#34;&#34;
+    This function reads a model parameter from the corresponding parameter file
+    &#34;&#34;&#34;
+    Parfile   = xlrd.open_workbook(ParPath + &#39;.xlsx&#39;)
+    ParHeader = Parfile.sheet_by_name(&#39;Cover&#39;)
+    
+    IM = eval(IndexMatch) # List that matches model aspects to parameter indices
+    
+    ri = 1 # row index
+    MetaData = {}
+    while True: # read cover sheet info
+        ThisItem = ParHeader.cell_value(ri,0)
+        if (ThisItem != &#39;[Empty on purpose]&#39; and ThisItem != &#39;Dataset_RecordType&#39;):
+            MetaData[ThisItem] = ParHeader.cell_value(ri,1)
+            if ThisItem == &#39;Dataset_Unit&#39;:
+                if ParHeader.cell_value(ri,1) == &#39;GLOBAL&#39;:
+                    MetaData[&#39;Unit_Global&#39;]         = ParHeader.cell_value(ri,2)
+                    MetaData[&#39;Unit_Global_Comment&#39;] = ParHeader.cell_value(ri,3) 
+            if ThisItem == &#39;Dataset_Uncertainty&#39;:
+                # if LIST is specified, nothing happens here.
+                if ParHeader.cell_value(ri,1) == &#39;GLOBAL&#39;:
+                    MetaData[&#39;Dataset_Uncertainty_Global&#39;] = ParHeader.cell_value(ri,2)
+                if ParHeader.cell_value(ri,1) == &#39;TABLE&#39;:
+                    MetaData[&#39;Dataset_Uncertainty_Sheet&#39;]  = ParHeader.cell_value(ri,2)                    
+            if ThisItem == &#39;Dataset_Comment&#39;:
+                if ParHeader.cell_value(ri,1) == &#39;GLOBAL&#39;:
+                    MetaData[&#39;Dataset_Comment_Global&#39;]     = ParHeader.cell_value(ri,2)                    
+            ri += 1
+        else:
+            break # terminate while loop when all meta information is read.
+            # Now we are in the row of Dataset_RecordType
+    
+    # Check whether parameter file uses same classification:
+    if  ScriptConfig[&#39;Version of master classification&#39;] != MetaData[&#39;Dataset_Classification_version_number&#39;]:
+        Mylog.critical(&#39;CLASSIFICATION FILE FATAL ERROR: Classification file of parameter &#39; + ThisPar +
+                       &#39; is not identical to the classification master file used for the current model run.&#39;)
+        
+    # Continue parsing until line &#39;Dataset_RecordType&#39; is found:
+    while True:
+        ThisItem = ParHeader.cell_value(ri,0)
+        if ThisItem == &#39;Dataset_RecordType&#39;:  
+            break
+        else:
+            ri += 1
+        
+    ### List version ###        
+    if ParHeader.cell_value(ri,1) == &#39;LIST&#39;:
+        IList = []
+        IListMeaning = []
+        RI_Start = ri + 2
+        while True:
+            if ParHeader.cell_value(RI_Start,0) != &#39;&#39;:
+                IList.append(ParHeader.cell_value(RI_Start,0))
+                IListMeaning.append(ParHeader.cell_value(RI_Start,1))
+                RI_Start += 1
+            else:
+                break
+        # Re-Order indices to fit model aspect order:
+        IList = [IList[i] for i in IM]
+        IListMeaning = [IListMeaning[i] for i in IM]
+            
+        ValueList = []
+        VIComment = []
+        RI_Start = ri + 2
+        while True:
+            if ParHeader.cell_value(RI_Start,2) != &#39;&#39;:
+                ValueList.append(ParHeader.cell_value(RI_Start,2))
+                VIComment.append(ParHeader.cell_value(RI_Start,3))
+                RI_Start += 1
+            else:
+                break
+        
+        # Check whether all indices are present in the index table of the model  
+        if set(IList).issubset(set(IndexTable_ClassificationNames)) is False:
+            Mylog.error(&#39;CLASSIFICATION ERROR: Index list of data file for parameter &#39; + ThisPar +
+                        &#39; contains indices that are not part of the current model run.&#39;)
+    
+        # Check how well items match between model and data, select items to import
+        IndexSizesM  = [] # List of dimension size for model
+        for m in range(0,len(ThisParIx)):
+            ThisDim = ThisParIx[m]
+            # Check whether index is present in parameter file:
+            ThisDimClassificationName  = IndexTable.set_index(&#39;IndexLetter&#39;).ix[ThisDim].Classification.Name
+            if ThisDimClassificationName != IList[m]:
+                Mylog.error(&#39;CLASSIFICATION ERROR: Classification &#39; + ThisDimClassificationName + &#39; for aspect &#39; +
+                            ThisDim + &#39; of parameter &#39; + ThisPar +
+                            &#39; must be identical to the specified classification of the corresponding parameter dimension, which is &#39; + IList[m])
+                break  # Stop parsing parameter, will cause model to halt
+            
+            IndexSizesM.append(IndexTable.set_index(&#39;IndexLetter&#39;).ix[ThisDim][&#39;IndexSize&#39;])
+
+        # Read parameter values into array, uncertainty into list:
+        Values      = np.zeros((IndexSizesM)) # Array for parameter values
+        Uncertainty = [None] * np.product(IndexSizesM) # parameter value uncertainties  
+        ValIns      = np.zeros((IndexSizesM)) # Array to check how many values are actually loaded
+        ValuesSheet = Parfile.sheet_by_name(&#39;Values_Master&#39;)
+        ColOffset = len(IList)
+        RowOffset = 1 # fixed for this format, different quantification layers (value, error, etc.) will be read later
+        cx        = 0
+        while True:
+            try:
+                CV = ValuesSheet.cell_value(cx + RowOffset, ColOffset)
+            except:
+                break
+            TargetPosition = []
+            for mx in range(0,len(IList)): # mx iterates over the aspects of the parameter 
+                CurrentItem = ValuesSheet.cell_value(cx + RowOffset, IM[mx])
+                try:
+                    TargetPosition.append(IndexTable.set_index(&#39;IndexLetter&#39;).ix[ThisParIx[mx]].Classification.Items.index(CurrentItem))
+                except:
+                    break # Current parameter value is not needed for model, outside scope for a certain aspect. 
+            if len(TargetPosition) == len(ThisParIx):
+                Values[tuple(TargetPosition)] = CV
+                ValIns[tuple(TargetPosition)] = 1
+                Uncertainty[Tuple_MI(TargetPosition, IndexSizesM)] = ValuesSheet.cell_value(cx + RowOffset, ColOffset + 3)
+            cx += 1
+            
+        Mylog.info(&#39;A total of &#39; + str(cx) + &#39; values was read from file for parameter &#39; + ThisPar + &#39;.&#39;)
+        Mylog.info(str(ValIns.sum()) + &#39; of &#39; + str(np.prod(IndexSizesM)) + &#39; values for parameter &#39; + ThisPar + &#39; were assigned.&#39;)
+         
+        
+        
+    ### Table version ###
+    if ParHeader.cell_value(ri,1) == &#39;TABLE&#39;: # have 3 while loops, one for row indices, one for column indices, one for value layers
+        ColNos =  int(ParHeader.cell_value(ri,5)) # Number of columns in dataset
+        RowNos =  int(ParHeader.cell_value(ri,3)) # Number of rows in dataset
+        
+        RI = ri + 2 # row where indices start
+        RIList        = []
+        RIListMeaning = []
+        while True:
+            if ParHeader.cell_value(RI,0) != &#39;&#39;:
+                RIList.append(ParHeader.cell_value(RI,0))
+                RIListMeaning.append(ParHeader.cell_value(RI,1))
+                RI += 1
+            else:
+                break
+
+        RI = ri + 2 # row where indices start    
+        CIList        = []
+        CIListMeaning = []
+        while True:
+            if ParHeader.cell_value(RI,2) != &#39;&#39;:
+                CIList.append(ParHeader.cell_value(RI,2))
+                CIListMeaning.append(ParHeader.cell_value(RI,3))
+                RI += 1
+            else:
+                break
+        
+        # Re-Order indices to fit model aspect order:
+        ComIList        = RIList        + CIList    # List of all indices, both rows and columns
+        ComIList        = [ComIList[i] for i in IM]                
+            
+        RI = ri + 2 # row where indices start  
+        ValueList = []
+        VIComment = []
+        while True:
+            if ParHeader.cell_value(RI,4) != &#39;&#39;:
+                ValueList.append(ParHeader.cell_value(RI,4))
+                VIComment.append(ParHeader.cell_value(RI,5))
+                RI += 1
+            else:
+                break
+        
+        # Check whether all indices are present in the index table of the model  
+        if set(RIList).issubset(set(IndexTable_ClassificationNames)) is False:
+            Mylog.error(&#39;CLASSIFICATION ERROR: Row index list of data file for parameter &#39; + ThisPar + &#39; contains indices that are not part of the current model run.&#39;)
+        if set(CIList).issubset(set(IndexTable_ClassificationNames)) is False:
+            Mylog.error(&#39;CLASSIFICATION ERROR: Column index list of data file for parameter &#39; + ThisPar + &#39; contains indices that are not part of the current model run.&#39;)
+            
+        # Determine index letters for RIList and CIList
+        RIIndexLetter = []
+        for m in range(0,len(RIList)):
+            RIIndexLetter.append(ThisParIx[IM.index(m)])    
+        CIIndexLetter = []
+        for m in range(0,len(CIList)):
+            CIIndexLetter.append(ThisParIx[IM.index(m+len(RIList))])    
+        
+        # Check how well items match between model and data, select items to import
+        IndexSizesM  = [] # List of dimension size for model
+        for m in range(0,len(ThisParIx)):
+            ThisDim = ThisParIx[m]
+            ThisDimClassificationName  = IndexTable.set_index(&#39;IndexLetter&#39;).ix[ThisDim].Classification.Name
+            if ThisDimClassificationName != ComIList[m]:
+                Mylog.error(&#39;CLASSIFICATION ERROR: Classification &#39; + ThisDimClassificationName + &#39; for aspect &#39; +
+                            ThisDim + &#39; of parameter &#39; + ThisPar +
+                            &#39; must be identical to the specified classification of the corresponding parameter dimension, which is &#39; +
+                            ComIList[m])
+                break  # Stop parsing parameter, will cause model to halt
+                
+            IndexSizesM.append(IndexTable.set_index(&#39;IndexLetter&#39;).ix[ThisDim][&#39;IndexSize&#39;])
+        
+        # Read parameter values into array:
+        Values      = np.zeros((IndexSizesM)) # Array for parameter values
+        Uncertainty = [None] * np.product(IndexSizesM) # parameter value uncertainties  
+        ValIns      = np.zeros((IndexSizesM)) # Array to check how many values are actually loaded, contains 0 or 1.
+        ValuesSheet = Parfile.sheet_by_name(ValueList[ThisParLayerSel[0]])
+        if ParseUncertainty == True:
+            if &#39;Dataset_Uncertainty_Sheet&#39; in MetaData:
+                UncertSheet = Parfile.sheet_by_name(MetaData[&#39;Dataset_Uncertainty_Sheet&#39;])
+        ColOffset   = len(RIList)
+        RowOffset   = len(CIList)
+        cx          = 0
+        
+        TargetPos_R = [] # Determine all row target positions in data array
+        for m in range(0,RowNos):
+            TP_RD = []
+            for mc in range(0,len(RIList)):
+                try:
+                    CurrentItem = int(ValuesSheet.cell_value(m + RowOffset, mc)) # in case items come as int, e.g., years
+                except:
+                    CurrentItem = ValuesSheet.cell_value(m + RowOffset, mc)
+                try:
+                    IX   = ThisParIx.find(RIIndexLetter[mc])
+                    TPIX = IndexTable.set_index(&#39;IndexLetter&#39;).ix[RIIndexLetter[mc]].Classification.Items.index(CurrentItem)
+                    TP_RD.append((IX,TPIX))
+                except:
+                    TP_RD.append(None)
+                    break
+            TargetPos_R.append(TP_RD)         
+                
+
+        TargetPos_C = [] # Determine all col target positions in data array  
+        for n in range(0,ColNos):
+            TP_CD = []
+            for mc in range(0,len(CIList)):
+                try:
+                    CurrentItem = int(ValuesSheet.cell_value(mc, n + ColOffset))
+                except:
+                    CurrentItem = ValuesSheet.cell_value(mc, n + ColOffset)
+                try:
+                    IX = ThisParIx.find(CIIndexLetter[mc])
+                    TPIX = IndexTable.set_index(&#39;IndexLetter&#39;).ix[CIIndexLetter[mc]].Classification.Items.index(CurrentItem)
+                    TP_CD.append((IX,TPIX))
+                except:
+                    TP_CD.append(None)
+                    break  
+            TargetPos_C.append(TP_CD)
+        
+        for m in range(0,RowNos): # Read values from excel template
+            for n in range(0,ColNos):
+                TargetPosition = [0 for i in range(0,len(ComIList))]
+                try:
+                    for i in range(0,len(RIList)):
+                        TargetPosition[TargetPos_R[m][i][0]] = TargetPos_R[m][i][1] 
+                    for i in range(0,len(CIList)):
+                        TargetPosition[TargetPos_C[n][i][0]] = TargetPos_C[n][i][1] 
+                except:
+                    TargetPosition = [0]
+                if len(TargetPosition) == len(ComIList): # Read value if TargetPosition Tuple has same length as indexList
+                    Values[tuple(TargetPosition)] = ValuesSheet.cell_value(m + RowOffset, n + ColOffset)
+                    ValIns[tuple(TargetPosition)] = 1
+                    # Add uncertainty
+                    if ParseUncertainty == True:
+                        if &#39;Dataset_Uncertainty_Global&#39; in MetaData:
+                            Uncertainty[Tuple_MI(TargetPosition, IndexSizesM)] = MetaData[&#39;Dataset_Uncertainty_Global&#39;]
+                        if &#39;Dataset_Uncertainty_Sheet&#39; in MetaData:
+                            Uncertainty[Tuple_MI(TargetPosition, IndexSizesM)] = UncertSheet.cell_value(m + RowOffset, n + ColOffset)
+                cx += 1
+
+        Mylog.info(&#39;A total of &#39; + str(cx) + &#39; values was read from file for parameter &#39; + ThisPar + &#39;.&#39;)                    
+        Mylog.info(str(ValIns.sum()) + &#39; of &#39; + str(np.prod(IndexSizesM)) + &#39; values for parameter &#39; + ThisPar +
+                   &#39; were assigned.&#39;)
+    if ParseUncertainty == True:
+        return MetaData, Values, Uncertainty
+    else:
+        return MetaData, Values
+
+def ExcelSheetFill(Workbook, Sheetname, values, topcornerlabel=None,
+                   rowlabels=None, collabels=None, Style=None,
+                   rowselect=None, colselect=None):
+    Sheet = Workbook.add_sheet(Sheetname)
+    if topcornerlabel is not None:
+        if Style is not None:
+            Sheet.write(0,0,label = topcornerlabel, style = Style)  # write top corner label
+        else:
+            Sheet.write(0,0,label = topcornerlabel)  # write top corner label
+    if rowselect is None: # assign row select if not present (includes all rows in that case)
+        rowselect = np.ones((values.shape[0]))
+    if colselect is None: # assign col select if not present (includes all columns in that case)
+        colselect = np.ones((values.shape[1]))        
+    if rowlabels is not None: # write row labels
+         rowindexcount = 0
+         for m in range(0,len(rowlabels)):
+             if rowselect[m] == 1: # True if True or 1
+                 if Style is None:
+                     Sheet.write(rowindexcount +1, 0, label = rowlabels[m])
+                 else:
+                     Sheet.write(rowindexcount +1, 0, label = rowlabels[m], style = Style)
+                 rowindexcount += 1
+    if collabels is not None: # write column labels
+         colindexcount = 0
+         for m in range(0,len(collabels)):
+             if colselect[m] == 1: # True if True or 1
+                 if Style is None:
+                     Sheet.write(0, colindexcount +1, label = collabels[m])
+                 else:
+                     Sheet.write(0, colindexcount +1, label = collabels[m], style = Style)
+                 colindexcount += 1   
+    # write values:
+    rowindexcount = 0
+    for m in range(0,values.shape[0]): # for all rows
+        if rowselect[m] == 1:
+            colindexcount = 0
+            for n in range(0,values.shape[1]): # for all columns
+                if colselect[n] == 1:
+                    Sheet.write(rowindexcount +1, colindexcount + 1, label=values[m, n])
+                    colindexcount += 1
+            rowindexcount += 1
+                       
+def ExcelExportAdd_tAB(Sheet,Data,rowoffset,coloffset,IName,UName,RName,FName,REName,ALabels,BLabels):
+    &#34;&#34;&#34;
+    This function exports a 3D array with aspects time, A, and B to a given excel sheet.
+    The t dimension is exported in one row, the A and B dimensions as several rows.
+    Each row starts with IName (indicator), UName (unit), RName (region), 
+    FName (figure where data are used), REName (Resource efficiency scenario), 
+    and then come the values for the dimensions A and B and from coloffset onwards, the time dimension.
+    Function is meant to be used multiple times, so a rowoffset is given, incremented, and returned for the next run.
+    &#34;&#34;&#34;
+    for m in range(0,len(ALabels)):
+        for n in range(0,len(BLabels)):
+            Sheet.write(rowoffset, 0, label = IName)
+            Sheet.write(rowoffset, 1, label = UName)
+            Sheet.write(rowoffset, 2, label = RName)
+            Sheet.write(rowoffset, 3, label = FName)
+            Sheet.write(rowoffset, 4, label = REName)
+            Sheet.write(rowoffset, 5, label = ALabels[m])
+            Sheet.write(rowoffset, 6, label = BLabels[n])
+            for t in range(0,Data.shape[0]):
+                Sheet.write(rowoffset, coloffset + t, label = Data[t,m,n])
+            rowoffset += 1
+            
+    return rowoffset
+
+def convert_log(file, file_format=&#39;html&#39;):
+    &#34;&#34;&#34;
+    Converts the log file to a given file format
+
+    :param file: The filename and path
+    :param file_format: The desired format
+    &#34;&#34;&#34;
+    output_filename = os.path.splitext(file)[0] + &#39;.&#39; + file_format
+    output = pypandoc.convert_file(file, file_format, outputfile=output_filename)
+    assert output == &#34;&#34;
+
+# The End</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="modules.ODYM_Functions.EvalItemSelectString"><code class="name flex">
+<span>def <span class="ident">EvalItemSelectString</span></span>(<span>ItemSelectStr, IndexLength)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Extract index item selection lists from ODYM datafile information</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def EvalItemSelectString(ItemSelectStr,IndexLength): 
+    &#39;&#39;&#39;
+    Extract index item selection lists from ODYM datafile information
+    &#39;&#39;&#39;
+    if ItemSelectStr == &#39;All&#39; or ItemSelectStr == &#39;ALL&#39; or ItemSelectStr == &#39;all&#39;:
+        Res = &#39;all&#39; # Selects all from list
+    elif ItemSelectStr.find(&#39;except&#39;) &gt; -1: # type &#39;All except&#39;, return full list [0,1,2,5,6,7]
+        Res = np.arange(0,IndexLength)
+        b = ItemSelectStr[ItemSelectStr.find(&#39;[&#39;):ItemSelectStr.find(&#39;]&#39;)+1].replace(&#39;[&#39;,&#39;,&#39;).replace(&#39;]&#39;,&#39;,&#39;)
+        RemoveList = [int(s) for s in b.split(&#39;,&#39;) if s.isdigit()]   
+        Res = np.delete(Res,RemoveList)      
+        Res = Res.tolist() 
+    elif ItemSelectStr.find(&#39;]&#39;) &gt; -1: # type &#39;[...]&#39;, return full list
+        Res = ItemSelectStr[ItemSelectStr.find(&#39;[&#39;)::]
+    elif ItemSelectStr.find(&#39;)&#39;) &gt; -1: # type &#39;[..:..)&#39;, return range a:b
+        Res = ItemSelectStr[ItemSelectStr.find(&#39;[&#39;)+1:-1]
+    else:
+        Res = &#39;ItemSelectString could not be detected.&#39;
+    
+    return Res</code></pre>
+</details>
+</dd>
+<dt id="modules.ODYM_Functions.ExcelExportAdd_tAB"><code class="name flex">
+<span>def <span class="ident">ExcelExportAdd_tAB</span></span>(<span>Sheet, Data, rowoffset, coloffset, IName, UName, RName, FName, REName, ALabels, BLabels)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This function exports a 3D array with aspects time, A, and B to a given excel sheet.
+The t dimension is exported in one row, the A and B dimensions as several rows.
+Each row starts with IName (indicator), UName (unit), RName (region),
+FName (figure where data are used), REName (Resource efficiency scenario),
+and then come the values for the dimensions A and B and from coloffset onwards, the time dimension.
+Function is meant to be used multiple times, so a rowoffset is given, incremented, and returned for the next run.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def ExcelExportAdd_tAB(Sheet,Data,rowoffset,coloffset,IName,UName,RName,FName,REName,ALabels,BLabels):
+    &#34;&#34;&#34;
+    This function exports a 3D array with aspects time, A, and B to a given excel sheet.
+    The t dimension is exported in one row, the A and B dimensions as several rows.
+    Each row starts with IName (indicator), UName (unit), RName (region), 
+    FName (figure where data are used), REName (Resource efficiency scenario), 
+    and then come the values for the dimensions A and B and from coloffset onwards, the time dimension.
+    Function is meant to be used multiple times, so a rowoffset is given, incremented, and returned for the next run.
+    &#34;&#34;&#34;
+    for m in range(0,len(ALabels)):
+        for n in range(0,len(BLabels)):
+            Sheet.write(rowoffset, 0, label = IName)
+            Sheet.write(rowoffset, 1, label = UName)
+            Sheet.write(rowoffset, 2, label = RName)
+            Sheet.write(rowoffset, 3, label = FName)
+            Sheet.write(rowoffset, 4, label = REName)
+            Sheet.write(rowoffset, 5, label = ALabels[m])
+            Sheet.write(rowoffset, 6, label = BLabels[n])
+            for t in range(0,Data.shape[0]):
+                Sheet.write(rowoffset, coloffset + t, label = Data[t,m,n])
+            rowoffset += 1
+            
+    return rowoffset</code></pre>
+</details>
+</dd>
+<dt id="modules.ODYM_Functions.ExcelSheetFill"><code class="name flex">
+<span>def <span class="ident">ExcelSheetFill</span></span>(<span>Workbook, Sheetname, values, topcornerlabel=None, rowlabels=None, collabels=None, Style=None, rowselect=None, colselect=None)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def ExcelSheetFill(Workbook, Sheetname, values, topcornerlabel=None,
+                   rowlabels=None, collabels=None, Style=None,
+                   rowselect=None, colselect=None):
+    Sheet = Workbook.add_sheet(Sheetname)
+    if topcornerlabel is not None:
+        if Style is not None:
+            Sheet.write(0,0,label = topcornerlabel, style = Style)  # write top corner label
+        else:
+            Sheet.write(0,0,label = topcornerlabel)  # write top corner label
+    if rowselect is None: # assign row select if not present (includes all rows in that case)
+        rowselect = np.ones((values.shape[0]))
+    if colselect is None: # assign col select if not present (includes all columns in that case)
+        colselect = np.ones((values.shape[1]))        
+    if rowlabels is not None: # write row labels
+         rowindexcount = 0
+         for m in range(0,len(rowlabels)):
+             if rowselect[m] == 1: # True if True or 1
+                 if Style is None:
+                     Sheet.write(rowindexcount +1, 0, label = rowlabels[m])
+                 else:
+                     Sheet.write(rowindexcount +1, 0, label = rowlabels[m], style = Style)
+                 rowindexcount += 1
+    if collabels is not None: # write column labels
+         colindexcount = 0
+         for m in range(0,len(collabels)):
+             if colselect[m] == 1: # True if True or 1
+                 if Style is None:
+                     Sheet.write(0, colindexcount +1, label = collabels[m])
+                 else:
+                     Sheet.write(0, colindexcount +1, label = collabels[m], style = Style)
+                 colindexcount += 1   
+    # write values:
+    rowindexcount = 0
+    for m in range(0,values.shape[0]): # for all rows
+        if rowselect[m] == 1:
+            colindexcount = 0
+            for n in range(0,values.shape[1]): # for all columns
+                if colselect[n] == 1:
+                    Sheet.write(rowindexcount +1, colindexcount + 1, label=values[m, n])
+                    colindexcount += 1
+            rowindexcount += 1</code></pre>
+</details>
+</dd>
+<dt id="modules.ODYM_Functions.GroupingDict2Array"><code class="name flex">
+<span>def <span class="ident">GroupingDict2Array</span></span>(<span>GroupingDict, ElementList)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Tbd.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def GroupingDict2Array(GroupingDict, ElementList):
+    &#39;&#39;&#39;
+    Tbd.
+    &#39;&#39;&#39;
+    NoOfItems = len(GroupingDict.keys())
+    GroupingList = []
+    for m in GroupingDict.keys():
+        GroupingList.append(m)
+    ElementContentArray = np.zeros((100,NoOfItems))
+    PosCount = 0
+    for m in GroupingList:
+        for n in GroupingDict[m].keys():
+            ElInd = ElementList.index(n)
+            ElementContentArray[ElInd,PosCount] = GroupingDict[m][n]
+        PosCount += 1
+    return GroupingList, ElementContentArray</code></pre>
+</details>
+</dd>
+<dt id="modules.ODYM_Functions.ListStringToListNumbers"><code class="name flex">
+<span>def <span class="ident">ListStringToListNumbers</span></span>(<span>ListStr)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Extracts numbers from a string that looks like a list commant in python, and returns them as proper list
+Examples: ListStringToListNumbers('[1,2,3]') yields [1,2,3]</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def ListStringToListNumbers(ListStr):
+    &#34;&#34;&#34;
+    Extracts numbers from a string that looks like a list commant in python, and returns them as proper list
+    Examples: ListStringToListNumbers(&#39;[1,2,3]&#39;) yields [1,2,3]
+    &#34;&#34;&#34;
+    return [int(s) for s in ListStr[ListStr.find(&#39;[&#39;):ListStr.find(&#39;]&#39;)+1].replace(&#39;[&#39;,&#39;,&#39;).replace(&#39;]&#39;,&#39;,&#39;).split(&#39;,&#39;) if s.isdigit()]</code></pre>
+</details>
+</dd>
+<dt id="modules.ODYM_Functions.MI_Tuple"><code class="name flex">
+<span>def <span class="ident">MI_Tuple</span></span>(<span>value, Is)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Define function for obtaining multiindex tuple from index value
+value: flattened index position, Is: Number of values for each index dimension
+Example: MI_Tuple(10, [3,4,2,6]) returns [0,0,1,4]
+MI_Tuple is the inverse of Tuple_MI.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def MI_Tuple(value, Is): 
+    &#34;&#34;&#34;
+    Define function for obtaining multiindex tuple from index value
+    value: flattened index position, Is: Number of values for each index dimension
+    Example: MI_Tuple(10, [3,4,2,6]) returns [0,0,1,4]
+    MI_Tuple is the inverse of Tuple_MI.    
+    &#34;&#34;&#34;
+    IsValuesRev = []
+    CurrentValue = value
+    for m in range(0,len(Is)):
+        IsValuesRev.append(CurrentValue % Is[len(Is)-m-1])
+        CurrentValue = CurrentValue // Is[len(Is)-m-1]
+    return IsValuesRev[::-1]</code></pre>
+</details>
+</dd>
+<dt id="modules.ODYM_Functions.ModelIndexPositions_FromData"><code class="name flex">
+<span>def <span class="ident">ModelIndexPositions_FromData</span></span>(<span>Positions, RowPos, ColPos)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This function is needed to read data files into ODYM. It takes the positions of a given data point
+in the parameter file and checks where in the model index structure this data points belongs,
+if it is needed at all.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def ModelIndexPositions_FromData(Positions,RowPos,ColPos):
+    &#34;&#34;&#34;
+    This function is needed to read data files into ODYM. It takes the positions of a given data point 
+    in the parameter file and checks where in the model index structure this data points belongs, 
+    if it is needed at all.
+    &#34;&#34;&#34;
+    TargetPosition = []
+    for m in range(0,len(Positions)):
+        if m &lt; len(RowPos):
+            try:
+                TargetPosition.append(Positions[m].index(RowPos[m]))
+            except:
+                break
+        else:
+            try:
+                TargetPosition.append(Positions[m].index(ColPos[m-len(RowPos)]))
+            except:
+                break
+    return TargetPosition</code></pre>
+</details>
+</dd>
+<dt id="modules.ODYM_Functions.ReadParameter"><code class="name flex">
+<span>def <span class="ident">ReadParameter</span></span>(<span>ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, MasterClassification, IndexTable, IndexTable_ClassificationNames, ScriptConfig, Mylog)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This function reads a model parameter from the corresponding parameter file</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def ReadParameter(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, MasterClassification,
+                  IndexTable, IndexTable_ClassificationNames, ScriptConfig, Mylog):
+    &#34;&#34;&#34;
+    This function reads a model parameter from the corresponding parameter file
+    &#34;&#34;&#34;
+    Parfile   = xlrd.open_workbook(ParPath + &#39;.xlsx&#39;)
+    ParHeader = Parfile.sheet_by_name(&#39;Cover&#39;)
+    
+    IM = eval(IndexMatch) # List that matches model aspects to parameter indices
+    
+    ri = 1 # row index
+    MetaData = {}
+    while True: # read cover sheet info
+        ThisItem = ParHeader.cell_value(ri,0)
+        if ThisItem != &#39;Dataset_RecordType&#39;:
+            MetaData[ThisItem] = ParHeader.cell_value(ri,1)
+            ri += 1
+        else:
+            break # terminate while loop when all meta information is read.
+            # Now we are in the row of Dataset_RecordType
+    
+    # Check whether parameter file uses same classification:
+    if &#39;ODYM_Classifications_Master_&#39; + \
+            ScriptConfig[&#39;Version of master classification&#39;] != MetaData[&#39;Dataset_Classification_version_number&#39;]:
+        Mylog.critical(&#39;CLASSIFICATION FILE FATAL ERROR: Classification file of parameter &#39; + ThisPar +
+                       &#39; is not identical to the classification master file used for the current model run.&#39;)
+        
+    if ParHeader.cell_value(ri,1) == &#39;List&#39;:
+        IList = []
+        IListMeaning = []
+        ci = 1 # column index
+        while True:
+            if ParHeader.cell_value(ri +1,ci) != &#39;&#39;:
+                IList.append(ParHeader.cell_value(ri +1,ci))
+                IListMeaning.append(ParHeader.cell_value(ri +2,ci))
+                ci += 1
+            else:
+                break
+        # Re-Order indices to fit model aspect order:
+        IList = [IList[i] for i in IM]
+        IListMeaning = [IListMeaning[i] for i in IM]
+            
+        ValueList = []
+        VIComment = []
+        ci = 1 # column index
+        while True:
+            if ParHeader.cell_value(ri +4,ci) != &#39;&#39;:
+                ValueList.append(ParHeader.cell_value(ri +3,ci))
+                VIComment.append(ParHeader.cell_value(ri +4,ci))
+                ci += 1
+            else:
+                break
+        
+        # Check whether all indices are present in the index table of the model  
+        if set(IList).issubset(set(IndexTable_ClassificationNames)) is False:
+            Mylog.error(&#39;CLASSIFICATION ERROR: Index list of data file for parameter &#39; + ThisPar +
+                        &#39; contains indices that are not part of the current model run.&#39;)
+    
+        # Check how well items match between model and data, select items to import
+        IndexSizesM  = [] # List of dimension size for model
+        for m in range(0,len(ThisParIx)):
+            ThisDim = ThisParIx[m]
+            # Check whether index is present in parameter file:
+            ThisDimClassificationName  = IndexTable.set_index(&#39;IndexLetter&#39;).ix[ThisDim].Classification.Name
+            if ThisDimClassificationName != IList[m]:
+                Mylog.error(&#39;CLASSIFICATION ERROR: Classification &#39; + ThisDimClassificationName + &#39; for aspect &#39; +
+                            ThisDim + &#39; of parameter &#39; + ThisPar +
+                            &#39; must be identical to the specified classification of the corresponding parameter dimension, which is &#39; + IList[m])
+                break  # Stop parsing parameter, will cause model to halt
+            
+            IndexSizesM.append(IndexTable.set_index(&#39;IndexLetter&#39;).ix[ThisDim][&#39;IndexSize&#39;])
+
+        # Read parameter values into array:
+        Values = np.zeros((IndexSizesM))
+        ValIns = np.zeros((IndexSizesM)) # Array to check how many values are actually loaded
+        ValuesSheet = Parfile.sheet_by_name(&#39;Values_Master&#39;)
+        ColOffset = len(IList)
+        RowOffset = 1 # fixed for this format, different quantification layers (value, error, etc.) will be read later
+        cx        = 0
+        while True:
+            try:
+                CV = ValuesSheet.cell_value(cx + RowOffset, ColOffset)
+            except:
+                break
+            TargetPosition = []
+            for mx in range(0,len(IList)): # mx iterates over the aspects of the parameter 
+                CurrentItem = ValuesSheet.cell_value(cx + RowOffset, IM[mx])
+                try:
+                    TargetPosition.append(IndexTable.set_index(&#39;IndexLetter&#39;).ix[ThisParIx[mx]].Classification.Items.index(CurrentItem))
+                except:
+                    break # Current parameter value is not needed for model, outside scope for a certain aspect. 
+            if len(TargetPosition) == len(ThisParIx):
+                Values[tuple(TargetPosition)] = CV
+                ValIns[tuple(TargetPosition)] = 1
+            cx += 1
+            
+        Mylog.info(&#39;A total of &#39; + str(cx+1) + &#39; values was read from file for parameter &#39; + ThisPar + &#39;.&#39;)
+        Mylog.info(str(ValIns.sum()) + &#39; of &#39; + str(np.prod(IndexSizesM)) + &#39; values for parameter &#39; + ThisPar + &#39; were assigned.&#39;)
+         
+        
+        
+    ### Table version ###
+    if ParHeader.cell_value(ri,1) == &#39;Table&#39;: # have 3 while loops, one for row indices, one for column indices, one for value layers
+       
+        RIList        = []
+        RISize        = []
+        RIListMeaning = []
+        ci = 1 # column index
+        while True:
+            if ParHeader.cell_value(ri +1,ci) != &#39;&#39;:
+                RIList.append(ParHeader.cell_value(ri +1,ci))
+                RISize.append(int(ParHeader.cell_value(ri +2,1)))
+                RIListMeaning.append(ParHeader.cell_value(ri +3,ci))
+                ci += 1
+            else:
+                break
+        RISize = RISize[0]      
+            
+        CIList        = []
+        CISize        = []
+        CIListMeaning = []
+        ci = 1 # column index
+        while True:
+            if ParHeader.cell_value(ri +4,ci) != &#39;&#39;:
+                CIList.append(ParHeader.cell_value(ri +4,ci))
+                CISize.append(int(ParHeader.cell_value(ri +5,1)))
+                CIListMeaning.append(ParHeader.cell_value(ri +6,ci))
+                ci += 1
+            else:
+                break
+        CISize = CISize[0]
+        
+        # Re-Order indices to fit model aspect order:
+        ComIList        = RIList        + CIList    
+        ComIList        = [ComIList[i] for i in IM]                
+            
+        ValueList = []
+        VIComment = []
+        ci = 1 # column index
+        while True:
+            if ParHeader.cell_value(ri +7,ci) != &#39;&#39;:
+                ValueList.append(ParHeader.cell_value(ri +7,ci))
+                VIComment.append(ParHeader.cell_value(ri +8,ci))
+                ci += 1
+            else:
+                break
+        
+        # Check whether all indices are present in the index table of the model  
+        if set(RIList).issubset(set(IndexTable_ClassificationNames)) is False:
+            Mylog.error(&#39;CLASSIFICATION ERROR: Row index list of data file for parameter &#39; + ThisPar + &#39; contains indices that are not part of the current model run.&#39;)
+        if set(CIList).issubset(set(IndexTable_ClassificationNames)) is False:
+            Mylog.error(&#39;CLASSIFICATION ERROR: Column index list of data file for parameter &#39; + ThisPar + &#39; contains indices that are not part of the current model run.&#39;)
+            
+        # Determine index letters for RIList and CIList
+        RIIndexLetter = []
+        for m in range(0,len(RIList)):
+            RIIndexLetter.append(ThisParIx[IM.index(m)])    
+        CIIndexLetter = []
+        for m in range(0,len(CIList)):
+            CIIndexLetter.append(ThisParIx[IM.index(m+len(RIList))])    
+        
+        # Check how well items match between model and data, select items to import
+        IndexSizesM  = [] # List of dimension size for model
+        for m in range(0,len(ThisParIx)):
+            ThisDim = ThisParIx[m]
+            ThisDimClassificationName  = IndexTable.set_index(&#39;IndexLetter&#39;).ix[ThisDim].Classification.Name
+            if ThisDimClassificationName != ComIList[m]:
+                Mylog.error(&#39;CLASSIFICATION ERROR: Classification &#39; + ThisDimClassificationName + &#39; for aspect &#39; +
+                            ThisDim + &#39; of parameter &#39; + ThisPar +
+                            &#39; must be identical to the specified classification of the corresponding parameter dimension, which is &#39; +
+                            ComIList[m])
+                break  # Stop parsing parameter, will cause model to halt
+                
+            IndexSizesM.append(IndexTable.set_index(&#39;IndexLetter&#39;).ix[ThisDim][&#39;IndexSize&#39;])
+        
+        # Read parameter values into array:
+        Values = np.zeros((IndexSizesM))
+        ValIns = np.zeros((IndexSizesM)) # Array to check how many values are actually loaded
+        ValuesSheet = Parfile.sheet_by_name(ValueList[ThisParLayerSel[0]])
+        ColOffset = len(RIList)
+        RowOffset = len(CIList)
+        RowNos    = RISize   
+        ColNos    = CISize
+        
+        TargetPos_R = []
+        for m in range(0,RowNos):
+            TP_RD = []
+            for mc in range(0,len(RIList)):
+                try:
+                    CurrentItem = int(ValuesSheet.cell_value(m + RowOffset, mc))
+                except:
+                    CurrentItem = ValuesSheet.cell_value(m + RowOffset, mc)
+                try:
+                    IX   = ThisParIx.find(RIIndexLetter[mc])
+                    TPIX = IndexTable.set_index(&#39;IndexLetter&#39;).ix[RIIndexLetter[mc]].Classification.Items.index(CurrentItem)
+                    TP_RD.append((IX,TPIX))
+                except:
+                    TP_RD.append(None)
+                    break
+            TargetPos_R.append(TP_RD)           
+
+        TargetPos_C = []                
+        for n in range(0,ColNos):
+            TP_CD = []
+            for mc in range(0,len(CIList)):
+                try:
+                    CurrentItem = int(ValuesSheet.cell_value(mc, n + ColOffset))
+                except:
+                    CurrentItem = ValuesSheet.cell_value(mc, n + ColOffset)
+                try:
+                    IX = ThisParIx.find(CIIndexLetter[mc])
+                    TPIX = IndexTable.set_index(&#39;IndexLetter&#39;).ix[CIIndexLetter[mc]].Classification.Items.index(CurrentItem)
+                    TP_CD.append((IX,TPIX))
+                except:
+                    TP_CD.append(None)
+                    break  
+            TargetPos_C.append(TP_CD)
+        
+        for m in range(0,RowNos):
+            for n in range(0,ColNos):
+                TargetPosition = [0 for i in range(0,len(ComIList))]
+                try:
+                    for i in range(0,len(RIList)):
+                        TargetPosition[TargetPos_R[m][i][0]] = TargetPos_R[m][i][1] 
+                    for i in range(0,len(CIList)):
+                        TargetPosition[TargetPos_C[n][i][0]] = TargetPos_C[n][i][1] 
+                except:
+                    TargetPosition = [0]
+                if len(TargetPosition) == len(ComIList):
+                    Values[tuple(TargetPosition)] = ValuesSheet.cell_value(m + RowOffset, n + ColOffset)
+                    ValIns[tuple(TargetPosition)] = 1
+                    
+        Mylog.info(str(ValIns.sum()) + &#39; of &#39; + str(np.prod(IndexSizesM)) + &#39; values for parameter &#39; + ThisPar +
+                   &#39; were assigned.&#39;)
+       
+    return MetaData, Values</code></pre>
+</details>
+</dd>
+<dt id="modules.ODYM_Functions.ReadParameterV2"><code class="name flex">
+<span>def <span class="ident">ReadParameterV2</span></span>(<span>ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, MasterClassification, IndexTable, IndexTable_ClassificationNames, ScriptConfig, Mylog, ParseUncertainty)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This function reads a model parameter from the corresponding parameter file</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def ReadParameterV2(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, MasterClassification,
+                    IndexTable, IndexTable_ClassificationNames, ScriptConfig, Mylog, ParseUncertainty):
+    &#34;&#34;&#34;
+    This function reads a model parameter from the corresponding parameter file
+    &#34;&#34;&#34;
+    Parfile   = xlrd.open_workbook(ParPath + &#39;.xlsx&#39;)
+    ParHeader = Parfile.sheet_by_name(&#39;Cover&#39;)
+    
+    IM = eval(IndexMatch) # List that matches model aspects to parameter indices
+    
+    ri = 1 # row index
+    MetaData = {}
+    while True: # read cover sheet info
+        ThisItem = ParHeader.cell_value(ri,0)
+        if (ThisItem != &#39;[Empty on purpose]&#39; and ThisItem != &#39;Dataset_RecordType&#39;):
+            MetaData[ThisItem] = ParHeader.cell_value(ri,1)
+            if ThisItem == &#39;Dataset_Unit&#39;:
+                if ParHeader.cell_value(ri,1) == &#39;GLOBAL&#39;:
+                    MetaData[&#39;Unit_Global&#39;]         = ParHeader.cell_value(ri,2)
+                    MetaData[&#39;Unit_Global_Comment&#39;] = ParHeader.cell_value(ri,3) 
+            if ThisItem == &#39;Dataset_Uncertainty&#39;:
+                # if LIST is specified, nothing happens here.
+                if ParHeader.cell_value(ri,1) == &#39;GLOBAL&#39;:
+                    MetaData[&#39;Dataset_Uncertainty_Global&#39;] = ParHeader.cell_value(ri,2)
+                if ParHeader.cell_value(ri,1) == &#39;TABLE&#39;:
+                    MetaData[&#39;Dataset_Uncertainty_Sheet&#39;]  = ParHeader.cell_value(ri,2)                    
+            if ThisItem == &#39;Dataset_Comment&#39;:
+                if ParHeader.cell_value(ri,1) == &#39;GLOBAL&#39;:
+                    MetaData[&#39;Dataset_Comment_Global&#39;]     = ParHeader.cell_value(ri,2)                    
+            ri += 1
+        else:
+            break # terminate while loop when all meta information is read.
+            # Now we are in the row of Dataset_RecordType
+    
+    # Check whether parameter file uses same classification:
+    if  ScriptConfig[&#39;Version of master classification&#39;] != MetaData[&#39;Dataset_Classification_version_number&#39;]:
+        Mylog.critical(&#39;CLASSIFICATION FILE FATAL ERROR: Classification file of parameter &#39; + ThisPar +
+                       &#39; is not identical to the classification master file used for the current model run.&#39;)
+        
+    # Continue parsing until line &#39;Dataset_RecordType&#39; is found:
+    while True:
+        ThisItem = ParHeader.cell_value(ri,0)
+        if ThisItem == &#39;Dataset_RecordType&#39;:  
+            break
+        else:
+            ri += 1
+        
+    ### List version ###        
+    if ParHeader.cell_value(ri,1) == &#39;LIST&#39;:
+        IList = []
+        IListMeaning = []
+        RI_Start = ri + 2
+        while True:
+            if ParHeader.cell_value(RI_Start,0) != &#39;&#39;:
+                IList.append(ParHeader.cell_value(RI_Start,0))
+                IListMeaning.append(ParHeader.cell_value(RI_Start,1))
+                RI_Start += 1
+            else:
+                break
+        # Re-Order indices to fit model aspect order:
+        IList = [IList[i] for i in IM]
+        IListMeaning = [IListMeaning[i] for i in IM]
+            
+        ValueList = []
+        VIComment = []
+        RI_Start = ri + 2
+        while True:
+            if ParHeader.cell_value(RI_Start,2) != &#39;&#39;:
+                ValueList.append(ParHeader.cell_value(RI_Start,2))
+                VIComment.append(ParHeader.cell_value(RI_Start,3))
+                RI_Start += 1
+            else:
+                break
+        
+        # Check whether all indices are present in the index table of the model  
+        if set(IList).issubset(set(IndexTable_ClassificationNames)) is False:
+            Mylog.error(&#39;CLASSIFICATION ERROR: Index list of data file for parameter &#39; + ThisPar +
+                        &#39; contains indices that are not part of the current model run.&#39;)
+    
+        # Check how well items match between model and data, select items to import
+        IndexSizesM  = [] # List of dimension size for model
+        for m in range(0,len(ThisParIx)):
+            ThisDim = ThisParIx[m]
+            # Check whether index is present in parameter file:
+            ThisDimClassificationName  = IndexTable.set_index(&#39;IndexLetter&#39;).ix[ThisDim].Classification.Name
+            if ThisDimClassificationName != IList[m]:
+                Mylog.error(&#39;CLASSIFICATION ERROR: Classification &#39; + ThisDimClassificationName + &#39; for aspect &#39; +
+                            ThisDim + &#39; of parameter &#39; + ThisPar +
+                            &#39; must be identical to the specified classification of the corresponding parameter dimension, which is &#39; + IList[m])
+                break  # Stop parsing parameter, will cause model to halt
+            
+            IndexSizesM.append(IndexTable.set_index(&#39;IndexLetter&#39;).ix[ThisDim][&#39;IndexSize&#39;])
+
+        # Read parameter values into array, uncertainty into list:
+        Values      = np.zeros((IndexSizesM)) # Array for parameter values
+        Uncertainty = [None] * np.product(IndexSizesM) # parameter value uncertainties  
+        ValIns      = np.zeros((IndexSizesM)) # Array to check how many values are actually loaded
+        ValuesSheet = Parfile.sheet_by_name(&#39;Values_Master&#39;)
+        ColOffset = len(IList)
+        RowOffset = 1 # fixed for this format, different quantification layers (value, error, etc.) will be read later
+        cx        = 0
+        while True:
+            try:
+                CV = ValuesSheet.cell_value(cx + RowOffset, ColOffset)
+            except:
+                break
+            TargetPosition = []
+            for mx in range(0,len(IList)): # mx iterates over the aspects of the parameter 
+                CurrentItem = ValuesSheet.cell_value(cx + RowOffset, IM[mx])
+                try:
+                    TargetPosition.append(IndexTable.set_index(&#39;IndexLetter&#39;).ix[ThisParIx[mx]].Classification.Items.index(CurrentItem))
+                except:
+                    break # Current parameter value is not needed for model, outside scope for a certain aspect. 
+            if len(TargetPosition) == len(ThisParIx):
+                Values[tuple(TargetPosition)] = CV
+                ValIns[tuple(TargetPosition)] = 1
+                Uncertainty[Tuple_MI(TargetPosition, IndexSizesM)] = ValuesSheet.cell_value(cx + RowOffset, ColOffset + 3)
+            cx += 1
+            
+        Mylog.info(&#39;A total of &#39; + str(cx) + &#39; values was read from file for parameter &#39; + ThisPar + &#39;.&#39;)
+        Mylog.info(str(ValIns.sum()) + &#39; of &#39; + str(np.prod(IndexSizesM)) + &#39; values for parameter &#39; + ThisPar + &#39; were assigned.&#39;)
+         
+        
+        
+    ### Table version ###
+    if ParHeader.cell_value(ri,1) == &#39;TABLE&#39;: # have 3 while loops, one for row indices, one for column indices, one for value layers
+        ColNos =  int(ParHeader.cell_value(ri,5)) # Number of columns in dataset
+        RowNos =  int(ParHeader.cell_value(ri,3)) # Number of rows in dataset
+        
+        RI = ri + 2 # row where indices start
+        RIList        = []
+        RIListMeaning = []
+        while True:
+            if ParHeader.cell_value(RI,0) != &#39;&#39;:
+                RIList.append(ParHeader.cell_value(RI,0))
+                RIListMeaning.append(ParHeader.cell_value(RI,1))
+                RI += 1
+            else:
+                break
+
+        RI = ri + 2 # row where indices start    
+        CIList        = []
+        CIListMeaning = []
+        while True:
+            if ParHeader.cell_value(RI,2) != &#39;&#39;:
+                CIList.append(ParHeader.cell_value(RI,2))
+                CIListMeaning.append(ParHeader.cell_value(RI,3))
+                RI += 1
+            else:
+                break
+        
+        # Re-Order indices to fit model aspect order:
+        ComIList        = RIList        + CIList    # List of all indices, both rows and columns
+        ComIList        = [ComIList[i] for i in IM]                
+            
+        RI = ri + 2 # row where indices start  
+        ValueList = []
+        VIComment = []
+        while True:
+            if ParHeader.cell_value(RI,4) != &#39;&#39;:
+                ValueList.append(ParHeader.cell_value(RI,4))
+                VIComment.append(ParHeader.cell_value(RI,5))
+                RI += 1
+            else:
+                break
+        
+        # Check whether all indices are present in the index table of the model  
+        if set(RIList).issubset(set(IndexTable_ClassificationNames)) is False:
+            Mylog.error(&#39;CLASSIFICATION ERROR: Row index list of data file for parameter &#39; + ThisPar + &#39; contains indices that are not part of the current model run.&#39;)
+        if set(CIList).issubset(set(IndexTable_ClassificationNames)) is False:
+            Mylog.error(&#39;CLASSIFICATION ERROR: Column index list of data file for parameter &#39; + ThisPar + &#39; contains indices that are not part of the current model run.&#39;)
+            
+        # Determine index letters for RIList and CIList
+        RIIndexLetter = []
+        for m in range(0,len(RIList)):
+            RIIndexLetter.append(ThisParIx[IM.index(m)])    
+        CIIndexLetter = []
+        for m in range(0,len(CIList)):
+            CIIndexLetter.append(ThisParIx[IM.index(m+len(RIList))])    
+        
+        # Check how well items match between model and data, select items to import
+        IndexSizesM  = [] # List of dimension size for model
+        for m in range(0,len(ThisParIx)):
+            ThisDim = ThisParIx[m]
+            ThisDimClassificationName  = IndexTable.set_index(&#39;IndexLetter&#39;).ix[ThisDim].Classification.Name
+            if ThisDimClassificationName != ComIList[m]:
+                Mylog.error(&#39;CLASSIFICATION ERROR: Classification &#39; + ThisDimClassificationName + &#39; for aspect &#39; +
+                            ThisDim + &#39; of parameter &#39; + ThisPar +
+                            &#39; must be identical to the specified classification of the corresponding parameter dimension, which is &#39; +
+                            ComIList[m])
+                break  # Stop parsing parameter, will cause model to halt
+                
+            IndexSizesM.append(IndexTable.set_index(&#39;IndexLetter&#39;).ix[ThisDim][&#39;IndexSize&#39;])
+        
+        # Read parameter values into array:
+        Values      = np.zeros((IndexSizesM)) # Array for parameter values
+        Uncertainty = [None] * np.product(IndexSizesM) # parameter value uncertainties  
+        ValIns      = np.zeros((IndexSizesM)) # Array to check how many values are actually loaded, contains 0 or 1.
+        ValuesSheet = Parfile.sheet_by_name(ValueList[ThisParLayerSel[0]])
+        if ParseUncertainty == True:
+            if &#39;Dataset_Uncertainty_Sheet&#39; in MetaData:
+                UncertSheet = Parfile.sheet_by_name(MetaData[&#39;Dataset_Uncertainty_Sheet&#39;])
+        ColOffset   = len(RIList)
+        RowOffset   = len(CIList)
+        cx          = 0
+        
+        TargetPos_R = [] # Determine all row target positions in data array
+        for m in range(0,RowNos):
+            TP_RD = []
+            for mc in range(0,len(RIList)):
+                try:
+                    CurrentItem = int(ValuesSheet.cell_value(m + RowOffset, mc)) # in case items come as int, e.g., years
+                except:
+                    CurrentItem = ValuesSheet.cell_value(m + RowOffset, mc)
+                try:
+                    IX   = ThisParIx.find(RIIndexLetter[mc])
+                    TPIX = IndexTable.set_index(&#39;IndexLetter&#39;).ix[RIIndexLetter[mc]].Classification.Items.index(CurrentItem)
+                    TP_RD.append((IX,TPIX))
+                except:
+                    TP_RD.append(None)
+                    break
+            TargetPos_R.append(TP_RD)         
+                
+
+        TargetPos_C = [] # Determine all col target positions in data array  
+        for n in range(0,ColNos):
+            TP_CD = []
+            for mc in range(0,len(CIList)):
+                try:
+                    CurrentItem = int(ValuesSheet.cell_value(mc, n + ColOffset))
+                except:
+                    CurrentItem = ValuesSheet.cell_value(mc, n + ColOffset)
+                try:
+                    IX = ThisParIx.find(CIIndexLetter[mc])
+                    TPIX = IndexTable.set_index(&#39;IndexLetter&#39;).ix[CIIndexLetter[mc]].Classification.Items.index(CurrentItem)
+                    TP_CD.append((IX,TPIX))
+                except:
+                    TP_CD.append(None)
+                    break  
+            TargetPos_C.append(TP_CD)
+        
+        for m in range(0,RowNos): # Read values from excel template
+            for n in range(0,ColNos):
+                TargetPosition = [0 for i in range(0,len(ComIList))]
+                try:
+                    for i in range(0,len(RIList)):
+                        TargetPosition[TargetPos_R[m][i][0]] = TargetPos_R[m][i][1] 
+                    for i in range(0,len(CIList)):
+                        TargetPosition[TargetPos_C[n][i][0]] = TargetPos_C[n][i][1] 
+                except:
+                    TargetPosition = [0]
+                if len(TargetPosition) == len(ComIList): # Read value if TargetPosition Tuple has same length as indexList
+                    Values[tuple(TargetPosition)] = ValuesSheet.cell_value(m + RowOffset, n + ColOffset)
+                    ValIns[tuple(TargetPosition)] = 1
+                    # Add uncertainty
+                    if ParseUncertainty == True:
+                        if &#39;Dataset_Uncertainty_Global&#39; in MetaData:
+                            Uncertainty[Tuple_MI(TargetPosition, IndexSizesM)] = MetaData[&#39;Dataset_Uncertainty_Global&#39;]
+                        if &#39;Dataset_Uncertainty_Sheet&#39; in MetaData:
+                            Uncertainty[Tuple_MI(TargetPosition, IndexSizesM)] = UncertSheet.cell_value(m + RowOffset, n + ColOffset)
+                cx += 1
+
+        Mylog.info(&#39;A total of &#39; + str(cx) + &#39; values was read from file for parameter &#39; + ThisPar + &#39;.&#39;)                    
+        Mylog.info(str(ValIns.sum()) + &#39; of &#39; + str(np.prod(IndexSizesM)) + &#39; values for parameter &#39; + ThisPar +
+                   &#39; were assigned.&#39;)
+    if ParseUncertainty == True:
+        return MetaData, Values, Uncertainty
+    else:
+        return MetaData, Values</code></pre>
+</details>
+</dd>
+<dt id="modules.ODYM_Functions.Tuple_MI"><code class="name flex">
+<span>def <span class="ident">Tuple_MI</span></span>(<span>Tuple, IdxLength)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Function to return the absolution position of a multiindex when the index tuple
+and the index hierarchy and size are given.
+Example: Tuple_MI([2,7,3],[100,10,5]) = 138
+Tuple_MI is the inverse of MI_Tuple.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def Tuple_MI(Tuple, IdxLength): 
+    &#34;&#34;&#34;
+    Function to return the absolution position of a multiindex when the index tuple
+    and the index hierarchy and size are given.
+    Example: Tuple_MI([2,7,3],[100,10,5]) = 138
+    Tuple_MI is the inverse of MI_Tuple.
+    &#34;&#34;&#34;
+    # First, generate the index position offset values
+    A =  IdxLength[1:] +  IdxLength[:1] # Shift 1 to left
+    A[-1] = 1 # Replace lowest index by 1
+    A.reverse()
+    IdxPosOffset = np.cumproduct(A).tolist()
+    IdxPosOffset.reverse()
+    Position = np.sum([a*b for a,b in zip(Tuple,IdxPosOffset)])
+    return Position</code></pre>
+</details>
+</dd>
+<dt id="modules.ODYM_Functions.convert_log"><code class="name flex">
+<span>def <span class="ident">convert_log</span></span>(<span>file, file_format='html')</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Converts the log file to a given file format</p>
+<p>:param file: The filename and path
+:param file_format: The desired format</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def convert_log(file, file_format=&#39;html&#39;):
+    &#34;&#34;&#34;
+    Converts the log file to a given file format
+
+    :param file: The filename and path
+    :param file_format: The desired format
+    &#34;&#34;&#34;
+    output_filename = os.path.splitext(file)[0] + &#39;.&#39; + file_format
+    output = pypandoc.convert_file(file, file_format, outputfile=output_filename)
+    assert output == &#34;&#34;</code></pre>
+</details>
+</dd>
+<dt id="modules.ODYM_Functions.ensure_dir"><code class="name flex">
+<span>def <span class="ident">ensure_dir</span></span>(<span>f)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def ensure_dir(f): # Checks whether a given directory f exists, and creates it if not
+    d = os.path.dirname(f)
+    if not os.path.exists(d):
+        os.makedirs(d)     </code></pre>
+</details>
+</dd>
+<dt id="modules.ODYM_Functions.function_logger"><code class="name flex">
+<span>def <span class="ident">function_logger</span></span>(<span>log_filename, log_pathname, file_level=10, console_level=30)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This is the logging routine of the model. It returns alogger that can be used by other functions to write to the
+log(file).</p>
+<p>:param file_level: Verbosity level for the logger's output file. This can be log.WARNING (default),
+log.INFO, log.DEBUG
+:param log_filename: The filename for the logfile.
+:param log_pathname: The pathname for the logfile.
+:param console_level: Verbosity level for the logger's output file.
+out
+:param logfile_type: Type of file to write. Markdown syntax is the default.
+TODO: If other outputs types are desired, they can be converted via pandoc.
+:return: A logger that can be used by other files to write to the log(file)</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def function_logger(log_filename, log_pathname, file_level=logging.DEBUG, console_level=logging.WARNING):
+    &#34;&#34;&#34;
+    This is the logging routine of the model. It returns alogger that can be used by other functions to write to the
+    log(file).
+
+    :param file_level: Verbosity level for the logger&#39;s output file. This can be log.WARNING (default),
+        log.INFO, log.DEBUG
+    :param log_filename: The filename for the logfile.
+    :param log_pathname: The pathname for the logfile.
+    :param console_level: Verbosity level for the logger&#39;s output file.
+    out
+    :param logfile_type: Type of file to write. Markdown syntax is the default.
+        TODO: If other outputs types are desired, they can be converted via pandoc.
+    :return: A logger that can be used by other files to write to the log(file)
+    &#34;&#34;&#34;
+
+    log_file = os.path.join(log_pathname, log_filename)
+    # logging.basicConfig(format=&#39;%(levelname)s (%(filename)s &lt;%(funcName)s&gt;): %(message)s&#39;,
+    #                     filename=log_file,
+    #                     level=logging.INFO)
+    logger = logging.getLogger()
+    logger.handlers = []  # required if you don&#39;t want to exit the shell
+    logger.setLevel(file_level)
+
+    # The logger for console output
+    console_log = logging.StreamHandler() #StreamHandler logs to console
+    console_log.setLevel(console_level)
+    # console_log_format = logging.Formatter(&#39;%(message)s&#39;)
+    console_log_format = logging.Formatter(&#39;%(levelname)s (%(filename)s &lt;%(funcName)s&gt;): %(message)s&#39;)
+    console_log.setFormatter(console_log_format)
+    logger.addHandler(console_log)
+
+    # The logger for log file output
+    file_log = logging.FileHandler(log_file, mode=&#39;w&#39;, encoding=None, delay=False)
+    file_log.setLevel(file_level)
+    file_log_format = logging.Formatter(&#39;%(message)s\n&#39;)
+    file_log.setFormatter(file_log_format)
+    logger.addHandler(file_log)
+
+    return logger,  console_log, file_log</code></pre>
+</details>
+</dd>
+<dt id="modules.ODYM_Functions.sort_index"><code class="name flex">
+<span>def <span class="ident">sort_index</span></span>(<span>mylist, direction)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def sort_index(mylist,direction): # returns index that sorts a list, either ascending or descending
+    if direction == &#39;ascending&#39;:
+        return sorted(range(len(mylist)), key=lambda k: mylist[k])       
+    elif direction == &#39;descending&#39;:
+        return sorted(range(len(mylist)), key=lambda k: mylist[k], reverse=True)
+    else:
+        return None</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="modules" href="index.html">modules</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="modules.ODYM_Functions.EvalItemSelectString" href="#modules.ODYM_Functions.EvalItemSelectString">EvalItemSelectString</a></code></li>
+<li><code><a title="modules.ODYM_Functions.ExcelExportAdd_tAB" href="#modules.ODYM_Functions.ExcelExportAdd_tAB">ExcelExportAdd_tAB</a></code></li>
+<li><code><a title="modules.ODYM_Functions.ExcelSheetFill" href="#modules.ODYM_Functions.ExcelSheetFill">ExcelSheetFill</a></code></li>
+<li><code><a title="modules.ODYM_Functions.GroupingDict2Array" href="#modules.ODYM_Functions.GroupingDict2Array">GroupingDict2Array</a></code></li>
+<li><code><a title="modules.ODYM_Functions.ListStringToListNumbers" href="#modules.ODYM_Functions.ListStringToListNumbers">ListStringToListNumbers</a></code></li>
+<li><code><a title="modules.ODYM_Functions.MI_Tuple" href="#modules.ODYM_Functions.MI_Tuple">MI_Tuple</a></code></li>
+<li><code><a title="modules.ODYM_Functions.ModelIndexPositions_FromData" href="#modules.ODYM_Functions.ModelIndexPositions_FromData">ModelIndexPositions_FromData</a></code></li>
+<li><code><a title="modules.ODYM_Functions.ReadParameter" href="#modules.ODYM_Functions.ReadParameter">ReadParameter</a></code></li>
+<li><code><a title="modules.ODYM_Functions.ReadParameterV2" href="#modules.ODYM_Functions.ReadParameterV2">ReadParameterV2</a></code></li>
+<li><code><a title="modules.ODYM_Functions.Tuple_MI" href="#modules.ODYM_Functions.Tuple_MI">Tuple_MI</a></code></li>
+<li><code><a title="modules.ODYM_Functions.convert_log" href="#modules.ODYM_Functions.convert_log">convert_log</a></code></li>
+<li><code><a title="modules.ODYM_Functions.ensure_dir" href="#modules.ODYM_Functions.ensure_dir">ensure_dir</a></code></li>
+<li><code><a title="modules.ODYM_Functions.function_logger" href="#modules.ODYM_Functions.function_logger">function_logger</a></code></li>
+<li><code><a title="modules.ODYM_Functions.sort_index" href="#modules.ODYM_Functions.sort_index">sort_index</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.3</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

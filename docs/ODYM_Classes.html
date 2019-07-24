@@ -1,0 +1,1201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.6.3" />
+<title>modules.ODYM_Classes API documentation</title>
+<meta name="description" content="Created on Thu Mar
+2 17:29:41 2017 …" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>modules.ODYM_Classes</code></h1>
+</header>
+<section id="section-intro">
+<p>Created on Thu Mar
+2 17:29:41 2017</p>
+<p>@author: spauliuk</p>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python"># -*- coding: utf-8 -*-
+&#34;&#34;&#34;
+Created on Thu Mar  2 17:29:41 2017
+
+@author: spauliuk
+&#34;&#34;&#34;
+
+&#34;&#34;&#34;
+File ODYM_Classes
+Check https://github.com/IndEcol/ODYM for latest version.
+
+Contains class definitions for ODYM
+
+standard abbreviation: msc (material-system-classes)
+
+dependencies:
+    numpy &gt;= 1.9
+    scipy &gt;= 0.14
+
+Repository for this class, documentation, and tutorials: https://github.com/IndEcol/ODYM
+
+&#34;&#34;&#34;
+import os
+import logging
+import numpy as np
+import pandas as pd
+import xlrd, xlwt
+
+####################################
+#      Define classes for ODYM  #
+####################################
+
+def __version__():
+    return str(&#39;1.0&#39;) # version number of this file
+
+
+class Obj(object):
+    &#34;&#34;&#34;
+    Class with the object definition for a data object (system, process, flow, ...) in ODYM
+    &#34;&#34;&#34;
+    def __init__(self, Name=None, ID=None, UUID=None):
+        &#34;&#34;&#34; Basic initialisation of Obj.&#34;&#34;&#34;
+        self.Name            = Name # object name
+        self.ID              = ID   # object ID
+        self.UUID            = UUID # object UUID
+        self.Aspects         = {&#39;Time&#39;: &#39;Model time&#39;,&#39;Cohort&#39;: &#39;Age-cohort&#39;,&#39;OriginProcess&#39;:&#39;Process where flow originates&#39;,&#39;DestinationProcess&#39;:&#39;Destination process of flow&#39;,&#39;OriginRegion&#39;: &#39;Region where flow originates from&#39;,&#39;DestinationRegion&#39;: &#39;Region where flow is bound to&#39;, &#39;Good&#39;: &#39;Process, good, or commodity&#39;, &#39;Material&#39;: &#39;Material: ore, alloy, scrap type, ...&#39;,&#39;Element&#39;: &#39;Chemical element&#39; } # Define the aspects of the system variables
+        self.Dimensions      = {&#39;Time&#39;: &#39;Time&#39;, &#39;Process&#39;:&#39;Process&#39;, &#39;Region&#39;: &#39;Region&#39;, &#39;Good&#39;: &#39;Process, good, or commodity&#39;, &#39;Material&#39;: &#39;Material: ore, alloy, scrap type, ...&#39;,&#39;Element&#39;: &#39;Chemical element&#39; } # Define the dimensions of the system variables
+
+
+        
+class Classification(Obj):
+  
+    &#34;&#34;&#34;
+    Class for aspect classification
+    &#34;&#34;&#34;
+    
+    def __init__(self, Name = None, ID = None, UUID = None, Dimension = None, Items = None, IDs = None, AdditionalProporties = {}):
+        &#34;&#34;&#34; Basic initialisation of an item list for alloys, materials, etc.&#34;&#34;&#34;
+        Obj.__init__(self, Name = Name, ID = ID, UUID = UUID) # Hand over parameters to parent class init
+        self.Dimension         = Dimension # Dimension of classification: Time, Region, process, material, goods, ...
+        self.Items             = Items # list with names of items
+        self.IDs               = IDs # list with IDs of items
+        self.AdditionalProps   = AdditionalProporties # Like population for regions, element composition for alloys, ...
+        
+        
+class MFAsystem(Obj):
+
+    &#34;&#34;&#34;
+    Class with the definition and methods for a system in ODYM
+    &#34;&#34;&#34;
+    
+    def __init__(self, Name, Time_Start, Time_End, Geogr_Scope, Unit, IndexTable, Elements, ProcessList = [], FlowDict = {}, StockDict = {}, ParameterDict = {}, Graphical = None, ID = None, UUID = None, ):
+        &#34;&#34;&#34; Initialisation of MFAsystem.&#34;&#34;&#34;
+        Obj.__init__(self, Name = Name, ID = ID, UUID = UUID) # Hand over parameters to parent class init
+        
+        self.Time_Start      = Time_Start # start time of model (year: int)
+        self.Time_End        = Time_End # end time of model (year: int)
+        self.Geogr_Scope     = Geogr_Scope   # geographical boundary (string)
+        self.Elements        = Elements # list of chemical elements considered, indicated by atomic numbers
+        self.Unit            = Unit    # flow and stock base unit, without &#39;per yr&#39;
+        
+        self.ProcessList     = ProcessList # list of processes, processes are referred to by their number
+        self.FlowDict        = FlowDict # Dictionary of flows, are indexed by tuples of process they are attached to (p1,p2)
+        self.StockDict       = StockDict # Dictionary of stocks, are indexed by process they are located at (p)
+        self.ParameterDict   = ParameterDict # Dictionary of of parameters: lifetime, yield rates, etc.
+        self.IndexTable      = IndexTable # Dictionary of abbreviations for aspect-classification tuples 
+        
+        self.Graphical       = Graphical # Dictionary of graphical properties (size in pixel, background color, etc.)
+
+    @property
+    def Time_V(self):
+        &#34;&#34;&#34; Array of all model years&#34;&#34;&#34;
+        return np.arange(self.Time_Start,self.Time_End +1,1)
+        
+    @property
+    def Time_L(self):
+        &#34;&#34;&#34; List of all model years&#34;&#34;&#34;
+        return np.arange(self.Time_Start,self.Time_End +1,1).tolist()
+        
+    def IndexTableCheck(self):
+        &#34;&#34;&#34; Check whether chosen classifications fit to dimensions of index table.&#34;&#34;&#34;
+        for indx in self.IndexTable.index:
+            if self.IndexTable.ix[indx][&#39;Dimension&#39;]  != self.IndexTable.ix[indx][&#39;Classification&#39;].Dimension:
+                raise ValueError(&#39;Dimension mismatch. Dimension of classifiation needs to fit to dimension of flow or parameter index. Found a mismatch for the following index: {foo}. Check your index table definition!&#39;.format(foo = indx))
+        if &#39;Time&#39; not in self.IndexTable.index:
+            raise ValueError(&#39; &#34;Time&#34; aspect must be present in IndexTable. Please check your index table definition!&#39;)            
+        if &#39;Element&#39; not in self.IndexTable.index:
+            raise ValueError(&#39; &#34;Element&#34; aspect must be present in IndexTable. Please check your index table definition!&#39;)                            
+        if len(self.IndexTable.ix[&#39;Element&#39;].Classification.Items) == 0:
+            raise ValueError(&#39;Need at least one element in element list, please check your classification definition!&#39;)
+        if len(self.IndexTable.ix[&#39;Time&#39;].Classification.Items) == 0:
+            raise ValueError(&#39;Need at least one element in Time list, please check your classification definition!&#39;)
+
+        return True
+           
+    def Initialize_FlowValues(self):
+        &#34;&#34;&#34; This method will construct empty numpy arrays (zeros) for all flows where the value is None and wheree the indices are given.&#34;&#34;&#34;
+        for key in self.FlowDict:
+            if self.FlowDict[key].Values is None:
+                self.FlowDict[key].Values = np.zeros(tuple([len(self.IndexTable.set_index(&#39;IndexLetter&#39;).ix[x][&#39;Classification&#39;].Items) for x in self.FlowDict[key].Indices.split(&#39;,&#39;)]))   
+#        Raw code, for development        
+#        Indices = &#39;t,Ro,a,e&#39;
+#        IndList = Indices.split(&#39;,&#39;)
+#        Dimensions = [len(IndexTable.ix[x][&#39;Classification&#39;].Items) for x in IndList]
+#        Values = np.zeros(tuple(Dimensions))       
+
+    def Initialize_StockValues(self):
+        &#34;&#34;&#34; This method will construct empty numpy arrays (zeros) for all stocks where the value is None and wheree the indices are given.&#34;&#34;&#34;
+        for key in self.StockDict:
+            if self.StockDict[key].Values is None:
+                self.StockDict[key].Values = np.zeros(tuple([len(self.IndexTable.set_index(&#39;IndexLetter&#39;).ix[x][&#39;Classification&#39;].Items) for x in self.StockDict[key].Indices.split(&#39;,&#39;)]))   
+
+    def Initialize_ParameterValues(self):
+        &#34;&#34;&#34; This method will construct empty numpy arrays (zeros) for all parameters where the value is None and wheree the indices are given.&#34;&#34;&#34;
+        for key in self.ParameterDict:
+            if self.ParameterDict[key].Values is None:
+                self.ParameterDict[key].Values = np.zeros(tuple([len(self.IndexTable.set_index(&#39;IndexLetter&#39;).ix[x][&#39;Classification&#39;].Items) for x in self.ParameterDict[key].Indices.split(&#39;,&#39;)]))                   
+                
+    def Consistency_Check(self):
+        &#34;&#34;&#34; Method that check a readily defined system for consistency of dimensions, Value setting, etc. See detailed comments.&#34;&#34;&#34;                
+        
+        # 1) Check dimension consistency in index table:
+        A = self.IndexTableCheck()
+        
+        # 2) Check whether all process indices that the flows refer to are in the process list:
+        for key in self.FlowDict:
+            if self.FlowDict[key].P_Start &gt; len(self.ProcessList) -1:
+                raise ValueError(&#39;Start process of flow {foo} not present. Check your flow definition!&#39;.format(foo = key))
+            if self.FlowDict[key].P_End &gt; len(self.ProcessList) -1:
+                raise ValueError(&#39;End process of flow {foo} not present. Check your flow definition!&#39;.format(foo = key))                
+        
+        # 3) Check whethe all flow valua arrays match with the index structure:
+        for key in self.FlowDict:
+            if tuple([len(self.IndexTable.set_index(&#39;IndexLetter&#39;).ix[x][&#39;Classification&#39;].Items) for x in self.FlowDict[key].Indices.split(&#39;,&#39;)]) != self.FlowDict[key].Values.shape:
+                raise ValueError(&#39;Dimension mismatch. Dimension of flow value array does not fit to flow indices for flow {foo}. Check your flow and flow value definition!&#39;.format(foo = key))
+                
+        return A, True, True
+        
+    def Flow_Sum_By_Element(self,FlowKey):
+        &#34;&#34;&#34; 
+        Reduce flow values to a Time x Elements matrix and return as t x e array.
+        We take the indices of each flow, e.g., &#39;t,O,D,G,m,e&#39;, strip off the &#39;,&#39; to get &#39;tODGme&#39;, 
+        add a &#39;-&gt;&#39; and the index letters for time and element (here, t and e), 
+        and call the Einstein sum function np.einsum with the string &#39;tODGme-&gt;te&#39;, 
+        and apply it to the flow values. 
+        &#34;&#34;&#34;
+        return np.einsum(self.FlowDict[FlowKey].Indices.replace(&#39;,&#39;,&#39;&#39;) + &#39;-&gt;&#39;+ self.IndexTable.ix[&#39;Time&#39;].IndexLetter + self.IndexTable.ix[&#39;Element&#39;].IndexLetter ,self.FlowDict[FlowKey].Values) 
+    
+    def Stock_Sum_By_Element(self,StockKey):
+        &#34;&#34;&#34; 
+        Reduce stock values to a Time x Elements matrix and return as t x e array.
+        We take the indices of each stock, e.g., &#39;t,c,G,m,e&#39;, strip off the &#39;,&#39; to get &#39;tcGme&#39;, 
+        add a &#39;-&gt;&#39; and the index letters for time and element (here, t and e), 
+        and call the Einstein sum function np.einsum with the string &#39;tcGme-&gt;te&#39;, 
+        and apply it to the stock values. 
+        &#34;&#34;&#34;
+        return np.einsum(self.StockDict[StockKey].Indices.replace(&#39;,&#39;,&#39;&#39;) + &#39;-&gt;&#39;+ self.IndexTable.ix[&#39;Time&#39;].IndexLetter + self.IndexTable.ix[&#39;Element&#39;].IndexLetter ,self.StockDict[StockKey].Values) 
+                 
+    def MassBalance(self, Element = None):
+        &#34;&#34;&#34; 
+        Determines mass balance of MFAsystem
+        We take the indices of each flow, e.g., &#39;t,O,D,G,m,e&#39;, strip off the &#39;,&#39; to get &#39;tODGme&#39;, 
+        add a &#39;-&gt;&#39; and the index letters for time and element (here, t and e), 
+        and call the Einstein sum function np.einsum with the string &#39;tODGme-&gt;te&#39;, 
+        and apply it to the flow values. 
+        Sum to t and e is subtracted from process where flow is leaving from and added to destination process.
+        &#34;&#34;&#34;
+        Bal = np.zeros((len(self.Time_L),len(self.ProcessList),len(self.Elements))) # Balance array: years x process x element: 
+        #process position 0 is the balance for the system boundary, the other positions are for the processes, 
+        #element position 0 is the balance for the entire mass, the other are for the balance of the individual elements
+        
+        for key in self.FlowDict: # Add all flows to mass balance
+            Bal[:,self.FlowDict[key].P_Start,:] -= self.Flow_Sum_By_Element(key) # Flow leaving a process
+            Bal[:,self.FlowDict[key].P_End,:]   += self.Flow_Sum_By_Element(key) # Flow entering a process
+            
+        for key in self.StockDict: # Add all stock changes to the mass balance
+            if  self.StockDict[key].Type == 1:
+                Bal[:,self.StockDict[key].P_Res,:] -= self.Stock_Sum_By_Element(key) # 1: net stock change or addition to stock
+            elif self.StockDict[key].Type == 2:
+                Bal[:,self.StockDict[key].P_Res,:] += self.Stock_Sum_By_Element(key) # 2: removal/release from stock
+            
+        #add stock changes to process with number 0 (&#39;system boundary, environment of system&#39;)
+        for key in self.StockDict:
+            if  self.StockDict[key].Type == 1:
+                Bal[:,0,:] += self.Stock_Sum_By_Element(key) # 1: net stock change or addition to stock
+            elif self.StockDict[key].Type == 2:
+                Bal[:,0,:] -= self.Stock_Sum_By_Element(key) # 2: removal/release from stock
+            
+        return Bal
+    
+    def Check_If_All_Chem_Elements_Are_present(self,FlowKey,AllElementsIndex):
+        &#34;&#34;&#34;
+        This method is applicable to systems where the chemical element list contains both 0 (&#39;all&#39; chemical elements) and individual elements.
+        It checks whether the sum of the system variable of the other elements equals the entry for element 0.
+        This means that the breakdown of the system variable into individual elements has the same mass as the total for all elements.
+        AllElementsindex is the position of the element 0 in the element list, typically, it is also 0.
+        &#34;&#34;&#34;
+        txe = self.Flow_Sum_By_Element(FlowKey)
+        txe_0 = txe[:,AllElementsIndex]
+        txe_o = np.delete(txe,AllElementsIndex,axis=1).sum(axis=1)
+        if np.allclose(txe_0,txe_o):
+            Check = True
+        else:
+            Check = False
+        return Check, txe_0, txe_o  # Check flag, time series for element &#39;all&#39;, time series for all &#39;other&#39; elements.
+        
+    def SankeyExport(self,Year, Path, Element): # Export data for given year in excel format for the D3.js Circular Sankey method
+        &#34;&#34;&#34; Exports MFAsystem to xls Template for the Circular Sankey method.&#34;&#34;&#34;
+        
+        TimeIndex = Year - self.Time_Start
+        
+        myfont = xlwt.Font()
+        myfont.bold = True
+        mystyle = xlwt.XFStyle()
+        mystyle.font = myfont
+        
+        Result_workbook  = xlwt.Workbook(encoding = &#39;ascii&#39;) 
+        Result_worksheet = Result_workbook.add_sheet(&#39;Nodes&#39;) 
+        Result_worksheet.write(0, 0, label = &#39;Name&#39;, style = mystyle)
+        Result_worksheet.write(0, 1, label = &#39;Color&#39;, style = mystyle)
+        Result_worksheet.write(0, 2, label = &#39;Orientation&#39;, style = mystyle)
+        Result_worksheet.write(0, 3, label = &#39;Width&#39;, style = mystyle)
+        Result_worksheet.write(0, 4, label = &#39;Height&#39;, style = mystyle)
+        Result_worksheet.write(0, 5, label = &#39;x_position&#39;, style = mystyle)
+        Result_worksheet.write(0, 6, label = &#39;y_position&#39;, style = mystyle)
+        
+        for m in range(0,len(self.ProcessList)): 
+            if self.ProcessList[m].Graphical is None:
+                raise ValueError(&#39;Graphical properties of process number {foo} are not set. No export to Sankey possible, as position of process on canvas etc. needs is not specified.&#39;.format(foo = m))
+            Result_worksheet.write(m +1, 0, label = self.ProcessList[m].Graphical[&#39;Name&#39;])
+            Result_worksheet.write(m +1, 1, label = self.ProcessList[m].Graphical[&#39;Color&#39;])
+            Result_worksheet.write(m +1, 2, label = self.ProcessList[m].Graphical[&#39;Angle&#39;])
+            Result_worksheet.write(m +1, 3, label = self.ProcessList[m].Graphical[&#39;Width&#39;])
+            Result_worksheet.write(m +1, 4, label = self.ProcessList[m].Graphical[&#39;Height&#39;])
+            Result_worksheet.write(m +1, 5, label = self.ProcessList[m].Graphical[&#39;xPos&#39;])
+            Result_worksheet.write(m +1, 6, label = self.ProcessList[m].Graphical[&#39;yPos&#39;])
+            
+        Result_worksheet = Result_workbook.add_sheet(&#39;Flows&#39;) 
+        Result_worksheet.write(0, 0, label = &#39;StartNode&#39;, style = mystyle)
+        Result_worksheet.write(0, 1, label = &#39;EndNode&#39;, style = mystyle)
+        Result_worksheet.write(0, 2, label = &#39;Value&#39;, style = mystyle)
+        Result_worksheet.write(0, 3, label = &#39;Color&#39;, style = mystyle)
+        
+        for key in self.FlowDict:
+            Result_worksheet.write(m +1, 0, label = self.FlowDict[key].P_Start)
+            Result_worksheet.write(m +1, 1, label = self.FlowDict[key].P_End)
+            Result_worksheet.write(m +1, 2, label = float(self.Flow_Sum_By_Element(key)[TimeIndex,Element]))
+            Result_worksheet.write(m +1, 3, label = self.FlowDict[key].Color)
+            
+        Result_workbook.save(Path + self.Name + &#39;_&#39; + str(TimeIndex) + &#39;_&#39; + str(Element) + &#39;_Sankey.xls&#39;)  
+        
+        
+class Process(Obj):
+
+    &#34;&#34;&#34;
+    Class with the definition and methods for a process in ODYM
+    &#34;&#34;&#34;
+    
+    def __init__(self, Name = None, ID = None, UUID = None, Bipartite = None, Graphical = None, Extensions = None, Parameters = None):
+        &#34;&#34;&#34; Basic initialisation of a process.&#34;&#34;&#34;
+        Obj.__init__(self, Name = Name, ID = ID, UUID = UUID) # Hand over parameters to parent class init        
+        self.Bipartite = Bipartite   # For bipartite system graphs, a string with value &#39;t&#39; or &#39;d&#39; for transformation and distribution process indicates which group the process belongs to.
+        self.Extensions= Extensions  # Dictionary of     
+        self.Graphical = Graphical   # # Dictionary of graphical properties: xPos = None, yPos = None, Orientation = None, Color=None, Width = None, Height=None, 
+        
+    def add_extension(self,Time = None, Name = None, Value=None, Unit = None, Uncert=None): # Extensions flows that are not part of the system-wide mass balance!
+        if self.Extensions is None:
+            self.Extensions = []
+        self.Extensions.append(Flow(P_Start = self.ID, P_End = None, Time = Time, Name = Name, Unit = Unit, Value = Value, Uncert = Uncert))
+      
+    def add_parameter(self,Name = None):
+        if self.Parameters is None:
+            self.Parameters = []
+        self.Parameters.append(Parameter(Value = None))
+            
+class Flow(Obj): # Flow needs to at least have dimension time x element
+
+    &#34;&#34;&#34;
+    Class with the definition and methods for a flow in ODYM
+    &#34;&#34;&#34;
+    
+    def __init__(self, Name = None, ID = None, UUID = None, P_Start = None, P_End = None, Indices = None, Values=None, Uncert=None, Unit = None, Color = None):
+        &#34;&#34;&#34; Basic initialisation of a flow.&#34;&#34;&#34;
+        Obj.__init__(self, Name = Name, ID = ID, UUID = UUID) # Hand over parameters to parent class init
+        self.P_Start     = P_Start # id of start process of flow (id: int)
+        self.P_End       = P_End   # id of end process of flow (id: int)
+        self.Indices     = Indices # String with indices as defined in IndexTable, separated by ,: &#39;t,c,p,s,e&#39;
+        
+        self.Values      = Values   # flow values, np.array, multidimensional, unit is system-wide unit
+        self.Uncert      = Uncert  # uncertainty of value in %
+        self.Unit        = Unit    # Unit string
+        
+        self.Color       = Color   # color as string &#39;R,G,B&#39;, where each of R, G, B has a value of 0...255
+
+
+
+class Stock(Obj): # Flow needs to at least have dimension time x element
+
+    &#34;&#34;&#34;
+    Class with the definition and methods for a stock in ODYM
+    &#34;&#34;&#34;
+    
+    def __init__(self, Name = None, ID = None, UUID = None, P_Res = None, Indices = None, Type = None, Values=None, Uncert=None, Unit = None, Color = None):
+        &#34;&#34;&#34; Basic initialisation of a stock.&#34;&#34;&#34;
+        Obj.__init__(self, Name = Name, ID = ID, UUID = UUID) # Hand over parameters to parent class init
+        self.P_Res       = P_Res   # id of process where stock resides (id: int)
+        self.Indices     = Indices # String with indices as defined in IndexTable, separated by ,: &#39;t,c,p,s,e&#39;
+        self.Type        = Type  # Type is an int value, indicating: 0: stock, 1: (net) stock change or addition to stock, 2: removal from stock
+        
+        self.Values      = Values  # flow values, np.array, multidimensional, unit is system-wide unit
+        self.Uncert      = Uncert  # uncertainty of value in %
+        self.Unit        = Unit    # Unit string
+
+        self.Color       = Color   # color as string &#39;R,G,B&#39;, where each of R, G, B has a value of 0...255
+
+
+class Parameter(Obj):
+  
+    &#34;&#34;&#34;
+    Class with the definition and methods for parameters
+    &#34;&#34;&#34;
+    
+    def __init__(self, Name = None, ID = None, UUID = None, P_Res = None, MetaData = None, Indices = None, Values=None, Uncert=None, Unit = None):
+        &#34;&#34;&#34; Basic initialisation of a parameter.&#34;&#34;&#34;
+        Obj.__init__(self, Name = Name, ID = ID, UUID = UUID) # Hand over parameters to parent class init
+        self.P_Res       = P_Res   # id of process to which parameter is assigned (id: int)
+        self.Indices     = Indices # String with indices as defined in IndexTable, separated by ,: &#39;t,c,p,s,e&#39;
+        self.MetaData    = MetaData # Dictionary with additional metadata
+        
+        self.Values      = Values   # parameter values, np.array, multidimensional, unit is Unit
+        self.Uncert      = Uncert  # uncertainty of value in %
+        self.Unit        = Unit   # Unit of parameter values
+
+  
+       
+
+
+
+        
+#   
+#
+#    </code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="modules.ODYM_Classes.Classification"><code class="flex name class">
+<span>class <span class="ident">Classification</span></span>
+<span>(</span><span>Name=None, ID=None, UUID=None, Dimension=None, Items=None, IDs=None, AdditionalProporties={})</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Class for aspect classification</p>
+<p>Basic initialisation of an item list for alloys, materials, etc.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class Classification(Obj):
+  
+    &#34;&#34;&#34;
+    Class for aspect classification
+    &#34;&#34;&#34;
+    
+    def __init__(self, Name = None, ID = None, UUID = None, Dimension = None, Items = None, IDs = None, AdditionalProporties = {}):
+        &#34;&#34;&#34; Basic initialisation of an item list for alloys, materials, etc.&#34;&#34;&#34;
+        Obj.__init__(self, Name = Name, ID = ID, UUID = UUID) # Hand over parameters to parent class init
+        self.Dimension         = Dimension # Dimension of classification: Time, Region, process, material, goods, ...
+        self.Items             = Items # list with names of items
+        self.IDs               = IDs # list with IDs of items
+        self.AdditionalProps   = AdditionalProporties # Like population for regions, element composition for alloys, ...</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="modules.ODYM_Classes.Obj" href="#modules.ODYM_Classes.Obj">Obj</a></li>
+</ul>
+</dd>
+<dt id="modules.ODYM_Classes.Flow"><code class="flex name class">
+<span>class <span class="ident">Flow</span></span>
+<span>(</span><span>Name=None, ID=None, UUID=None, P_Start=None, P_End=None, Indices=None, Values=None, Uncert=None, Unit=None, Color=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Class with the definition and methods for a flow in ODYM</p>
+<p>Basic initialisation of a flow.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class Flow(Obj): # Flow needs to at least have dimension time x element
+
+    &#34;&#34;&#34;
+    Class with the definition and methods for a flow in ODYM
+    &#34;&#34;&#34;
+    
+    def __init__(self, Name = None, ID = None, UUID = None, P_Start = None, P_End = None, Indices = None, Values=None, Uncert=None, Unit = None, Color = None):
+        &#34;&#34;&#34; Basic initialisation of a flow.&#34;&#34;&#34;
+        Obj.__init__(self, Name = Name, ID = ID, UUID = UUID) # Hand over parameters to parent class init
+        self.P_Start     = P_Start # id of start process of flow (id: int)
+        self.P_End       = P_End   # id of end process of flow (id: int)
+        self.Indices     = Indices # String with indices as defined in IndexTable, separated by ,: &#39;t,c,p,s,e&#39;
+        
+        self.Values      = Values   # flow values, np.array, multidimensional, unit is system-wide unit
+        self.Uncert      = Uncert  # uncertainty of value in %
+        self.Unit        = Unit    # Unit string
+        
+        self.Color       = Color   # color as string &#39;R,G,B&#39;, where each of R, G, B has a value of 0...255</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="modules.ODYM_Classes.Obj" href="#modules.ODYM_Classes.Obj">Obj</a></li>
+</ul>
+</dd>
+<dt id="modules.ODYM_Classes.MFAsystem"><code class="flex name class">
+<span>class <span class="ident">MFAsystem</span></span>
+<span>(</span><span>Name, Time_Start, Time_End, Geogr_Scope, Unit, IndexTable, Elements, ProcessList=[], FlowDict={}, StockDict={}, ParameterDict={}, Graphical=None, ID=None, UUID=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Class with the definition and methods for a system in ODYM</p>
+<p>Initialisation of MFAsystem.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class MFAsystem(Obj):
+
+    &#34;&#34;&#34;
+    Class with the definition and methods for a system in ODYM
+    &#34;&#34;&#34;
+    
+    def __init__(self, Name, Time_Start, Time_End, Geogr_Scope, Unit, IndexTable, Elements, ProcessList = [], FlowDict = {}, StockDict = {}, ParameterDict = {}, Graphical = None, ID = None, UUID = None, ):
+        &#34;&#34;&#34; Initialisation of MFAsystem.&#34;&#34;&#34;
+        Obj.__init__(self, Name = Name, ID = ID, UUID = UUID) # Hand over parameters to parent class init
+        
+        self.Time_Start      = Time_Start # start time of model (year: int)
+        self.Time_End        = Time_End # end time of model (year: int)
+        self.Geogr_Scope     = Geogr_Scope   # geographical boundary (string)
+        self.Elements        = Elements # list of chemical elements considered, indicated by atomic numbers
+        self.Unit            = Unit    # flow and stock base unit, without &#39;per yr&#39;
+        
+        self.ProcessList     = ProcessList # list of processes, processes are referred to by their number
+        self.FlowDict        = FlowDict # Dictionary of flows, are indexed by tuples of process they are attached to (p1,p2)
+        self.StockDict       = StockDict # Dictionary of stocks, are indexed by process they are located at (p)
+        self.ParameterDict   = ParameterDict # Dictionary of of parameters: lifetime, yield rates, etc.
+        self.IndexTable      = IndexTable # Dictionary of abbreviations for aspect-classification tuples 
+        
+        self.Graphical       = Graphical # Dictionary of graphical properties (size in pixel, background color, etc.)
+
+    @property
+    def Time_V(self):
+        &#34;&#34;&#34; Array of all model years&#34;&#34;&#34;
+        return np.arange(self.Time_Start,self.Time_End +1,1)
+        
+    @property
+    def Time_L(self):
+        &#34;&#34;&#34; List of all model years&#34;&#34;&#34;
+        return np.arange(self.Time_Start,self.Time_End +1,1).tolist()
+        
+    def IndexTableCheck(self):
+        &#34;&#34;&#34; Check whether chosen classifications fit to dimensions of index table.&#34;&#34;&#34;
+        for indx in self.IndexTable.index:
+            if self.IndexTable.ix[indx][&#39;Dimension&#39;]  != self.IndexTable.ix[indx][&#39;Classification&#39;].Dimension:
+                raise ValueError(&#39;Dimension mismatch. Dimension of classifiation needs to fit to dimension of flow or parameter index. Found a mismatch for the following index: {foo}. Check your index table definition!&#39;.format(foo = indx))
+        if &#39;Time&#39; not in self.IndexTable.index:
+            raise ValueError(&#39; &#34;Time&#34; aspect must be present in IndexTable. Please check your index table definition!&#39;)            
+        if &#39;Element&#39; not in self.IndexTable.index:
+            raise ValueError(&#39; &#34;Element&#34; aspect must be present in IndexTable. Please check your index table definition!&#39;)                            
+        if len(self.IndexTable.ix[&#39;Element&#39;].Classification.Items) == 0:
+            raise ValueError(&#39;Need at least one element in element list, please check your classification definition!&#39;)
+        if len(self.IndexTable.ix[&#39;Time&#39;].Classification.Items) == 0:
+            raise ValueError(&#39;Need at least one element in Time list, please check your classification definition!&#39;)
+
+        return True
+           
+    def Initialize_FlowValues(self):
+        &#34;&#34;&#34; This method will construct empty numpy arrays (zeros) for all flows where the value is None and wheree the indices are given.&#34;&#34;&#34;
+        for key in self.FlowDict:
+            if self.FlowDict[key].Values is None:
+                self.FlowDict[key].Values = np.zeros(tuple([len(self.IndexTable.set_index(&#39;IndexLetter&#39;).ix[x][&#39;Classification&#39;].Items) for x in self.FlowDict[key].Indices.split(&#39;,&#39;)]))   
+#        Raw code, for development        
+#        Indices = &#39;t,Ro,a,e&#39;
+#        IndList = Indices.split(&#39;,&#39;)
+#        Dimensions = [len(IndexTable.ix[x][&#39;Classification&#39;].Items) for x in IndList]
+#        Values = np.zeros(tuple(Dimensions))       
+
+    def Initialize_StockValues(self):
+        &#34;&#34;&#34; This method will construct empty numpy arrays (zeros) for all stocks where the value is None and wheree the indices are given.&#34;&#34;&#34;
+        for key in self.StockDict:
+            if self.StockDict[key].Values is None:
+                self.StockDict[key].Values = np.zeros(tuple([len(self.IndexTable.set_index(&#39;IndexLetter&#39;).ix[x][&#39;Classification&#39;].Items) for x in self.StockDict[key].Indices.split(&#39;,&#39;)]))   
+
+    def Initialize_ParameterValues(self):
+        &#34;&#34;&#34; This method will construct empty numpy arrays (zeros) for all parameters where the value is None and wheree the indices are given.&#34;&#34;&#34;
+        for key in self.ParameterDict:
+            if self.ParameterDict[key].Values is None:
+                self.ParameterDict[key].Values = np.zeros(tuple([len(self.IndexTable.set_index(&#39;IndexLetter&#39;).ix[x][&#39;Classification&#39;].Items) for x in self.ParameterDict[key].Indices.split(&#39;,&#39;)]))                   
+                
+    def Consistency_Check(self):
+        &#34;&#34;&#34; Method that check a readily defined system for consistency of dimensions, Value setting, etc. See detailed comments.&#34;&#34;&#34;                
+        
+        # 1) Check dimension consistency in index table:
+        A = self.IndexTableCheck()
+        
+        # 2) Check whether all process indices that the flows refer to are in the process list:
+        for key in self.FlowDict:
+            if self.FlowDict[key].P_Start &gt; len(self.ProcessList) -1:
+                raise ValueError(&#39;Start process of flow {foo} not present. Check your flow definition!&#39;.format(foo = key))
+            if self.FlowDict[key].P_End &gt; len(self.ProcessList) -1:
+                raise ValueError(&#39;End process of flow {foo} not present. Check your flow definition!&#39;.format(foo = key))                
+        
+        # 3) Check whethe all flow valua arrays match with the index structure:
+        for key in self.FlowDict:
+            if tuple([len(self.IndexTable.set_index(&#39;IndexLetter&#39;).ix[x][&#39;Classification&#39;].Items) for x in self.FlowDict[key].Indices.split(&#39;,&#39;)]) != self.FlowDict[key].Values.shape:
+                raise ValueError(&#39;Dimension mismatch. Dimension of flow value array does not fit to flow indices for flow {foo}. Check your flow and flow value definition!&#39;.format(foo = key))
+                
+        return A, True, True
+        
+    def Flow_Sum_By_Element(self,FlowKey):
+        &#34;&#34;&#34; 
+        Reduce flow values to a Time x Elements matrix and return as t x e array.
+        We take the indices of each flow, e.g., &#39;t,O,D,G,m,e&#39;, strip off the &#39;,&#39; to get &#39;tODGme&#39;, 
+        add a &#39;-&gt;&#39; and the index letters for time and element (here, t and e), 
+        and call the Einstein sum function np.einsum with the string &#39;tODGme-&gt;te&#39;, 
+        and apply it to the flow values. 
+        &#34;&#34;&#34;
+        return np.einsum(self.FlowDict[FlowKey].Indices.replace(&#39;,&#39;,&#39;&#39;) + &#39;-&gt;&#39;+ self.IndexTable.ix[&#39;Time&#39;].IndexLetter + self.IndexTable.ix[&#39;Element&#39;].IndexLetter ,self.FlowDict[FlowKey].Values) 
+    
+    def Stock_Sum_By_Element(self,StockKey):
+        &#34;&#34;&#34; 
+        Reduce stock values to a Time x Elements matrix and return as t x e array.
+        We take the indices of each stock, e.g., &#39;t,c,G,m,e&#39;, strip off the &#39;,&#39; to get &#39;tcGme&#39;, 
+        add a &#39;-&gt;&#39; and the index letters for time and element (here, t and e), 
+        and call the Einstein sum function np.einsum with the string &#39;tcGme-&gt;te&#39;, 
+        and apply it to the stock values. 
+        &#34;&#34;&#34;
+        return np.einsum(self.StockDict[StockKey].Indices.replace(&#39;,&#39;,&#39;&#39;) + &#39;-&gt;&#39;+ self.IndexTable.ix[&#39;Time&#39;].IndexLetter + self.IndexTable.ix[&#39;Element&#39;].IndexLetter ,self.StockDict[StockKey].Values) 
+                 
+    def MassBalance(self, Element = None):
+        &#34;&#34;&#34; 
+        Determines mass balance of MFAsystem
+        We take the indices of each flow, e.g., &#39;t,O,D,G,m,e&#39;, strip off the &#39;,&#39; to get &#39;tODGme&#39;, 
+        add a &#39;-&gt;&#39; and the index letters for time and element (here, t and e), 
+        and call the Einstein sum function np.einsum with the string &#39;tODGme-&gt;te&#39;, 
+        and apply it to the flow values. 
+        Sum to t and e is subtracted from process where flow is leaving from and added to destination process.
+        &#34;&#34;&#34;
+        Bal = np.zeros((len(self.Time_L),len(self.ProcessList),len(self.Elements))) # Balance array: years x process x element: 
+        #process position 0 is the balance for the system boundary, the other positions are for the processes, 
+        #element position 0 is the balance for the entire mass, the other are for the balance of the individual elements
+        
+        for key in self.FlowDict: # Add all flows to mass balance
+            Bal[:,self.FlowDict[key].P_Start,:] -= self.Flow_Sum_By_Element(key) # Flow leaving a process
+            Bal[:,self.FlowDict[key].P_End,:]   += self.Flow_Sum_By_Element(key) # Flow entering a process
+            
+        for key in self.StockDict: # Add all stock changes to the mass balance
+            if  self.StockDict[key].Type == 1:
+                Bal[:,self.StockDict[key].P_Res,:] -= self.Stock_Sum_By_Element(key) # 1: net stock change or addition to stock
+            elif self.StockDict[key].Type == 2:
+                Bal[:,self.StockDict[key].P_Res,:] += self.Stock_Sum_By_Element(key) # 2: removal/release from stock
+            
+        #add stock changes to process with number 0 (&#39;system boundary, environment of system&#39;)
+        for key in self.StockDict:
+            if  self.StockDict[key].Type == 1:
+                Bal[:,0,:] += self.Stock_Sum_By_Element(key) # 1: net stock change or addition to stock
+            elif self.StockDict[key].Type == 2:
+                Bal[:,0,:] -= self.Stock_Sum_By_Element(key) # 2: removal/release from stock
+            
+        return Bal
+    
+    def Check_If_All_Chem_Elements_Are_present(self,FlowKey,AllElementsIndex):
+        &#34;&#34;&#34;
+        This method is applicable to systems where the chemical element list contains both 0 (&#39;all&#39; chemical elements) and individual elements.
+        It checks whether the sum of the system variable of the other elements equals the entry for element 0.
+        This means that the breakdown of the system variable into individual elements has the same mass as the total for all elements.
+        AllElementsindex is the position of the element 0 in the element list, typically, it is also 0.
+        &#34;&#34;&#34;
+        txe = self.Flow_Sum_By_Element(FlowKey)
+        txe_0 = txe[:,AllElementsIndex]
+        txe_o = np.delete(txe,AllElementsIndex,axis=1).sum(axis=1)
+        if np.allclose(txe_0,txe_o):
+            Check = True
+        else:
+            Check = False
+        return Check, txe_0, txe_o  # Check flag, time series for element &#39;all&#39;, time series for all &#39;other&#39; elements.
+        
+    def SankeyExport(self,Year, Path, Element): # Export data for given year in excel format for the D3.js Circular Sankey method
+        &#34;&#34;&#34; Exports MFAsystem to xls Template for the Circular Sankey method.&#34;&#34;&#34;
+        
+        TimeIndex = Year - self.Time_Start
+        
+        myfont = xlwt.Font()
+        myfont.bold = True
+        mystyle = xlwt.XFStyle()
+        mystyle.font = myfont
+        
+        Result_workbook  = xlwt.Workbook(encoding = &#39;ascii&#39;) 
+        Result_worksheet = Result_workbook.add_sheet(&#39;Nodes&#39;) 
+        Result_worksheet.write(0, 0, label = &#39;Name&#39;, style = mystyle)
+        Result_worksheet.write(0, 1, label = &#39;Color&#39;, style = mystyle)
+        Result_worksheet.write(0, 2, label = &#39;Orientation&#39;, style = mystyle)
+        Result_worksheet.write(0, 3, label = &#39;Width&#39;, style = mystyle)
+        Result_worksheet.write(0, 4, label = &#39;Height&#39;, style = mystyle)
+        Result_worksheet.write(0, 5, label = &#39;x_position&#39;, style = mystyle)
+        Result_worksheet.write(0, 6, label = &#39;y_position&#39;, style = mystyle)
+        
+        for m in range(0,len(self.ProcessList)): 
+            if self.ProcessList[m].Graphical is None:
+                raise ValueError(&#39;Graphical properties of process number {foo} are not set. No export to Sankey possible, as position of process on canvas etc. needs is not specified.&#39;.format(foo = m))
+            Result_worksheet.write(m +1, 0, label = self.ProcessList[m].Graphical[&#39;Name&#39;])
+            Result_worksheet.write(m +1, 1, label = self.ProcessList[m].Graphical[&#39;Color&#39;])
+            Result_worksheet.write(m +1, 2, label = self.ProcessList[m].Graphical[&#39;Angle&#39;])
+            Result_worksheet.write(m +1, 3, label = self.ProcessList[m].Graphical[&#39;Width&#39;])
+            Result_worksheet.write(m +1, 4, label = self.ProcessList[m].Graphical[&#39;Height&#39;])
+            Result_worksheet.write(m +1, 5, label = self.ProcessList[m].Graphical[&#39;xPos&#39;])
+            Result_worksheet.write(m +1, 6, label = self.ProcessList[m].Graphical[&#39;yPos&#39;])
+            
+        Result_worksheet = Result_workbook.add_sheet(&#39;Flows&#39;) 
+        Result_worksheet.write(0, 0, label = &#39;StartNode&#39;, style = mystyle)
+        Result_worksheet.write(0, 1, label = &#39;EndNode&#39;, style = mystyle)
+        Result_worksheet.write(0, 2, label = &#39;Value&#39;, style = mystyle)
+        Result_worksheet.write(0, 3, label = &#39;Color&#39;, style = mystyle)
+        
+        for key in self.FlowDict:
+            Result_worksheet.write(m +1, 0, label = self.FlowDict[key].P_Start)
+            Result_worksheet.write(m +1, 1, label = self.FlowDict[key].P_End)
+            Result_worksheet.write(m +1, 2, label = float(self.Flow_Sum_By_Element(key)[TimeIndex,Element]))
+            Result_worksheet.write(m +1, 3, label = self.FlowDict[key].Color)
+            
+        Result_workbook.save(Path + self.Name + &#39;_&#39; + str(TimeIndex) + &#39;_&#39; + str(Element) + &#39;_Sankey.xls&#39;)  </code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="modules.ODYM_Classes.Obj" href="#modules.ODYM_Classes.Obj">Obj</a></li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="modules.ODYM_Classes.MFAsystem.Time_L"><code class="name">var <span class="ident">Time_L</span></code></dt>
+<dd>
+<section class="desc"><p>List of all model years</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def Time_L(self):
+    &#34;&#34;&#34; List of all model years&#34;&#34;&#34;
+    return np.arange(self.Time_Start,self.Time_End +1,1).tolist()</code></pre>
+</details>
+</dd>
+<dt id="modules.ODYM_Classes.MFAsystem.Time_V"><code class="name">var <span class="ident">Time_V</span></code></dt>
+<dd>
+<section class="desc"><p>Array of all model years</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def Time_V(self):
+    &#34;&#34;&#34; Array of all model years&#34;&#34;&#34;
+    return np.arange(self.Time_Start,self.Time_End +1,1)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="modules.ODYM_Classes.MFAsystem.Check_If_All_Chem_Elements_Are_present"><code class="name flex">
+<span>def <span class="ident">Check_If_All_Chem_Elements_Are_present</span></span>(<span>self, FlowKey, AllElementsIndex)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This method is applicable to systems where the chemical element list contains both 0 ('all' chemical elements) and individual elements.
+It checks whether the sum of the system variable of the other elements equals the entry for element 0.
+This means that the breakdown of the system variable into individual elements has the same mass as the total for all elements.
+AllElementsindex is the position of the element 0 in the element list, typically, it is also 0.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def Check_If_All_Chem_Elements_Are_present(self,FlowKey,AllElementsIndex):
+    &#34;&#34;&#34;
+    This method is applicable to systems where the chemical element list contains both 0 (&#39;all&#39; chemical elements) and individual elements.
+    It checks whether the sum of the system variable of the other elements equals the entry for element 0.
+    This means that the breakdown of the system variable into individual elements has the same mass as the total for all elements.
+    AllElementsindex is the position of the element 0 in the element list, typically, it is also 0.
+    &#34;&#34;&#34;
+    txe = self.Flow_Sum_By_Element(FlowKey)
+    txe_0 = txe[:,AllElementsIndex]
+    txe_o = np.delete(txe,AllElementsIndex,axis=1).sum(axis=1)
+    if np.allclose(txe_0,txe_o):
+        Check = True
+    else:
+        Check = False
+    return Check, txe_0, txe_o  # Check flag, time series for element &#39;all&#39;, time series for all &#39;other&#39; elements.</code></pre>
+</details>
+</dd>
+<dt id="modules.ODYM_Classes.MFAsystem.Consistency_Check"><code class="name flex">
+<span>def <span class="ident">Consistency_Check</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Method that check a readily defined system for consistency of dimensions, Value setting, etc. See detailed comments.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def Consistency_Check(self):
+    &#34;&#34;&#34; Method that check a readily defined system for consistency of dimensions, Value setting, etc. See detailed comments.&#34;&#34;&#34;                
+    
+    # 1) Check dimension consistency in index table:
+    A = self.IndexTableCheck()
+    
+    # 2) Check whether all process indices that the flows refer to are in the process list:
+    for key in self.FlowDict:
+        if self.FlowDict[key].P_Start &gt; len(self.ProcessList) -1:
+            raise ValueError(&#39;Start process of flow {foo} not present. Check your flow definition!&#39;.format(foo = key))
+        if self.FlowDict[key].P_End &gt; len(self.ProcessList) -1:
+            raise ValueError(&#39;End process of flow {foo} not present. Check your flow definition!&#39;.format(foo = key))                
+    
+    # 3) Check whethe all flow valua arrays match with the index structure:
+    for key in self.FlowDict:
+        if tuple([len(self.IndexTable.set_index(&#39;IndexLetter&#39;).ix[x][&#39;Classification&#39;].Items) for x in self.FlowDict[key].Indices.split(&#39;,&#39;)]) != self.FlowDict[key].Values.shape:
+            raise ValueError(&#39;Dimension mismatch. Dimension of flow value array does not fit to flow indices for flow {foo}. Check your flow and flow value definition!&#39;.format(foo = key))
+            
+    return A, True, True</code></pre>
+</details>
+</dd>
+<dt id="modules.ODYM_Classes.MFAsystem.Flow_Sum_By_Element"><code class="name flex">
+<span>def <span class="ident">Flow_Sum_By_Element</span></span>(<span>self, FlowKey)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Reduce flow values to a Time x Elements matrix and return as t x e array.
+We take the indices of each flow, e.g., 't,O,D,G,m,e', strip off the ',' to get 'tODGme',
+add a '-&gt;' and the index letters for time and element (here, t and e),
+and call the Einstein sum function np.einsum with the string 'tODGme-&gt;te',
+and apply it to the flow values.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def Flow_Sum_By_Element(self,FlowKey):
+    &#34;&#34;&#34; 
+    Reduce flow values to a Time x Elements matrix and return as t x e array.
+    We take the indices of each flow, e.g., &#39;t,O,D,G,m,e&#39;, strip off the &#39;,&#39; to get &#39;tODGme&#39;, 
+    add a &#39;-&gt;&#39; and the index letters for time and element (here, t and e), 
+    and call the Einstein sum function np.einsum with the string &#39;tODGme-&gt;te&#39;, 
+    and apply it to the flow values. 
+    &#34;&#34;&#34;
+    return np.einsum(self.FlowDict[FlowKey].Indices.replace(&#39;,&#39;,&#39;&#39;) + &#39;-&gt;&#39;+ self.IndexTable.ix[&#39;Time&#39;].IndexLetter + self.IndexTable.ix[&#39;Element&#39;].IndexLetter ,self.FlowDict[FlowKey].Values) </code></pre>
+</details>
+</dd>
+<dt id="modules.ODYM_Classes.MFAsystem.IndexTableCheck"><code class="name flex">
+<span>def <span class="ident">IndexTableCheck</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Check whether chosen classifications fit to dimensions of index table.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def IndexTableCheck(self):
+    &#34;&#34;&#34; Check whether chosen classifications fit to dimensions of index table.&#34;&#34;&#34;
+    for indx in self.IndexTable.index:
+        if self.IndexTable.ix[indx][&#39;Dimension&#39;]  != self.IndexTable.ix[indx][&#39;Classification&#39;].Dimension:
+            raise ValueError(&#39;Dimension mismatch. Dimension of classifiation needs to fit to dimension of flow or parameter index. Found a mismatch for the following index: {foo}. Check your index table definition!&#39;.format(foo = indx))
+    if &#39;Time&#39; not in self.IndexTable.index:
+        raise ValueError(&#39; &#34;Time&#34; aspect must be present in IndexTable. Please check your index table definition!&#39;)            
+    if &#39;Element&#39; not in self.IndexTable.index:
+        raise ValueError(&#39; &#34;Element&#34; aspect must be present in IndexTable. Please check your index table definition!&#39;)                            
+    if len(self.IndexTable.ix[&#39;Element&#39;].Classification.Items) == 0:
+        raise ValueError(&#39;Need at least one element in element list, please check your classification definition!&#39;)
+    if len(self.IndexTable.ix[&#39;Time&#39;].Classification.Items) == 0:
+        raise ValueError(&#39;Need at least one element in Time list, please check your classification definition!&#39;)
+
+    return True</code></pre>
+</details>
+</dd>
+<dt id="modules.ODYM_Classes.MFAsystem.Initialize_FlowValues"><code class="name flex">
+<span>def <span class="ident">Initialize_FlowValues</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This method will construct empty numpy arrays (zeros) for all flows where the value is None and wheree the indices are given.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def Initialize_FlowValues(self):
+    &#34;&#34;&#34; This method will construct empty numpy arrays (zeros) for all flows where the value is None and wheree the indices are given.&#34;&#34;&#34;
+    for key in self.FlowDict:
+        if self.FlowDict[key].Values is None:
+            self.FlowDict[key].Values = np.zeros(tuple([len(self.IndexTable.set_index(&#39;IndexLetter&#39;).ix[x][&#39;Classification&#39;].Items) for x in self.FlowDict[key].Indices.split(&#39;,&#39;)]))   </code></pre>
+</details>
+</dd>
+<dt id="modules.ODYM_Classes.MFAsystem.Initialize_ParameterValues"><code class="name flex">
+<span>def <span class="ident">Initialize_ParameterValues</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This method will construct empty numpy arrays (zeros) for all parameters where the value is None and wheree the indices are given.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def Initialize_ParameterValues(self):
+    &#34;&#34;&#34; This method will construct empty numpy arrays (zeros) for all parameters where the value is None and wheree the indices are given.&#34;&#34;&#34;
+    for key in self.ParameterDict:
+        if self.ParameterDict[key].Values is None:
+            self.ParameterDict[key].Values = np.zeros(tuple([len(self.IndexTable.set_index(&#39;IndexLetter&#39;).ix[x][&#39;Classification&#39;].Items) for x in self.ParameterDict[key].Indices.split(&#39;,&#39;)]))                   </code></pre>
+</details>
+</dd>
+<dt id="modules.ODYM_Classes.MFAsystem.Initialize_StockValues"><code class="name flex">
+<span>def <span class="ident">Initialize_StockValues</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This method will construct empty numpy arrays (zeros) for all stocks where the value is None and wheree the indices are given.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def Initialize_StockValues(self):
+    &#34;&#34;&#34; This method will construct empty numpy arrays (zeros) for all stocks where the value is None and wheree the indices are given.&#34;&#34;&#34;
+    for key in self.StockDict:
+        if self.StockDict[key].Values is None:
+            self.StockDict[key].Values = np.zeros(tuple([len(self.IndexTable.set_index(&#39;IndexLetter&#39;).ix[x][&#39;Classification&#39;].Items) for x in self.StockDict[key].Indices.split(&#39;,&#39;)]))   </code></pre>
+</details>
+</dd>
+<dt id="modules.ODYM_Classes.MFAsystem.MassBalance"><code class="name flex">
+<span>def <span class="ident">MassBalance</span></span>(<span>self, Element=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Determines mass balance of MFAsystem
+We take the indices of each flow, e.g., 't,O,D,G,m,e', strip off the ',' to get 'tODGme',
+add a '-&gt;' and the index letters for time and element (here, t and e),
+and call the Einstein sum function np.einsum with the string 'tODGme-&gt;te',
+and apply it to the flow values.
+Sum to t and e is subtracted from process where flow is leaving from and added to destination process.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def MassBalance(self, Element = None):
+    &#34;&#34;&#34; 
+    Determines mass balance of MFAsystem
+    We take the indices of each flow, e.g., &#39;t,O,D,G,m,e&#39;, strip off the &#39;,&#39; to get &#39;tODGme&#39;, 
+    add a &#39;-&gt;&#39; and the index letters for time and element (here, t and e), 
+    and call the Einstein sum function np.einsum with the string &#39;tODGme-&gt;te&#39;, 
+    and apply it to the flow values. 
+    Sum to t and e is subtracted from process where flow is leaving from and added to destination process.
+    &#34;&#34;&#34;
+    Bal = np.zeros((len(self.Time_L),len(self.ProcessList),len(self.Elements))) # Balance array: years x process x element: 
+    #process position 0 is the balance for the system boundary, the other positions are for the processes, 
+    #element position 0 is the balance for the entire mass, the other are for the balance of the individual elements
+    
+    for key in self.FlowDict: # Add all flows to mass balance
+        Bal[:,self.FlowDict[key].P_Start,:] -= self.Flow_Sum_By_Element(key) # Flow leaving a process
+        Bal[:,self.FlowDict[key].P_End,:]   += self.Flow_Sum_By_Element(key) # Flow entering a process
+        
+    for key in self.StockDict: # Add all stock changes to the mass balance
+        if  self.StockDict[key].Type == 1:
+            Bal[:,self.StockDict[key].P_Res,:] -= self.Stock_Sum_By_Element(key) # 1: net stock change or addition to stock
+        elif self.StockDict[key].Type == 2:
+            Bal[:,self.StockDict[key].P_Res,:] += self.Stock_Sum_By_Element(key) # 2: removal/release from stock
+        
+    #add stock changes to process with number 0 (&#39;system boundary, environment of system&#39;)
+    for key in self.StockDict:
+        if  self.StockDict[key].Type == 1:
+            Bal[:,0,:] += self.Stock_Sum_By_Element(key) # 1: net stock change or addition to stock
+        elif self.StockDict[key].Type == 2:
+            Bal[:,0,:] -= self.Stock_Sum_By_Element(key) # 2: removal/release from stock
+        
+    return Bal</code></pre>
+</details>
+</dd>
+<dt id="modules.ODYM_Classes.MFAsystem.SankeyExport"><code class="name flex">
+<span>def <span class="ident">SankeyExport</span></span>(<span>self, Year, Path, Element)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Exports MFAsystem to xls Template for the Circular Sankey method.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def SankeyExport(self,Year, Path, Element): # Export data for given year in excel format for the D3.js Circular Sankey method
+    &#34;&#34;&#34; Exports MFAsystem to xls Template for the Circular Sankey method.&#34;&#34;&#34;
+    
+    TimeIndex = Year - self.Time_Start
+    
+    myfont = xlwt.Font()
+    myfont.bold = True
+    mystyle = xlwt.XFStyle()
+    mystyle.font = myfont
+    
+    Result_workbook  = xlwt.Workbook(encoding = &#39;ascii&#39;) 
+    Result_worksheet = Result_workbook.add_sheet(&#39;Nodes&#39;) 
+    Result_worksheet.write(0, 0, label = &#39;Name&#39;, style = mystyle)
+    Result_worksheet.write(0, 1, label = &#39;Color&#39;, style = mystyle)
+    Result_worksheet.write(0, 2, label = &#39;Orientation&#39;, style = mystyle)
+    Result_worksheet.write(0, 3, label = &#39;Width&#39;, style = mystyle)
+    Result_worksheet.write(0, 4, label = &#39;Height&#39;, style = mystyle)
+    Result_worksheet.write(0, 5, label = &#39;x_position&#39;, style = mystyle)
+    Result_worksheet.write(0, 6, label = &#39;y_position&#39;, style = mystyle)
+    
+    for m in range(0,len(self.ProcessList)): 
+        if self.ProcessList[m].Graphical is None:
+            raise ValueError(&#39;Graphical properties of process number {foo} are not set. No export to Sankey possible, as position of process on canvas etc. needs is not specified.&#39;.format(foo = m))
+        Result_worksheet.write(m +1, 0, label = self.ProcessList[m].Graphical[&#39;Name&#39;])
+        Result_worksheet.write(m +1, 1, label = self.ProcessList[m].Graphical[&#39;Color&#39;])
+        Result_worksheet.write(m +1, 2, label = self.ProcessList[m].Graphical[&#39;Angle&#39;])
+        Result_worksheet.write(m +1, 3, label = self.ProcessList[m].Graphical[&#39;Width&#39;])
+        Result_worksheet.write(m +1, 4, label = self.ProcessList[m].Graphical[&#39;Height&#39;])
+        Result_worksheet.write(m +1, 5, label = self.ProcessList[m].Graphical[&#39;xPos&#39;])
+        Result_worksheet.write(m +1, 6, label = self.ProcessList[m].Graphical[&#39;yPos&#39;])
+        
+    Result_worksheet = Result_workbook.add_sheet(&#39;Flows&#39;) 
+    Result_worksheet.write(0, 0, label = &#39;StartNode&#39;, style = mystyle)
+    Result_worksheet.write(0, 1, label = &#39;EndNode&#39;, style = mystyle)
+    Result_worksheet.write(0, 2, label = &#39;Value&#39;, style = mystyle)
+    Result_worksheet.write(0, 3, label = &#39;Color&#39;, style = mystyle)
+    
+    for key in self.FlowDict:
+        Result_worksheet.write(m +1, 0, label = self.FlowDict[key].P_Start)
+        Result_worksheet.write(m +1, 1, label = self.FlowDict[key].P_End)
+        Result_worksheet.write(m +1, 2, label = float(self.Flow_Sum_By_Element(key)[TimeIndex,Element]))
+        Result_worksheet.write(m +1, 3, label = self.FlowDict[key].Color)
+        
+    Result_workbook.save(Path + self.Name + &#39;_&#39; + str(TimeIndex) + &#39;_&#39; + str(Element) + &#39;_Sankey.xls&#39;)  </code></pre>
+</details>
+</dd>
+<dt id="modules.ODYM_Classes.MFAsystem.Stock_Sum_By_Element"><code class="name flex">
+<span>def <span class="ident">Stock_Sum_By_Element</span></span>(<span>self, StockKey)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Reduce stock values to a Time x Elements matrix and return as t x e array.
+We take the indices of each stock, e.g., 't,c,G,m,e', strip off the ',' to get 'tcGme',
+add a '-&gt;' and the index letters for time and element (here, t and e),
+and call the Einstein sum function np.einsum with the string 'tcGme-&gt;te',
+and apply it to the stock values.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def Stock_Sum_By_Element(self,StockKey):
+    &#34;&#34;&#34; 
+    Reduce stock values to a Time x Elements matrix and return as t x e array.
+    We take the indices of each stock, e.g., &#39;t,c,G,m,e&#39;, strip off the &#39;,&#39; to get &#39;tcGme&#39;, 
+    add a &#39;-&gt;&#39; and the index letters for time and element (here, t and e), 
+    and call the Einstein sum function np.einsum with the string &#39;tcGme-&gt;te&#39;, 
+    and apply it to the stock values. 
+    &#34;&#34;&#34;
+    return np.einsum(self.StockDict[StockKey].Indices.replace(&#39;,&#39;,&#39;&#39;) + &#39;-&gt;&#39;+ self.IndexTable.ix[&#39;Time&#39;].IndexLetter + self.IndexTable.ix[&#39;Element&#39;].IndexLetter ,self.StockDict[StockKey].Values) </code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="modules.ODYM_Classes.Obj"><code class="flex name class">
+<span>class <span class="ident">Obj</span></span>
+<span>(</span><span>Name=None, ID=None, UUID=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Class with the object definition for a data object (system, process, flow, &hellip;) in ODYM</p>
+<p>Basic initialisation of Obj.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class Obj(object):
+    &#34;&#34;&#34;
+    Class with the object definition for a data object (system, process, flow, ...) in ODYM
+    &#34;&#34;&#34;
+    def __init__(self, Name=None, ID=None, UUID=None):
+        &#34;&#34;&#34; Basic initialisation of Obj.&#34;&#34;&#34;
+        self.Name            = Name # object name
+        self.ID              = ID   # object ID
+        self.UUID            = UUID # object UUID
+        self.Aspects         = {&#39;Time&#39;: &#39;Model time&#39;,&#39;Cohort&#39;: &#39;Age-cohort&#39;,&#39;OriginProcess&#39;:&#39;Process where flow originates&#39;,&#39;DestinationProcess&#39;:&#39;Destination process of flow&#39;,&#39;OriginRegion&#39;: &#39;Region where flow originates from&#39;,&#39;DestinationRegion&#39;: &#39;Region where flow is bound to&#39;, &#39;Good&#39;: &#39;Process, good, or commodity&#39;, &#39;Material&#39;: &#39;Material: ore, alloy, scrap type, ...&#39;,&#39;Element&#39;: &#39;Chemical element&#39; } # Define the aspects of the system variables
+        self.Dimensions      = {&#39;Time&#39;: &#39;Time&#39;, &#39;Process&#39;:&#39;Process&#39;, &#39;Region&#39;: &#39;Region&#39;, &#39;Good&#39;: &#39;Process, good, or commodity&#39;, &#39;Material&#39;: &#39;Material: ore, alloy, scrap type, ...&#39;,&#39;Element&#39;: &#39;Chemical element&#39; } # Define the dimensions of the system variables</code></pre>
+</details>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="modules.ODYM_Classes.Classification" href="#modules.ODYM_Classes.Classification">Classification</a></li>
+<li><a title="modules.ODYM_Classes.MFAsystem" href="#modules.ODYM_Classes.MFAsystem">MFAsystem</a></li>
+<li><a title="modules.ODYM_Classes.Process" href="#modules.ODYM_Classes.Process">Process</a></li>
+<li><a title="modules.ODYM_Classes.Flow" href="#modules.ODYM_Classes.Flow">Flow</a></li>
+<li><a title="modules.ODYM_Classes.Stock" href="#modules.ODYM_Classes.Stock">Stock</a></li>
+<li><a title="modules.ODYM_Classes.Parameter" href="#modules.ODYM_Classes.Parameter">Parameter</a></li>
+</ul>
+</dd>
+<dt id="modules.ODYM_Classes.Parameter"><code class="flex name class">
+<span>class <span class="ident">Parameter</span></span>
+<span>(</span><span>Name=None, ID=None, UUID=None, P_Res=None, MetaData=None, Indices=None, Values=None, Uncert=None, Unit=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Class with the definition and methods for parameters</p>
+<p>Basic initialisation of a parameter.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class Parameter(Obj):
+  
+    &#34;&#34;&#34;
+    Class with the definition and methods for parameters
+    &#34;&#34;&#34;
+    
+    def __init__(self, Name = None, ID = None, UUID = None, P_Res = None, MetaData = None, Indices = None, Values=None, Uncert=None, Unit = None):
+        &#34;&#34;&#34; Basic initialisation of a parameter.&#34;&#34;&#34;
+        Obj.__init__(self, Name = Name, ID = ID, UUID = UUID) # Hand over parameters to parent class init
+        self.P_Res       = P_Res   # id of process to which parameter is assigned (id: int)
+        self.Indices     = Indices # String with indices as defined in IndexTable, separated by ,: &#39;t,c,p,s,e&#39;
+        self.MetaData    = MetaData # Dictionary with additional metadata
+        
+        self.Values      = Values   # parameter values, np.array, multidimensional, unit is Unit
+        self.Uncert      = Uncert  # uncertainty of value in %
+        self.Unit        = Unit   # Unit of parameter values</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="modules.ODYM_Classes.Obj" href="#modules.ODYM_Classes.Obj">Obj</a></li>
+</ul>
+</dd>
+<dt id="modules.ODYM_Classes.Process"><code class="flex name class">
+<span>class <span class="ident">Process</span></span>
+<span>(</span><span>Name=None, ID=None, UUID=None, Bipartite=None, Graphical=None, Extensions=None, Parameters=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Class with the definition and methods for a process in ODYM</p>
+<p>Basic initialisation of a process.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class Process(Obj):
+
+    &#34;&#34;&#34;
+    Class with the definition and methods for a process in ODYM
+    &#34;&#34;&#34;
+    
+    def __init__(self, Name = None, ID = None, UUID = None, Bipartite = None, Graphical = None, Extensions = None, Parameters = None):
+        &#34;&#34;&#34; Basic initialisation of a process.&#34;&#34;&#34;
+        Obj.__init__(self, Name = Name, ID = ID, UUID = UUID) # Hand over parameters to parent class init        
+        self.Bipartite = Bipartite   # For bipartite system graphs, a string with value &#39;t&#39; or &#39;d&#39; for transformation and distribution process indicates which group the process belongs to.
+        self.Extensions= Extensions  # Dictionary of     
+        self.Graphical = Graphical   # # Dictionary of graphical properties: xPos = None, yPos = None, Orientation = None, Color=None, Width = None, Height=None, 
+        
+    def add_extension(self,Time = None, Name = None, Value=None, Unit = None, Uncert=None): # Extensions flows that are not part of the system-wide mass balance!
+        if self.Extensions is None:
+            self.Extensions = []
+        self.Extensions.append(Flow(P_Start = self.ID, P_End = None, Time = Time, Name = Name, Unit = Unit, Value = Value, Uncert = Uncert))
+      
+    def add_parameter(self,Name = None):
+        if self.Parameters is None:
+            self.Parameters = []
+        self.Parameters.append(Parameter(Value = None))</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="modules.ODYM_Classes.Obj" href="#modules.ODYM_Classes.Obj">Obj</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="modules.ODYM_Classes.Process.add_extension"><code class="name flex">
+<span>def <span class="ident">add_extension</span></span>(<span>self, Time=None, Name=None, Value=None, Unit=None, Uncert=None)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def add_extension(self,Time = None, Name = None, Value=None, Unit = None, Uncert=None): # Extensions flows that are not part of the system-wide mass balance!
+    if self.Extensions is None:
+        self.Extensions = []
+    self.Extensions.append(Flow(P_Start = self.ID, P_End = None, Time = Time, Name = Name, Unit = Unit, Value = Value, Uncert = Uncert))</code></pre>
+</details>
+</dd>
+<dt id="modules.ODYM_Classes.Process.add_parameter"><code class="name flex">
+<span>def <span class="ident">add_parameter</span></span>(<span>self, Name=None)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def add_parameter(self,Name = None):
+    if self.Parameters is None:
+        self.Parameters = []
+    self.Parameters.append(Parameter(Value = None))</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="modules.ODYM_Classes.Stock"><code class="flex name class">
+<span>class <span class="ident">Stock</span></span>
+<span>(</span><span>Name=None, ID=None, UUID=None, P_Res=None, Indices=None, Type=None, Values=None, Uncert=None, Unit=None, Color=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Class with the definition and methods for a stock in ODYM</p>
+<p>Basic initialisation of a stock.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class Stock(Obj): # Flow needs to at least have dimension time x element
+
+    &#34;&#34;&#34;
+    Class with the definition and methods for a stock in ODYM
+    &#34;&#34;&#34;
+    
+    def __init__(self, Name = None, ID = None, UUID = None, P_Res = None, Indices = None, Type = None, Values=None, Uncert=None, Unit = None, Color = None):
+        &#34;&#34;&#34; Basic initialisation of a stock.&#34;&#34;&#34;
+        Obj.__init__(self, Name = Name, ID = ID, UUID = UUID) # Hand over parameters to parent class init
+        self.P_Res       = P_Res   # id of process where stock resides (id: int)
+        self.Indices     = Indices # String with indices as defined in IndexTable, separated by ,: &#39;t,c,p,s,e&#39;
+        self.Type        = Type  # Type is an int value, indicating: 0: stock, 1: (net) stock change or addition to stock, 2: removal from stock
+        
+        self.Values      = Values  # flow values, np.array, multidimensional, unit is system-wide unit
+        self.Uncert      = Uncert  # uncertainty of value in %
+        self.Unit        = Unit    # Unit string
+
+        self.Color       = Color   # color as string &#39;R,G,B&#39;, where each of R, G, B has a value of 0...255</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="modules.ODYM_Classes.Obj" href="#modules.ODYM_Classes.Obj">Obj</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="modules" href="index.html">modules</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="modules.ODYM_Classes.Classification" href="#modules.ODYM_Classes.Classification">Classification</a></code></h4>
+</li>
+<li>
+<h4><code><a title="modules.ODYM_Classes.Flow" href="#modules.ODYM_Classes.Flow">Flow</a></code></h4>
+</li>
+<li>
+<h4><code><a title="modules.ODYM_Classes.MFAsystem" href="#modules.ODYM_Classes.MFAsystem">MFAsystem</a></code></h4>
+<ul class="">
+<li><code><a title="modules.ODYM_Classes.MFAsystem.Check_If_All_Chem_Elements_Are_present" href="#modules.ODYM_Classes.MFAsystem.Check_If_All_Chem_Elements_Are_present">Check_If_All_Chem_Elements_Are_present</a></code></li>
+<li><code><a title="modules.ODYM_Classes.MFAsystem.Consistency_Check" href="#modules.ODYM_Classes.MFAsystem.Consistency_Check">Consistency_Check</a></code></li>
+<li><code><a title="modules.ODYM_Classes.MFAsystem.Flow_Sum_By_Element" href="#modules.ODYM_Classes.MFAsystem.Flow_Sum_By_Element">Flow_Sum_By_Element</a></code></li>
+<li><code><a title="modules.ODYM_Classes.MFAsystem.IndexTableCheck" href="#modules.ODYM_Classes.MFAsystem.IndexTableCheck">IndexTableCheck</a></code></li>
+<li><code><a title="modules.ODYM_Classes.MFAsystem.Initialize_FlowValues" href="#modules.ODYM_Classes.MFAsystem.Initialize_FlowValues">Initialize_FlowValues</a></code></li>
+<li><code><a title="modules.ODYM_Classes.MFAsystem.Initialize_ParameterValues" href="#modules.ODYM_Classes.MFAsystem.Initialize_ParameterValues">Initialize_ParameterValues</a></code></li>
+<li><code><a title="modules.ODYM_Classes.MFAsystem.Initialize_StockValues" href="#modules.ODYM_Classes.MFAsystem.Initialize_StockValues">Initialize_StockValues</a></code></li>
+<li><code><a title="modules.ODYM_Classes.MFAsystem.MassBalance" href="#modules.ODYM_Classes.MFAsystem.MassBalance">MassBalance</a></code></li>
+<li><code><a title="modules.ODYM_Classes.MFAsystem.SankeyExport" href="#modules.ODYM_Classes.MFAsystem.SankeyExport">SankeyExport</a></code></li>
+<li><code><a title="modules.ODYM_Classes.MFAsystem.Stock_Sum_By_Element" href="#modules.ODYM_Classes.MFAsystem.Stock_Sum_By_Element">Stock_Sum_By_Element</a></code></li>
+<li><code><a title="modules.ODYM_Classes.MFAsystem.Time_L" href="#modules.ODYM_Classes.MFAsystem.Time_L">Time_L</a></code></li>
+<li><code><a title="modules.ODYM_Classes.MFAsystem.Time_V" href="#modules.ODYM_Classes.MFAsystem.Time_V">Time_V</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="modules.ODYM_Classes.Obj" href="#modules.ODYM_Classes.Obj">Obj</a></code></h4>
+</li>
+<li>
+<h4><code><a title="modules.ODYM_Classes.Parameter" href="#modules.ODYM_Classes.Parameter">Parameter</a></code></h4>
+</li>
+<li>
+<h4><code><a title="modules.ODYM_Classes.Process" href="#modules.ODYM_Classes.Process">Process</a></code></h4>
+<ul class="">
+<li><code><a title="modules.ODYM_Classes.Process.add_extension" href="#modules.ODYM_Classes.Process.add_extension">add_extension</a></code></li>
+<li><code><a title="modules.ODYM_Classes.Process.add_parameter" href="#modules.ODYM_Classes.Process.add_parameter">add_parameter</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="modules.ODYM_Classes.Stock" href="#modules.ODYM_Classes.Stock">Stock</a></code></h4>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.3</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>
