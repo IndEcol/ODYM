@@ -23,10 +23,12 @@ Repository for this class, documentation, and tutorials: https://github.com/IndE
 
 """
 
-
 import numpy as np
 import scipy.stats
 
+def __version__():
+    """Return a brief version string and statement for this class."""
+    return str('1.0'), str('Class DynamicStockModel, dsm. Version 1.0. Last change: July 25th, 2019. Check https://github.com/IndEcol/ODYM for latest version.')
 
 
 class DynamicStockModel(object):
@@ -84,10 +86,6 @@ class DynamicStockModel(object):
 
         self.pdf = pdf # optional
         self.sf  = sf # optional
-
-    def return_version_info(self):
-        """Return a brief version statement for this class."""
-        return str('Class DynamicStockModel, DSM. Version 1.0. Last change: May 9th, 2015. Check https://github.com/stefanpauliuk/pyDSM for latest version.')
 
     """ Part 1: Checks and balances: """
 
