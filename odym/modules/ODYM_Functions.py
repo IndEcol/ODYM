@@ -24,14 +24,14 @@ Repository for this class, documentation, and tutorials: https://github.com/IndE
 import os
 import logging
 import numpy as np
-import pandas as pd
+#import pandas as pd
 import xlrd
 import pypandoc
+import ODYM_Classes as msc
 
 ####################################
 #      Define functions            #
 ####################################
-
 
 def __version__():  # return version of this file
     return str('1.0')
@@ -181,6 +181,7 @@ def Tuple_MI(Tuple, IdxLength):
     Position = np.sum([a*b for a,b in zip(Tuple,IdxPosOffset)])
     return Position
 
+
 def TableWithFlowsToShares(Table,axis):
     """
     Given a 2D-table with flow values that sum up to a total, 
@@ -200,6 +201,7 @@ def TableWithFlowsToShares(Table,axis):
     Shares  = Table * Divided
     return Shares
 
+
 def DetermineElementComposition_All_Oth(me):
     """
     Given an array of flows of materials (rows) broken down into chem. elements (columns), 
@@ -215,6 +217,7 @@ def DetermineElementComposition_All_Oth(me):
         if SharesSum[m] == 0:
             result[m,-1] = 1
     return result
+
 
 def ModelIndexPositions_FromData(Positions,RowPos,ColPos):
     """
@@ -236,6 +239,195 @@ def ModelIndexPositions_FromData(Positions,RowPos,ColPos):
                 break
     return TargetPosition
 
+
+def ParseModelControl(Model_Configsheet,ScriptConfig):
+    """ Parse the RECC and ODYM model control parameters from the ODYM config sheet. """
+    SCix = 0
+    # search for script config list entry
+    while Model_Configsheet.cell_value(SCix, 1) != 'General Info':
+        SCix += 1
+            
+    SCix += 2  # start on first data row
+    while len(Model_Configsheet.cell_value(SCix, 3)) > 0:
+        ScriptConfig[Model_Configsheet.cell_value(SCix, 2)] = Model_Configsheet.cell_value(SCix,3)
+        SCix += 1
+    
+    SCix = 0
+    # search for script config list entry
+    while Model_Configsheet.cell_value(SCix, 1) != 'Software version selection':
+        SCix += 1
+            
+    SCix += 2 # start on first data row
+    while len(Model_Configsheet.cell_value(SCix, 3)) > 0:
+        ScriptConfig[Model_Configsheet.cell_value(SCix, 2)] = Model_Configsheet.cell_value(SCix,3)
+        SCix += 1  
+        
+    return ScriptConfig
+
+
+def ParseClassificationFile_Main(Classsheet,Mylog):
+    """ Parse the ODYM classification file, format version 
+    """
+    ci = 1  # column index to start with
+    MasterClassification = {}  # Dict of master classifications
+    while True:
+        TheseItems = []
+        ri = 10  # row index to start with
+        try: 
+            ThisName = Classsheet.cell_value(0,ci)
+            ThisDim  = Classsheet.cell_value(1,ci)
+            ThisID   = Classsheet.cell_value(3,ci)
+            ThisUUID = Classsheet.cell_value(4,ci)
+            TheseItems.append(Classsheet.cell_value(ri,ci)) # read the first classification item
+        except:
+            Mylog.info('End of file or formatting error while reading the classification file in column ' + str(ci) + '. Check if all classifications are present. If yes, you are good to go!')
+            break
+        while True:
+            ri += 1
+            try:
+                ThisItem = Classsheet.cell_value(ri, ci)
+            except:
+                break
+            if ThisItem != '':
+                TheseItems.append(ThisItem)
+        MasterClassification[ThisName] = msc.Classification(Name = ThisName, Dimension = ThisDim, ID = ThisID, UUID = ThisUUID, Items = TheseItems)
+        ci += 1
+        
+    return MasterClassification
+
+
+def ParseConfigFile(Model_Configsheet,ScriptConfig,Mylog):
+    """
+    Standard routine to parse the ODYM model config file.
+    """    
+    ITix = 0
+    
+    # search for index table entry
+    while True:
+        if Model_Configsheet.cell_value(ITix, 1) == 'Index Table':
+            break
+        else:
+            ITix += 1
+            
+    IT_Aspects        = []
+    IT_Description    = []
+    IT_Dimension      = []
+    IT_Classification = []
+    IT_Selector       = []
+    IT_IndexLetter    = []
+    ITix += 2 # start on first data row
+    while True:
+        if len(Model_Configsheet.cell_value(ITix,2)) > 0:
+            IT_Aspects.append(Model_Configsheet.cell_value(ITix,2))
+            IT_Description.append(Model_Configsheet.cell_value(ITix,3))
+            IT_Dimension.append(Model_Configsheet.cell_value(ITix,4))
+            IT_Classification.append(Model_Configsheet.cell_value(ITix,5))
+            IT_Selector.append(Model_Configsheet.cell_value(ITix,6))
+            IT_IndexLetter.append(Model_Configsheet.cell_value(ITix,7))        
+            ITix += 1
+        else:
+            break
+    
+    Mylog.info('Read parameter list from model config sheet.')
+    PLix = 0
+    while True: # search for parameter list entry
+        if Model_Configsheet.cell_value(PLix, 1) == 'Model Parameters':
+            break
+        else:
+            PLix += 1
+            
+    PL_Names          = []
+    PL_Description    = []
+    PL_Version        = []
+    PL_IndexStructure = []
+    PL_IndexMatch     = []
+    PL_IndexLayer     = []
+    PLix += 2 # start on first data row
+    while True:
+        if len(Model_Configsheet.cell_value(PLix,2)) > 0:
+            PL_Names.append(Model_Configsheet.cell_value(PLix,2))
+            PL_Description.append(Model_Configsheet.cell_value(PLix,3))
+            PL_Version.append(Model_Configsheet.cell_value(PLix,4))
+            PL_IndexStructure.append(Model_Configsheet.cell_value(PLix,5))
+            PL_IndexMatch.append(Model_Configsheet.cell_value(PLix,6))
+            PL_IndexLayer.append(ListStringToListNumbers(Model_Configsheet.cell_value(PLix,7))) # strip numbers out of list string
+            PLix += 1
+        else:
+            break
+        
+    Mylog.info('Read process list from model config sheet.')
+    PrLix = 0
+    
+    # search for process list entry
+    while True:
+        if Model_Configsheet.cell_value(PrLix, 1) == 'Process Group List':
+            break
+        else:
+            PrLix += 1
+            
+    PrL_Number         = []
+    PrL_Name           = []
+    PrL_Comment        = []
+    PrL_Type           = []
+    PrLix += 2 # start on first data row
+    while True:
+        if Model_Configsheet.cell_value(PrLix,2) != '':
+            try:
+                PrL_Number.append(int(Model_Configsheet.cell_value(PrLix,2)))
+            except:
+                PrL_Number.append(Model_Configsheet.cell_value(PrLix,2))
+            PrL_Name.append(Model_Configsheet.cell_value(PrLix,3))
+            PrL_Type.append(Model_Configsheet.cell_value(PrLix,4))
+            PrL_Comment.append(Model_Configsheet.cell_value(PrLix,5))
+            PrLix += 1
+        else:
+            break    
+    
+    Mylog.info('Read model run control from model config sheet.')
+    PrLix = 0
+    
+    # search for model flow control entry
+    while True:
+        if Model_Configsheet.cell_value(PrLix, 1) == 'Model flow control':
+            break
+        else:
+            PrLix += 1
+    
+    # start on first data row
+    PrLix += 2
+    while True:
+        if Model_Configsheet.cell_value(PrLix, 2) != '':
+            try:
+                ScriptConfig[Model_Configsheet.cell_value(PrLix, 2)] = Model_Configsheet.cell_value(PrLix,3)
+            except:
+                None
+            PrLix += 1
+        else:
+            break  
+    
+    Mylog.info('Read model output control from model config sheet.')
+    PrLix = 0
+    
+    # search for model flow control entry
+    while True:
+        if Model_Configsheet.cell_value(PrLix, 1) == 'Model output control':
+            break
+        else:
+            PrLix += 1
+    
+    # start on first data row
+    PrLix += 2
+    while True:
+        if Model_Configsheet.cell_value(PrLix, 2) != '':
+            try:
+                ScriptConfig[Model_Configsheet.cell_value(PrLix, 2)] = Model_Configsheet.cell_value(PrLix,3)
+            except:
+                None
+            PrLix += 1
+        else:
+            break  
+    
+    return IT_Aspects,IT_Description,IT_Dimension,IT_Classification,IT_Selector,IT_IndexLetter,PL_Names,PL_Description,PL_Version,PL_IndexStructure,PL_IndexMatch,PL_IndexLayer,PrL_Number,PrL_Name,PrL_Comment,PrL_Type,ScriptConfig
 
 
 def ReadParameter(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, MasterClassification,
