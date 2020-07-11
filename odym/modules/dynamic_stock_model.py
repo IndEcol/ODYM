@@ -125,7 +125,7 @@ class DynamicStockModel(object):
                 DimReport += str('Outflow by cohorts is not present.<br>')
             if self.lt is not None:
                 DimReport += str('Lifetime distribution is present with type ' +
-                                 str(self.lt['Type']) + ' and mean ' + str(self.lt['Mean']) + '.<br>')
+                                 str(self.lt['Type']) + '.<br>')
             else:
                 DimReport += str('Lifetime distribution is not present.<br>')
             return DimReport
@@ -188,7 +188,7 @@ class DynamicStockModel(object):
     def compute_outflow_pdf(self):
         """
         Lifetime model. The method compute outflow_pdf returns an array year-by-cohort of the probability of a item added to stock in year m (aka cohort m) leaves in in year n. This value equals pdf(n,m).
-        This is the only method for the inflow-driven model where the lifetime distribution directly enters the computation. All other stock variables are determined by mass balance.
+        The pdf is computed from the survival table sf, where the type of the lifetime distribution enters.
         The shape of the output pdf array is NoofYears * NoofYears, but the meaning is years by age-cohorts.
         The method does nothing if the pdf alreay exists.
         """
@@ -374,10 +374,7 @@ class DynamicStockModel(object):
                 self.o_c = np.zeros((len(self.t), len(self.t)))
                 self.i = np.zeros(len(self.t))
                 # construct the sf of a product of cohort tc remaining in the stock in year t
-                self.compute_sf() # Computes sf if not present already.
-                if NegativeInflowCorrect is True: # if the stock declines faster than according to the lifetime model, this option allows to extract additional stock items.
-                    # This part was contributed by Sebastiaan Deetman, CML Leiden, and adapted by S.P. so that the mass balance of the stock fits.
-                   self.compute_outflow_pdf() # Determine pdf from sf array for computations below.                
+                self.compute_sf() # Computes sf if not present already.               
                 # First year:
                 if self.sf[0, 0] != 0: # Else, inflow is 0.
                     self.i[0] = self.s[0] / self.sf[0, 0]
@@ -409,8 +406,8 @@ class DynamicStockModel(object):
                                 Delta_percent = 0 # stock in this year is already zero, method does not work in this case.
                             # correct for outflow and stock in current and future years
                             # adjust the entire stock AFTER year m as well, stock is lowered in year m, so future cohort survival also needs to decrease.
-                            self.o_c[m, :] = self.o_c[m, :] + (self.s_c[m, :] * Delta_percent).copy()  # increase outflow according to the lost fraction of the stock, based on Delta_c
-                            self.s_c[m::,0:m] = self.s_c[m::,0:m] * (1-Delta_percent.copy()) # shrink future description of stock from previous age-cohorts by factor Delta_percent in current AND future years.
+                            self.o_c[m, :] = self.o_c[m, :] + (self.s_c[m, :] * Delta_percent)  # increase outflow according to the lost fraction of the stock, based on Delta_c
+                            self.s_c[m::,0:m] = self.s_c[m::,0:m] * (1-Delta_percent) # shrink future description of stock from previous age-cohorts by factor Delta_percent in current AND future years.
                         else: # If no negative inflow would occur
                             if self.sf[m,m] != 0: # Else, inflow is 0.
                                 self.i[m] = (self.s[m] - self.s_c[m, :].sum()) / self.sf[m,m] # allow for outflow during first year by rescaling with 1/sf[m,m]    
@@ -455,11 +452,7 @@ class DynamicStockModel(object):
                 self.i = np.zeros(len(self.t))
                 
                 # construct the sdf of a product of cohort tc leaving the stock in year t
-                self.compute_sf() # Computes sf if not present already.
-                if NegativeInflowCorrect is True: # if the stock declines faster than according to the lifetime model, this option allows to extract additional stock items.
-                    # This part was contributed by Sebastiaan Deetman, CML Leiden, and adapted by S.P. so that the mass balance of the stock fits.
-                   self.compute_outflow_pdf() # Determine pdf from sf array for computations below.                
-                   
+                self.compute_sf() # Computes sf if not present already.  
                 # Construct historic inflows
                 for c in range(0,SwitchTime -1):
                     if self.sf[SwitchTime -2,c] != 0:
@@ -659,10 +652,6 @@ class DynamicStockModel(object):
                 
                 # construct the sdf of a product of cohort tc leaving the stock in year t
                 self.compute_sf() # Computes sf if not present already.
-                if NegativeInflowCorrect is True: # if the stock declines faster than according to the lifetime model, this option allows to extract additional stock items.
-                    # This part was contributed by Sebastiaan Deetman, CML Leiden, and adapted by S.P. so that the mass balance of the stock fits.
-                   self.compute_outflow_pdf() # Determine pdf from sf array for computations below.                
-                   
                 # Construct historic inflows
                 for c in range(0,SwitchTime): # for all historic age-cohorts til SwitchTime - 1:
                     for g in range(0,Ng):

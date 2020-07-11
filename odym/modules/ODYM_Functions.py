@@ -984,6 +984,7 @@ def ExcelSheetFill(Workbook, Sheetname, values, topcornerlabel=None,
 def ExcelExportAdd_tAB(Sheet,Data,rowoffset,coloffset,IName,UName,RName,FName,REName,ALabels,BLabels):
     """
     This function exports a 3D array with aspects time, A, and B to a given excel sheet.
+    Same as xlsxExportAdd_tAB but this function is for xls files with xlrd.
     The t dimension is exported in one row, the A and B dimensions as several rows.
     Each row starts with IName (indicator), UName (unit), RName (region), 
     FName (figure where data are used), REName (Resource efficiency scenario), 
@@ -1001,6 +1002,31 @@ def ExcelExportAdd_tAB(Sheet,Data,rowoffset,coloffset,IName,UName,RName,FName,RE
             Sheet.write(rowoffset, 6, label = BLabels[n])
             for t in range(0,Data.shape[0]):
                 Sheet.write(rowoffset, coloffset + t, label = Data[t,m,n])
+            rowoffset += 1
+            
+    return rowoffset
+
+def xlsxExportAdd_tAB(Sheet,Data,rowoffset,coloffset,IName,UName,RName,FName,REName,ALabels,BLabels):
+    """
+    This function exports a 3D array with aspects time, A, and B to a given excel sheet.
+    Same as ExcelExportAdd_tAB but this function is for xlsx files with openpyxl.
+    The t dimension is exported in one row, the A and B dimensions as several rows.
+    Each row starts with IName (indicator), UName (unit), RName (region), 
+    FName (figure where data are used), REName (Resource efficiency scenario), 
+    and then come the values for the dimensions A and B and from coloffset onwards, the time dimension.
+    Function is meant to be used multiple times, so a rowoffset is given, incremented, and returned for the next run.
+    """
+    for m in range(0,len(ALabels)):
+        for n in range(0,len(BLabels)):
+            Sheet.cell(row=rowoffset, column=1).value = IName
+            Sheet.cell(row=rowoffset, column=2).value = UName
+            Sheet.cell(row=rowoffset, column=3).value = RName
+            Sheet.cell(row=rowoffset, column=4).value = FName
+            Sheet.cell(row=rowoffset, column=5).value = REName
+            Sheet.cell(row=rowoffset, column=6).value = ALabels[m]
+            Sheet.cell(row=rowoffset, column=7).value = BLabels[n]
+            for t in range(0,Data.shape[0]):
+                Sheet.cell(row=rowoffset, column=coloffset + t +1).value = Data[t,m,n]
             rowoffset += 1
             
     return rowoffset

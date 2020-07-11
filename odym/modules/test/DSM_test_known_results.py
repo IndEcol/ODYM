@@ -549,8 +549,17 @@ FN_Stock = myDSM_FN.compute_s_c_inflow_driven()
 FN_Stock_60 = FN_Stock.sum(axis =1)
 
 
+# Test that ouflow computed with pdf from compute_outflow_pdf() yields same result as the one calculated directly from the sf via compute_s_c_inflow_driven() and compute_o_c_from_s_c()
+lt_pdf   = {'Type': 'Normal', 'Mean': np.array([8]), 'StdDev': np.array([3])}
+ifl_pdf  = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5]
 
-
+DSM_pdf = dsm.DynamicStockModel(t=np.arange(0, 25, 1),i=ifl_pdf, lt=lt_pdf)
+SF_pdf  = DSM_pdf.compute_sf()
+PDF_pdf = DSM_pdf.compute_outflow_pdf()
+SC_pdf  = DSM_pdf.compute_s_c_inflow_driven()
+OC_pdf  = DSM_pdf.compute_o_c_from_s_c()
+OC_alt  = np.einsum('c,tc->tc',np.array(ifl_pdf),PDF_pdf)
+Bal_pdf = (np.abs(OC_pdf-OC_alt)).sum()
 ###############################################################################
 """Unit Test Class"""
 
@@ -741,6 +750,11 @@ class KnownResultsTestCase(unittest.TestCase):
     def test_stock_from_inflow_FoldedNormalDistLifetime(self):
         """Test computation of stock from inflow for folded normally distributed product lifetime."""
         np.testing.assert_array_almost_equal(FN_Stock_Reference_2060, FN_Stock_60[60], 12) 
+
+    def test_compute_outflow_pdf(self):
+        """Test wether outflow by cohort is the same if computed with pdf from compute_outflow_pdf vs. the standard routines."""
+        np.testing.assert_array_almost_equal(OC_pdf, OC_alt, 14) 
+        np.testing.assert_array_almost_equal(Bal_pdf, 0, 12) 
 
 
     if __name__ == '__main__':
