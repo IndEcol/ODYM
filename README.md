@@ -16,7 +16,7 @@ __More information is available:__\
 •	Documentation of the ODYM classes: http://htmlpreview.github.com/?https://github.com/IndEcol/ODYM/blob/master/docs/ODYM_Classes.html \
 •	Documentation of the ODYM functions: http://htmlpreview.github.com/?https://github.com/IndEcol/ODYM/blob/master/docs/ODYM_Functions.html \
 •	Documentation of the dynamic stock model class: http://htmlpreview.github.com/?https://github.com/IndEcol/ODYM/blob/master/docs/dynamic_stock_model.html \
-•	A journal paper (in preparation).
+•	A journal paper on ODYM, available via https://doi.org/10.1111/jiec.12952.
 
 ## Background
 
