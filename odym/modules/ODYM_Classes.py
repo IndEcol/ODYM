@@ -100,15 +100,15 @@ class MFAsystem(Obj):
     def IndexTableCheck(self):
         """ Check whether chosen classifications fit to dimensions of index table."""
         for indx in self.IndexTable.index:
-            if self.IndexTable.ix[indx]['Dimension']  != self.IndexTable.ix[indx]['Classification'].Dimension:
+            if self.IndexTable.loc[indx]['Dimension']  != self.IndexTable.loc[indx]['Classification'].Dimension:
                 raise ValueError('Dimension mismatch. Dimension of classifiation needs to fit to dimension of flow or parameter index. Found a mismatch for the following index: {foo}. Check your index table definition!'.format(foo = indx))
         if 'Time' not in self.IndexTable.index:
             raise ValueError(' "Time" aspect must be present in IndexTable. Please check your index table definition!')            
         if 'Element' not in self.IndexTable.index:
             raise ValueError(' "Element" aspect must be present in IndexTable. Please check your index table definition!')                            
-        if len(self.IndexTable.ix['Element'].Classification.Items) == 0:
+        if len(self.IndexTable.loc['Element'].Classification.Items) == 0:
             raise ValueError('Need at least one element in element list, please check your classification definition!')
-        if len(self.IndexTable.ix['Time'].Classification.Items) == 0:
+        if len(self.IndexTable.loc['Time'].Classification.Items) == 0:
             raise ValueError('Need at least one element in Time list, please check your classification definition!')
 
         return True
@@ -117,7 +117,7 @@ class MFAsystem(Obj):
         """ This method will construct empty numpy arrays (zeros) for all flows where the value is None and wheree the indices are given."""
         for key in self.FlowDict:
             if self.FlowDict[key].Values is None:
-                self.FlowDict[key].Values = np.zeros(tuple([len(self.IndexTable.set_index('IndexLetter').ix[x]['Classification'].Items) for x in self.FlowDict[key].Indices.split(',')]))   
+                self.FlowDict[key].Values = np.zeros(tuple([len(self.IndexTable.set_index('IndexLetter').loc[x]['Classification'].Items) for x in self.FlowDict[key].Indices.split(',')]))   
 #        Raw code, for development        
 #        Indices = 't,Ro,a,e'
 #        IndList = Indices.split(',')
@@ -128,13 +128,13 @@ class MFAsystem(Obj):
         """ This method will construct empty numpy arrays (zeros) for all stocks where the value is None and wheree the indices are given."""
         for key in self.StockDict:
             if self.StockDict[key].Values is None:
-                self.StockDict[key].Values = np.zeros(tuple([len(self.IndexTable.set_index('IndexLetter').ix[x]['Classification'].Items) for x in self.StockDict[key].Indices.split(',')]))   
+                self.StockDict[key].Values = np.zeros(tuple([len(self.IndexTable.set_index('IndexLetter').loc[x]['Classification'].Items) for x in self.StockDict[key].Indices.split(',')]))   
 
     def Initialize_ParameterValues(self):
         """ This method will construct empty numpy arrays (zeros) for all parameters where the value is None and wheree the indices are given."""
         for key in self.ParameterDict:
             if self.ParameterDict[key].Values is None:
-                self.ParameterDict[key].Values = np.zeros(tuple([len(self.IndexTable.set_index('IndexLetter').ix[x]['Classification'].Items) for x in self.ParameterDict[key].Indices.split(',')]))                   
+                self.ParameterDict[key].Values = np.zeros(tuple([len(self.IndexTable.set_index('IndexLetter').loc[x]['Classification'].Items) for x in self.ParameterDict[key].Indices.split(',')]))                   
                 
     def Consistency_Check(self):
         """ Method that check a readily defined system for consistency of dimensions, Value setting, etc. See detailed comments."""                
@@ -151,7 +151,7 @@ class MFAsystem(Obj):
         
         # 3) Check whethe all flow valua arrays match with the index structure:
         for key in self.FlowDict:
-            if tuple([len(self.IndexTable.set_index('IndexLetter').ix[x]['Classification'].Items) for x in self.FlowDict[key].Indices.split(',')]) != self.FlowDict[key].Values.shape:
+            if tuple([len(self.IndexTable.set_index('IndexLetter').loc[x]['Classification'].Items) for x in self.FlowDict[key].Indices.split(',')]) != self.FlowDict[key].Values.shape:
                 raise ValueError('Dimension mismatch. Dimension of flow value array does not fit to flow indices for flow {foo}. Check your flow and flow value definition!'.format(foo = key))
                 
         return A, True, True
@@ -164,7 +164,7 @@ class MFAsystem(Obj):
         and call the Einstein sum function np.einsum with the string 'tODGme->te', 
         and apply it to the flow values. 
         """
-        return np.einsum(self.FlowDict[FlowKey].Indices.replace(',','') + '->'+ self.IndexTable.ix['Time'].IndexLetter + self.IndexTable.ix['Element'].IndexLetter ,self.FlowDict[FlowKey].Values) 
+        return np.einsum(self.FlowDict[FlowKey].Indices.replace(',','') + '->'+ self.IndexTable.loc['Time'].IndexLetter + self.IndexTable.loc['Element'].IndexLetter ,self.FlowDict[FlowKey].Values) 
     
     def Stock_Sum_By_Element(self,StockKey):
         """ 
@@ -174,7 +174,7 @@ class MFAsystem(Obj):
         and call the Einstein sum function np.einsum with the string 'tcGme->te', 
         and apply it to the stock values. 
         """
-        return np.einsum(self.StockDict[StockKey].Indices.replace(',','') + '->'+ self.IndexTable.ix['Time'].IndexLetter + self.IndexTable.ix['Element'].IndexLetter ,self.StockDict[StockKey].Values) 
+        return np.einsum(self.StockDict[StockKey].Indices.replace(',','') + '->'+ self.IndexTable.loc['Time'].IndexLetter + self.IndexTable.loc['Element'].IndexLetter ,self.StockDict[StockKey].Values) 
                  
     def MassBalance(self, Element = None):
         """ 

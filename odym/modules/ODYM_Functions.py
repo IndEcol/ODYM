@@ -493,14 +493,14 @@ def ReadParameter(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, Mast
         for m in range(0,len(ThisParIx)):
             ThisDim = ThisParIx[m]
             # Check whether index is present in parameter file:
-            ThisDimClassificationName  = IndexTable.set_index('IndexLetter').ix[ThisDim].Classification.Name
+            ThisDimClassificationName  = IndexTable.set_index('IndexLetter').loc[ThisDim].Classification.Name
             if ThisDimClassificationName != IList[m]:
                 Mylog.error('CLASSIFICATION ERROR: Classification ' + ThisDimClassificationName + ' for aspect ' +
                             ThisDim + ' of parameter ' + ThisPar +
                             ' must be identical to the specified classification of the corresponding parameter dimension, which is ' + IList[m])
                 break  # Stop parsing parameter, will cause model to halt
             
-            IndexSizesM.append(IndexTable.set_index('IndexLetter').ix[ThisDim]['IndexSize'])
+            IndexSizesM.append(IndexTable.set_index('IndexLetter').loc[ThisDim]['IndexSize'])
 
         # Read parameter values into array:
         Values = np.zeros((IndexSizesM))
@@ -518,7 +518,7 @@ def ReadParameter(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, Mast
             for mx in range(0,len(IList)): # mx iterates over the aspects of the parameter 
                 CurrentItem = ValuesSheet.cell_value(cx + RowOffset, IM[mx])
                 try:
-                    TargetPosition.append(IndexTable.set_index('IndexLetter').ix[ThisParIx[mx]].Classification.Items.index(CurrentItem))
+                    TargetPosition.append(IndexTable.set_index('IndexLetter').loc[ThisParIx[mx]].Classification.Items.index(CurrentItem))
                 except:
                     break # Current parameter value is not needed for model, outside scope for a certain aspect. 
             if len(TargetPosition) == len(ThisParIx):
@@ -595,7 +595,7 @@ def ReadParameter(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, Mast
         IndexSizesM  = [] # List of dimension size for model
         for m in range(0,len(ThisParIx)):
             ThisDim = ThisParIx[m]
-            ThisDimClassificationName  = IndexTable.set_index('IndexLetter').ix[ThisDim].Classification.Name
+            ThisDimClassificationName  = IndexTable.set_index('IndexLetter').loc[ThisDim].Classification.Name
             if ThisDimClassificationName != ComIList[m]:
                 Mylog.error('CLASSIFICATION ERROR: Classification ' + ThisDimClassificationName + ' for aspect ' +
                             ThisDim + ' of parameter ' + ThisPar +
@@ -603,7 +603,7 @@ def ReadParameter(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, Mast
                             ComIList[m])
                 break  # Stop parsing parameter, will cause model to halt
                 
-            IndexSizesM.append(IndexTable.set_index('IndexLetter').ix[ThisDim]['IndexSize'])
+            IndexSizesM.append(IndexTable.set_index('IndexLetter').loc[ThisDim]['IndexSize'])
         
         # Read parameter values into array:
         Values = np.zeros((IndexSizesM))
@@ -624,7 +624,7 @@ def ReadParameter(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, Mast
                     CurrentItem = ValuesSheet.cell_value(m + RowOffset, mc)
                 try:
                     IX   = ThisParIx.find(RIIndexLetter[mc])
-                    TPIX = IndexTable.set_index('IndexLetter').ix[RIIndexLetter[mc]].Classification.Items.index(CurrentItem)
+                    TPIX = IndexTable.set_index('IndexLetter').loc[RIIndexLetter[mc]].Classification.Items.index(CurrentItem)
                     TP_RD.append((IX,TPIX))
                 except:
                     TP_RD.append(None)
@@ -641,7 +641,7 @@ def ReadParameter(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, Mast
                     CurrentItem = ValuesSheet.cell_value(mc, n + ColOffset)
                 try:
                     IX = ThisParIx.find(CIIndexLetter[mc])
-                    TPIX = IndexTable.set_index('IndexLetter').ix[CIIndexLetter[mc]].Classification.Items.index(CurrentItem)
+                    TPIX = IndexTable.set_index('IndexLetter').loc[CIIndexLetter[mc]].Classification.Items.index(CurrentItem)
                     TP_CD.append((IX,TPIX))
                 except:
                     TP_CD.append(None)
@@ -753,14 +753,14 @@ def ReadParameterV2(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, Ma
         for m in range(0,len(ThisParIx)):
             ThisDim = ThisParIx[m]
             # Check whether index is present in parameter file:
-            ThisDimClassificationName  = IndexTable.set_index('IndexLetter').ix[ThisDim].Classification.Name
+            ThisDimClassificationName  = IndexTable.set_index('IndexLetter').loc[ThisDim].Classification.Name
             if ThisDimClassificationName != IList[m]:
                 Mylog.error('CLASSIFICATION ERROR: Classification ' + ThisDimClassificationName + ' for aspect ' +
                             ThisDim + ' of parameter ' + ThisPar +
                             ' must be identical to the specified classification of the corresponding parameter dimension, which is ' + IList[m])
                 break  # Stop parsing parameter, will cause model to halt
             
-            IndexSizesM.append(IndexTable.set_index('IndexLetter').ix[ThisDim]['IndexSize'])
+            IndexSizesM.append(IndexTable.set_index('IndexLetter').loc[ThisDim]['IndexSize'])
 
         # Read parameter values into array, uncertainty into list:
         Values      = np.zeros((IndexSizesM)) # Array for parameter values
@@ -779,7 +779,7 @@ def ReadParameterV2(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, Ma
             for mx in range(0,len(IList)): # mx iterates over the aspects of the parameter 
                 CurrentItem = ValuesSheet.cell_value(cx + RowOffset, IM[mx])
                 try:
-                    TargetPosition.append(IndexTable.set_index('IndexLetter').ix[ThisParIx[mx]].Classification.Items.index(CurrentItem))
+                    TargetPosition.append(IndexTable.set_index('IndexLetter').loc[ThisParIx[mx]].Classification.Items.index(CurrentItem))
                 except:
                     break # Current parameter value is not needed for model, outside scope for a certain aspect. 
             if len(TargetPosition) == len(ThisParIx):
@@ -853,7 +853,7 @@ def ReadParameterV2(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, Ma
         IndexSizesM  = [] # List of dimension size for model
         for m in range(0,len(ThisParIx)):
             ThisDim = ThisParIx[m]
-            ThisDimClassificationName  = IndexTable.set_index('IndexLetter').ix[ThisDim].Classification.Name
+            ThisDimClassificationName  = IndexTable.set_index('IndexLetter').loc[ThisDim].Classification.Name
             if ThisDimClassificationName != ComIList[m]:
                 Mylog.error('CLASSIFICATION ERROR: Classification ' + ThisDimClassificationName + ' for aspect ' +
                             ThisDim + ' of parameter ' + ThisPar +
@@ -861,7 +861,7 @@ def ReadParameterV2(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, Ma
                             ComIList[m])
                 break  # Stop parsing parameter, will cause model to halt
                 
-            IndexSizesM.append(IndexTable.set_index('IndexLetter').ix[ThisDim]['IndexSize'])
+            IndexSizesM.append(IndexTable.set_index('IndexLetter').loc[ThisDim]['IndexSize'])
         
         # Read parameter values into array:
         Values      = np.zeros((IndexSizesM)) # Array for parameter values
@@ -885,7 +885,7 @@ def ReadParameterV2(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, Ma
                     CurrentItem = ValuesSheet.cell_value(m + RowOffset, mc)
                 try:
                     IX   = ThisParIx.find(RIIndexLetter[mc])
-                    TPIX = IndexTable.set_index('IndexLetter').ix[RIIndexLetter[mc]].Classification.Items.index(CurrentItem)
+                    TPIX = IndexTable.set_index('IndexLetter').loc[RIIndexLetter[mc]].Classification.Items.index(CurrentItem)
                     TP_RD.append((IX,TPIX))
                 except:
                     TP_RD.append(None)
@@ -903,7 +903,7 @@ def ReadParameterV2(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, Ma
                     CurrentItem = ValuesSheet.cell_value(mc, n + ColOffset)
                 try:
                     IX = ThisParIx.find(CIIndexLetter[mc])
-                    TPIX = IndexTable.set_index('IndexLetter').ix[CIIndexLetter[mc]].Classification.Items.index(CurrentItem)
+                    TPIX = IndexTable.set_index('IndexLetter').loc[CIIndexLetter[mc]].Classification.Items.index(CurrentItem)
                     TP_CD.append((IX,TPIX))
                 except:
                     TP_CD.append(None)
