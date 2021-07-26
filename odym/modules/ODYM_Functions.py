@@ -243,24 +243,24 @@ def ModelIndexPositions_FromData(Positions,RowPos,ColPos):
 
 def ParseModelControl(Model_Configsheet,ScriptConfig):
     """ Parse the RECC and ODYM model control parameters from the ODYM config sheet. """
-    SCix = 0
+    SCix = 1
     # search for script config list entry
-    while Model_Configsheet.cell_value(SCix, 1) != 'General Info':
+    while Model_Configsheet.cell(SCix, 2).value != 'General Info':
         SCix += 1
             
     SCix += 2  # start on first data row
-    while len(Model_Configsheet.cell_value(SCix, 3)) > 0:
-        ScriptConfig[Model_Configsheet.cell_value(SCix, 2)] = Model_Configsheet.cell_value(SCix,3)
+    while Model_Configsheet.cell(SCix, 4).value:
+        ScriptConfig[Model_Configsheet.cell(SCix, 3).value] = Model_Configsheet.cell(SCix,4).value
         SCix += 1
     
-    SCix = 0
+    SCix = 1
     # search for script config list entry
-    while Model_Configsheet.cell_value(SCix, 1) != 'Software version selection':
+    while Model_Configsheet.cell(SCix, 2).value != 'Software version selection':
         SCix += 1
             
     SCix += 2 # start on first data row
-    while len(Model_Configsheet.cell_value(SCix, 3)) > 0:
-        ScriptConfig[Model_Configsheet.cell_value(SCix, 2)] = Model_Configsheet.cell_value(SCix,3)
+    while Model_Configsheet.cell(SCix, 4).value:
+        ScriptConfig[Model_Configsheet.cell(SCix, 3).value] = Model_Configsheet.cell(SCix,4).value
         SCix += 1  
         
     return ScriptConfig
@@ -269,28 +269,18 @@ def ParseModelControl(Model_Configsheet,ScriptConfig):
 def ParseClassificationFile_Main(Classsheet,Mylog):
     """ Parse the ODYM classification file, format version 
     """
-    ci = 1  # column index to start with
+    ci = 2  # column index to start with
     MasterClassification = {}  # Dict of master classifications
-    while True:
+    while Classsheet.cell(1,ci).value:
         TheseItems = []
-        ri = 10  # row index to start with
-        try: 
-            ThisName = Classsheet.cell_value(0,ci)
-            ThisDim  = Classsheet.cell_value(1,ci)
-            ThisID   = Classsheet.cell_value(3,ci)
-            ThisUUID = Classsheet.cell_value(4,ci)
-            TheseItems.append(Classsheet.cell_value(ri,ci)) # read the first classification item
-        except:
-            Mylog.info('End of file or formatting error while reading the classification file in column ' + str(ci) + '. Check if all classifications are present. If yes, you are good to go!')
-            break
-        while True:
+        ri = 11  # row index to start with
+        ThisName = Classsheet.cell(1,ci).value
+        ThisDim  = Classsheet.cell(2,ci).value
+        ThisID   = Classsheet.cell(4,ci).value
+        ThisUUID = Classsheet.cell(5,ci).value
+        while Classsheet.cell(ri,ci).value:
+            TheseItems.append(Classsheet.cell(ri,ci).value) # read the classification items
             ri += 1
-            try:
-                ThisItem = Classsheet.cell_value(ri, ci)
-            except:
-                break
-            if ThisItem != '':
-                TheseItems.append(ThisItem)
         MasterClassification[ThisName] = msc.Classification(Name = ThisName, Dimension = ThisDim, ID = ThisID, UUID = ThisUUID, Items = TheseItems)
         ci += 1
         
@@ -305,7 +295,7 @@ def ParseConfigFile(Model_Configsheet,ScriptConfig,Mylog):
     
     # search for index table entry
     while True:
-        if Model_Configsheet.cell_value(ITix, 1) == 'Index Table':
+        if Model_Configsheet.cell(ITix+1, 2).value == 'Index Table':
             break
         else:
             ITix += 1
@@ -317,22 +307,19 @@ def ParseConfigFile(Model_Configsheet,ScriptConfig,Mylog):
     IT_Selector       = []
     IT_IndexLetter    = []
     ITix += 2 # start on first data row
-    while True:
-        if len(Model_Configsheet.cell_value(ITix,2)) > 0:
-            IT_Aspects.append(Model_Configsheet.cell_value(ITix,2))
-            IT_Description.append(Model_Configsheet.cell_value(ITix,3))
-            IT_Dimension.append(Model_Configsheet.cell_value(ITix,4))
-            IT_Classification.append(Model_Configsheet.cell_value(ITix,5))
-            IT_Selector.append(Model_Configsheet.cell_value(ITix,6))
-            IT_IndexLetter.append(Model_Configsheet.cell_value(ITix,7))        
-            ITix += 1
-        else:
-            break
-    
+    while Model_Configsheet.cell(ITix+1,3).value:
+        IT_Aspects.append(Model_Configsheet.cell(ITix+1,3).value)
+        IT_Description.append(Model_Configsheet.cell(ITix+1,4).value)
+        IT_Dimension.append(Model_Configsheet.cell(ITix+1,5).value)
+        IT_Classification.append(Model_Configsheet.cell(ITix+1,6).value)
+        IT_Selector.append(Model_Configsheet.cell(ITix+1,7).value)
+        IT_IndexLetter.append(Model_Configsheet.cell(ITix+1,8).value)        
+        ITix += 1
+
     Mylog.info('Read parameter list from model config sheet.')
     PLix = 0
     while True: # search for parameter list entry
-        if Model_Configsheet.cell_value(PLix, 1) == 'Model Parameters':
+        if Model_Configsheet.cell(PLix+1, 2).value == 'Model Parameters':
             break
         else:
             PLix += 1
@@ -344,52 +331,51 @@ def ParseConfigFile(Model_Configsheet,ScriptConfig,Mylog):
     PL_IndexMatch     = []
     PL_IndexLayer     = []
     PLix += 2 # start on first data row
-    while True:
-        if len(Model_Configsheet.cell_value(PLix,2)) > 0:
-            PL_Names.append(Model_Configsheet.cell_value(PLix,2))
-            PL_Description.append(Model_Configsheet.cell_value(PLix,3))
-            PL_Version.append(Model_Configsheet.cell_value(PLix,4))
-            PL_IndexStructure.append(Model_Configsheet.cell_value(PLix,5))
-            PL_IndexMatch.append(Model_Configsheet.cell_value(PLix,6))
-            PL_IndexLayer.append(ListStringToListNumbers(Model_Configsheet.cell_value(PLix,7))) # strip numbers out of list string
-            PLix += 1
-        else:
-            break
+    while Model_Configsheet.cell(PLix+1,3).value:
+        PL_Names.append(Model_Configsheet.cell(PLix+1,3).value)
+        PL_Description.append(Model_Configsheet.cell(PLix+1,4).value)
+        PL_Version.append(Model_Configsheet.cell(PLix+1,5).value)
+        PL_IndexStructure.append(Model_Configsheet.cell(PLix+1,6).value)
+        PL_IndexMatch.append(Model_Configsheet.cell(PLix+1,7).value)
+        PL_IndexLayer.append(ListStringToListNumbers(Model_Configsheet.cell(PLix+1,8).value)) # strip numbers out of list string
+        PLix += 1
         
     Mylog.info('Read process list from model config sheet.')
-    PrLix = 0
+    PrLix = 1
     
     # search for process list entry
-    while True:
-        if Model_Configsheet.cell_value(PrLix, 1) == 'Process Group List':
-            break
-        else:
-            PrLix += 1
+    while Model_Configsheet.cell(PrLix, 2).value != 'Process Group List':
+        PrLix += 1
             
     PrL_Number         = []
     PrL_Name           = []
     PrL_Comment        = []
     PrL_Type           = []
     PrLix += 2 # start on first data row
-    while True:
-        if Model_Configsheet.cell_value(PrLix,2) != '':
-            try:
-                PrL_Number.append(int(Model_Configsheet.cell_value(PrLix,2)))
-            except:
-                PrL_Number.append(Model_Configsheet.cell_value(PrLix,2))
-            PrL_Name.append(Model_Configsheet.cell_value(PrLix,3))
-            PrL_Type.append(Model_Configsheet.cell_value(PrLix,4))
-            PrL_Comment.append(Model_Configsheet.cell_value(PrLix,5))
-            PrLix += 1
-        else:
-            break    
     
+    while True:
+        if Model_Configsheet.cell(PrLix,3).value is None:
+            break
+        PrL_Number.append(int(Model_Configsheet.cell(PrLix,3).value))
+        PrL_Name.append(Model_Configsheet.cell(PrLix,4).value)
+        PrL_Type.append(Model_Configsheet.cell(PrLix,5).value)
+        PrL_Comment.append(Model_Configsheet.cell(PrLix,6).value)
+        PrLix += 1
+        
+    # while Model_Configsheet.cell(PrLix,3).value:
+    #     print(Model_Configsheet.cell(PrLix,3).value)
+    #     PrL_Number.append(int(Model_Configsheet.cell(PrLix,3).value))
+    #     PrL_Name.append(Model_Configsheet.cell(PrLix,4).value)
+    #     PrL_Type.append(Model_Configsheet.cell(PrLix,5).value)
+    #     PrL_Comment.append(Model_Configsheet.cell(PrLix,6).value)
+    #     PrLix += 1
+        
     Mylog.info('Read model run control from model config sheet.')
     PrLix = 0
     
     # search for model flow control entry
     while True:
-        if Model_Configsheet.cell_value(PrLix, 1) == 'Model flow control':
+        if Model_Configsheet.cell(PrLix+1, 2).value == 'Model flow control':
             break
         else:
             PrLix += 1
@@ -397,9 +383,9 @@ def ParseConfigFile(Model_Configsheet,ScriptConfig,Mylog):
     # start on first data row
     PrLix += 2
     while True:
-        if Model_Configsheet.cell_value(PrLix, 2) != '':
+        if Model_Configsheet.cell(PrLix+1, 3).value:
             try:
-                ScriptConfig[Model_Configsheet.cell_value(PrLix, 2)] = Model_Configsheet.cell_value(PrLix,3)
+                ScriptConfig[Model_Configsheet.cell(PrLix+1, 3).value] = Model_Configsheet.cell(PrLix+1,4).value
             except:
                 None
             PrLix += 1
@@ -411,7 +397,7 @@ def ParseConfigFile(Model_Configsheet,ScriptConfig,Mylog):
     
     # search for model flow control entry
     while True:
-        if Model_Configsheet.cell_value(PrLix, 1) == 'Model output control':
+        if Model_Configsheet.cell(PrLix+1, 2).value == 'Model output control':
             break
         else:
             PrLix += 1
@@ -419,9 +405,9 @@ def ParseConfigFile(Model_Configsheet,ScriptConfig,Mylog):
     # start on first data row
     PrLix += 2
     while True:
-        if Model_Configsheet.cell_value(PrLix, 2) != '':
+        if Model_Configsheet.cell(PrLix+1, 3).value:
             try:
-                ScriptConfig[Model_Configsheet.cell_value(PrLix, 2)] = Model_Configsheet.cell_value(PrLix,3)
+                ScriptConfig[Model_Configsheet.cell(PrLix+1, 3).value] = Model_Configsheet.cell(PrLix+1,4).value
             except:
                 None
             PrLix += 1
@@ -945,30 +931,30 @@ def ReadParameterXLSX(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, 
     """
     This function reads a model parameter from the corresponding parameter file and used openpyxl
     """
-    Parfile   = openpyxl.load_workbook(ParPath + '.xlsx')
+    Parfile   = openpyxl.load_workbook(ParPath + '.xlsx', data_only=True)
     ParHeader = Parfile['Cover']
     
     IM = eval(IndexMatch) # List that matches model aspects to parameter indices
     
-    ri = 1 # row index
+    ri = 2 # row index
     MetaData = {}
     while True: # read cover sheet info
-        ThisItem = ParHeader.cell(ri+1,1).value
+        ThisItem = ParHeader.cell(ri,1).value
         if (ThisItem != '[Empty on purpose]' and ThisItem != 'Dataset_RecordType'):
-            MetaData[ThisItem] = ParHeader.cell(ri+1,2).value
+            MetaData[ThisItem] = ParHeader.cell(ri,2).value
             if ThisItem == 'Dataset_Unit':
-                if ParHeader.cell(ri+1,2).value == 'GLOBAL':
-                    MetaData['Unit_Global']         = ParHeader.cell(ri+1,3).value
-                    MetaData['Unit_Global_Comment'] = ParHeader.cell(ri+1,4).value 
+                if ParHeader.cell(ri,2).value == 'GLOBAL':
+                    MetaData['Unit_Global']         = ParHeader.cell(ri,3).value
+                    MetaData['Unit_Global_Comment'] = ParHeader.cell(ri,4).value 
             if ThisItem == 'Dataset_Uncertainty':
                 # if LIST is specified, nothing happens here.
-                if ParHeader.cell(ri+1,2).value == 'GLOBAL':
-                    MetaData['Dataset_Uncertainty_Global'] = ParHeader.cell(ri+1,3).value
-                if ParHeader.cell(ri+1,2).value == 'TABLE':
-                    MetaData['Dataset_Uncertainty_Sheet']  = ParHeader.cell(ri+1,3).value                    
+                if ParHeader.cell(ri,2).value == 'GLOBAL':
+                    MetaData['Dataset_Uncertainty_Global'] = ParHeader.cell(ri,3).value
+                if ParHeader.cell(ri,2).value == 'TABLE':
+                    MetaData['Dataset_Uncertainty_Sheet']  = ParHeader.cell(ri,3).value                    
             if ThisItem == 'Dataset_Comment':
-                if ParHeader.cell(ri+1,2).value == 'GLOBAL':
-                    MetaData['Dataset_Comment_Global']     = ParHeader.cell(ri+1,3).value                    
+                if ParHeader.cell(ri,2).value == 'GLOBAL':
+                    MetaData['Dataset_Comment_Global']     = ParHeader.cell(ri,3).value                    
             ri += 1
         else:
             break # terminate while loop when all meta information is read.
@@ -981,21 +967,22 @@ def ReadParameterXLSX(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, 
         
     # Continue parsing until line 'Dataset_RecordType' is found:
     while True:
-        ThisItem = ParHeader.cell(ri+1,1).value
+        ThisItem = ParHeader.cell(ri,1).value
         if ThisItem == 'Dataset_RecordType':  
+            print(ParHeader.cell(ri,2).value)
             break
         else:
             ri += 1
         
     ### List version ###        
-    if ParHeader.cell(ri+1,2) == 'LIST':
+    if ParHeader.cell(ri,2).value == 'LIST':
         IList = []
         IListMeaning = []
         RI_Start = ri + 2
         while True:
-            if ParHeader.cell(RI_Start+1,1).value != '':
-                IList.append(ParHeader.cell(RI_Start+1,1).value)
-                IListMeaning.append(ParHeader.cell(RI_Start+1,2).value)
+            if ParHeader.cell(RI_Start,1).value:
+                IList.append(ParHeader.cell(RI_Start,1).value)
+                IListMeaning.append(ParHeader.cell(RI_Start,2).value)
                 RI_Start += 1
             else:
                 break
@@ -1007,9 +994,9 @@ def ReadParameterXLSX(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, 
         VIComment = []
         RI_Start = ri + 2
         while True:
-            if ParHeader.cell(RI_Start+1,3).value != '':
-                ValueList.append(ParHeader.cell(RI_Start+1,3).value)
-                VIComment.append(ParHeader.cell(RI_Start+1,4).value)
+            if ParHeader.cell(RI_Start,3).value:
+                ValueList.append(ParHeader.cell(RI_Start,3).value)
+                VIComment.append(ParHeader.cell(RI_Start,4).value)
                 RI_Start += 1
             else:
                 break
@@ -1037,14 +1024,14 @@ def ReadParameterXLSX(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, 
         Values      = np.zeros((IndexSizesM)) # Array for parameter values
         Uncertainty = [None] * np.product(IndexSizesM) # parameter value uncertainties  
         ValIns      = np.zeros((IndexSizesM)) # Array to check how many values are actually loaded
-        ValuesSheet = Parfile.sheet_by_name('Values_Master')
+        ValuesSheet = Parfile['Values_Master']
         ColOffset = len(IList)
         RowOffset = 1 # fixed for this format, different quantification layers (value, error, etc.) will be read later
         cx        = 0
         while True:
-            try:
+            if ValuesSheet.cell(cx + RowOffset+1, ColOffset+1).value:
                 CV = ValuesSheet.cell(cx + RowOffset+1, ColOffset+1).value
-            except:
+            else:
                 break
             TargetPosition = []
             for mx in range(0,len(IList)): # mx iterates over the aspects of the parameter 
@@ -1065,17 +1052,17 @@ def ReadParameterXLSX(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, 
         
         
     ### Table version ###
-    if ParHeader.cell(ri+1,2).value == 'TABLE': # have 3 while loops, one for row indices, one for column indices, one for value layers
-        ColNos =  int(ParHeader.cell(ri+1,6).value) # Number of columns in dataset
-        RowNos =  int(ParHeader.cell(ri+1,4).value) # Number of rows in dataset
+    if ParHeader.cell(ri,2).value == 'TABLE': # have 3 while loops, one for row indices, one for column indices, one for value layers
+        ColNos =  int(ParHeader.cell(ri,6).value) # Number of columns in dataset
+        RowNos =  int(ParHeader.cell(ri,4).value) # Number of rows in dataset
         
         RI = ri + 2 # row where indices start
         RIList        = []
         RIListMeaning = []
         while True:
-            if ParHeader.cell(RI+1,1).value != '':
-                RIList.append(ParHeader.cell(RI+1,1).value)
-                RIListMeaning.append(ParHeader.cell(RI+1,2).value)
+            if ParHeader.cell(RI,1).value:
+                RIList.append(ParHeader.cell(RI,1).value)
+                RIListMeaning.append(ParHeader.cell(RI,2).value)
                 RI += 1
             else:
                 break
@@ -1084,9 +1071,9 @@ def ReadParameterXLSX(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, 
         CIList        = []
         CIListMeaning = []
         while True:
-            if ParHeader.cell(RI+1,3).value != '':
-                CIList.append(ParHeader.cell(RI+1,3).value)
-                CIListMeaning.append(ParHeader.cell(RI+1,4).value)
+            if ParHeader.cell(RI,3).value:
+                CIList.append(ParHeader.cell(RI,3).value)
+                CIListMeaning.append(ParHeader.cell(RI,4).value)
                 RI += 1
             else:
                 break
@@ -1099,9 +1086,9 @@ def ReadParameterXLSX(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, 
         ValueList = []
         VIComment = []
         while True:
-            if ParHeader.cell(RI+1,5).value != '':
-                ValueList.append(ParHeader.cell(RI+1,5).value)
-                VIComment.append(ParHeader.cell(RI+1,6).value)
+            if ParHeader.cell(RI,5).value:
+                ValueList.append(ParHeader.cell(RI,5).value)
+                VIComment.append(ParHeader.cell(RI,6).value)
                 RI += 1
             else:
                 break
@@ -1138,10 +1125,10 @@ def ReadParameterXLSX(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, 
         Values      = np.zeros((IndexSizesM)) # Array for parameter values
         Uncertainty = [None] * np.product(IndexSizesM) # parameter value uncertainties  
         ValIns      = np.zeros((IndexSizesM)) # Array to check how many values are actually loaded, contains 0 or 1.
-        ValuesSheet = Parfile.sheet_by_name(ValueList[ThisParLayerSel[0]])
+        ValuesSheet = Parfile[ValueList[ThisParLayerSel[0]]]
         if ParseUncertainty == True:
             if 'Dataset_Uncertainty_Sheet' in MetaData:
-                UncertSheet = Parfile.sheet_by_name(MetaData['Dataset_Uncertainty_Sheet'])
+                UncertSheet = Parfile[MetaData['Dataset_Uncertainty_Sheet']]
         ColOffset   = len(RIList)
         RowOffset   = len(CIList)
         cx          = 0
@@ -1192,7 +1179,7 @@ def ReadParameterXLSX(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, 
                 except:
                     TargetPosition = [0]
                 if len(TargetPosition) == len(ComIList): # Read value if TargetPosition Tuple has same length as indexList
-                    Values[tuple(TargetPosition)] = ValuesSheet.cell_value(m + RowOffset, n + ColOffset)
+                    Values[tuple(TargetPosition)] = ValuesSheet.cell(m + RowOffset+1, n + ColOffset+1).value
                     ValIns[tuple(TargetPosition)] = 1
                     # Add uncertainty
                     if ParseUncertainty == True:
