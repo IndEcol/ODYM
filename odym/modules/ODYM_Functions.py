@@ -249,7 +249,7 @@ def ParseModelControl(Model_Configsheet,ScriptConfig):
         SCix += 1
             
     SCix += 2  # start on first data row
-    while Model_Configsheet.cell(SCix, 4).value != None:
+    while Model_Configsheet.cell(SCix, 4).value is not None:
         ScriptConfig[Model_Configsheet.cell(SCix, 3).value] = Model_Configsheet.cell(SCix,4).value
         SCix += 1
     
@@ -259,7 +259,7 @@ def ParseModelControl(Model_Configsheet,ScriptConfig):
         SCix += 1
             
     SCix += 2 # start on first data row
-    while Model_Configsheet.cell(SCix, 4).value != None:
+    while Model_Configsheet.cell(SCix, 4).value is not None:
         ScriptConfig[Model_Configsheet.cell(SCix, 3).value] = Model_Configsheet.cell(SCix,4).value
         SCix += 1  
         
@@ -271,14 +271,14 @@ def ParseClassificationFile_Main(Classsheet,Mylog):
     """
     ci = 2  # column index to start with
     MasterClassification = {}  # Dict of master classifications
-    while Classsheet.cell(1,ci).value != None:
+    while Classsheet.cell(1,ci).value is not None:
         TheseItems = []
         ri = 11  # row index to start with
         ThisName = Classsheet.cell(1,ci).value
         ThisDim  = Classsheet.cell(2,ci).value
         ThisID   = Classsheet.cell(4,ci).value
         ThisUUID = Classsheet.cell(5,ci).value
-        while Classsheet.cell(ri,ci).value != None:
+        while Classsheet.cell(ri,ci).value is not None:
             TheseItems.append(Classsheet.cell(ri,ci).value) # read the classification items
             ri += 1
         MasterClassification[ThisName] = msc.Classification(Name = ThisName, Dimension = ThisDim, ID = ThisID, UUID = ThisUUID, Items = TheseItems)
@@ -307,7 +307,7 @@ def ParseConfigFile(Model_Configsheet,ScriptConfig,Mylog):
     IT_Selector       = []
     IT_IndexLetter    = []
     ITix += 2 # start on first data row
-    while Model_Configsheet.cell(ITix+1,3).value != None:
+    while Model_Configsheet.cell(ITix+1,3).value is not None:
         IT_Aspects.append(Model_Configsheet.cell(ITix+1,3).value)
         IT_Description.append(Model_Configsheet.cell(ITix+1,4).value)
         IT_Dimension.append(Model_Configsheet.cell(ITix+1,5).value)
@@ -331,7 +331,7 @@ def ParseConfigFile(Model_Configsheet,ScriptConfig,Mylog):
     PL_IndexMatch     = []
     PL_IndexLayer     = []
     PLix += 2 # start on first data row
-    while Model_Configsheet.cell(PLix+1,3).value != None:
+    while Model_Configsheet.cell(PLix+1,3).value is not None:
         PL_Names.append(Model_Configsheet.cell(PLix+1,3).value)
         PL_Description.append(Model_Configsheet.cell(PLix+1,4).value)
         PL_Version.append(Model_Configsheet.cell(PLix+1,5).value)
@@ -362,7 +362,7 @@ def ParseConfigFile(Model_Configsheet,ScriptConfig,Mylog):
         PrL_Comment.append(Model_Configsheet.cell(PrLix,6).value)
         PrLix += 1
         
-    # while Model_Configsheet.cell(PrLix,3).value != None:
+    # while Model_Configsheet.cell(PrLix,3).value is not None:
     #     print(Model_Configsheet.cell(PrLix,3).value)
     #     PrL_Number.append(int(Model_Configsheet.cell(PrLix,3).value))
     #     PrL_Name.append(Model_Configsheet.cell(PrLix,4).value)
@@ -383,7 +383,7 @@ def ParseConfigFile(Model_Configsheet,ScriptConfig,Mylog):
     # start on first data row
     PrLix += 2
     while True:
-        if Model_Configsheet.cell(PrLix+1, 3).value != None:
+        if Model_Configsheet.cell(PrLix+1, 3).value is not None:
             try:
                 ScriptConfig[Model_Configsheet.cell(PrLix+1, 3).value] = Model_Configsheet.cell(PrLix+1,4).value
             except:
@@ -405,7 +405,7 @@ def ParseConfigFile(Model_Configsheet,ScriptConfig,Mylog):
     # start on first data row
     PrLix += 2
     while True:
-        if Model_Configsheet.cell(PrLix+1, 3).value != None:
+        if Model_Configsheet.cell(PrLix+1, 3).value is not None:
             try:
                 ScriptConfig[Model_Configsheet.cell(PrLix+1, 3).value] = Model_Configsheet.cell(PrLix+1,4).value
             except:
@@ -979,7 +979,7 @@ def ReadParameterXLSX(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, 
         IList = []
         IListMeaning = []
         RI_Start = ri + 2
-        while ParHeader.cell(RI_Start,1).value != None:
+        while ParHeader.cell(RI_Start,1).value is not None:
             IList.append(ParHeader.cell(RI_Start,1).value)
             IListMeaning.append(ParHeader.cell(RI_Start,2).value)
             RI_Start += 1
@@ -990,7 +990,7 @@ def ReadParameterXLSX(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, 
         ValueList = []
         VIComment = []
         RI_Start = ri + 2
-        while ParHeader.cell(RI_Start,3).value != None:
+        while ParHeader.cell(RI_Start,3).value is not None:
             ValueList.append(ParHeader.cell(RI_Start,3).value)
             VIComment.append(ParHeader.cell(RI_Start,4).value)
             RI_Start += 1
@@ -1022,7 +1022,7 @@ def ReadParameterXLSX(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, 
         RowOffset = 1 # fixed for this format, different quantification layers (value, error, etc.) will be read later
         cx        = 0
         while True:
-            if ValuesSheet.cell(cx + RowOffset+1, ColOffset+1).value != None:
+            if ValuesSheet.cell(cx + RowOffset+1, ColOffset+1).value is not None:
                 CV = ValuesSheet.cell(cx + RowOffset+1, ColOffset+1).value
             else:
                 break
@@ -1054,7 +1054,7 @@ def ReadParameterXLSX(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, 
         RIList        = []
         RIListMeaning = []
         while True:
-            if ParHeader.cell(RI,1).value != None:
+            if ParHeader.cell(RI,1).value is not None:
                 RIList.append(ParHeader.cell(RI,1).value)
                 RIListMeaning.append(ParHeader.cell(RI,2).value)
                 RI += 1
@@ -1065,7 +1065,7 @@ def ReadParameterXLSX(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, 
         CIList        = []
         CIListMeaning = []
         while True:
-            if ParHeader.cell(RI,3).value != None:
+            if ParHeader.cell(RI,3).value is not None:
                 CIList.append(ParHeader.cell(RI,3).value)
                 CIListMeaning.append(ParHeader.cell(RI,4).value)
                 RI += 1
@@ -1080,7 +1080,7 @@ def ReadParameterXLSX(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, 
         ValueList = []
         VIComment = []
         while True:
-            if ParHeader.cell(RI,5).value != None:
+            if ParHeader.cell(RI,5).value is not None:
                 ValueList.append(ParHeader.cell(RI,5).value)
                 VIComment.append(ParHeader.cell(RI,6).value)
                 RI += 1
