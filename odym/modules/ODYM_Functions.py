@@ -1037,7 +1037,7 @@ def ReadParameterXLSX(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, 
             if len(TargetPosition) == len(ThisParIx):
                 Values[tuple(TargetPosition)] = CV
                 ValIns[tuple(TargetPosition)] = 1
-                Uncertainty[Tuple_MI(TargetPosition, IndexSizesM)] = ValuesSheet.cell(cx + RowOffset+1, ColOffset + 3).value
+                Uncertainty[Tuple_MI(TargetPosition, IndexSizesM)] = ValuesSheet.cell(cx + RowOffset+1, ColOffset + 4).value
             cx += 1
             
         Mylog.info('A total of ' + str(cx) + ' values was read from file for parameter ' + ThisPar + '.')
@@ -1180,7 +1180,7 @@ def ReadParameterXLSX(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, 
                         if 'Dataset_Uncertainty_Global' in MetaData:
                             Uncertainty[Tuple_MI(TargetPosition, IndexSizesM)] = MetaData['Dataset_Uncertainty_Global']
                         if 'Dataset_Uncertainty_Sheet' in MetaData:
-                            Uncertainty[Tuple_MI(TargetPosition, IndexSizesM)] = UncertSheet.cell_value(m + RowOffset, n + ColOffset)
+                            Uncertainty[Tuple_MI(TargetPosition, IndexSizesM)] = UncertSheet.cell_value(m + RowOffset +1, n + ColOffset +1)
                 cx += 1
 
         Mylog.info('A total of ' + str(cx) + ' values was read from file for parameter ' + ThisPar + '.')                    
