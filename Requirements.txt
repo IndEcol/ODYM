@@ -3,6 +3,9 @@ import sys
 import logging
 import xlrd, xlwt
 import numpy as np
+import pandas as pd
+import openpyxl
+import pypandoc
 import time
 import datetime
 import scipy.io
