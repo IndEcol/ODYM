@@ -330,6 +330,8 @@ def ParseConfigFile(Model_Configsheet,ScriptConfig,Mylog):
     PL_IndexStructure = []
     PL_IndexMatch     = []
     PL_IndexLayer     = []
+    PL_SubFolder      = []
+    PL_ProxyCode      = []
     PLix += 2 # start on first data row
     while Model_Configsheet.cell(PLix+1,3).value is not None:
         PL_Names.append(Model_Configsheet.cell(PLix+1,3).value)
@@ -338,6 +340,8 @@ def ParseConfigFile(Model_Configsheet,ScriptConfig,Mylog):
         PL_IndexStructure.append(Model_Configsheet.cell(PLix+1,6).value)
         PL_IndexMatch.append(Model_Configsheet.cell(PLix+1,7).value)
         PL_IndexLayer.append(ListStringToListNumbers(Model_Configsheet.cell(PLix+1,8).value)) # strip numbers out of list string
+        PL_SubFolder.append(Model_Configsheet.cell(PLix+1,12).value)
+        PL_ProxyCode.append(Model_Configsheet.cell(PLix+1,13).value)
         PLix += 1
         
     Mylog.info('Read process list from model config sheet.')
@@ -414,7 +418,7 @@ def ParseConfigFile(Model_Configsheet,ScriptConfig,Mylog):
         else:
             break  
     
-    return IT_Aspects,IT_Description,IT_Dimension,IT_Classification,IT_Selector,IT_IndexLetter,PL_Names,PL_Description,PL_Version,PL_IndexStructure,PL_IndexMatch,PL_IndexLayer,PrL_Number,PrL_Name,PrL_Comment,PrL_Type,ScriptConfig
+    return IT_Aspects,IT_Description,IT_Dimension,IT_Classification,IT_Selector,IT_IndexLetter,PL_Names,PL_Description,PL_Version,PL_IndexStructure,PL_IndexMatch,PL_IndexLayer,PL_SubFolder,PL_ProxyCode,PrL_Number,PrL_Name,PrL_Comment,PrL_Type,ScriptConfig
 
 
 def ReadParameter(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, MasterClassification,
