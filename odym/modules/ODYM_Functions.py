@@ -28,6 +28,8 @@ import numpy as np
 import xlrd
 import openpyxl
 import pypandoc
+from scipy.interpolate import make_interp_spline
+from scipy.interpolate import interp1d
 import ODYM_Classes as msc
 
 ####################################
@@ -332,6 +334,8 @@ def ParseConfigFile(Model_Configsheet,ScriptConfig,Mylog):
     PL_IndexLayer     = []
     PL_SubFolder      = []
     PL_ProxyCode      = []
+    PL_ProcMethod     = []
+    
     PLix += 2 # start on first data row
     while Model_Configsheet.cell(PLix+1,3).value is not None:
         PL_Names.append(Model_Configsheet.cell(PLix+1,3).value)
@@ -342,6 +346,7 @@ def ParseConfigFile(Model_Configsheet,ScriptConfig,Mylog):
         PL_IndexLayer.append(ListStringToListNumbers(Model_Configsheet.cell(PLix+1,8).value)) # strip numbers out of list string
         PL_SubFolder.append(Model_Configsheet.cell(PLix+1,12).value)
         PL_ProxyCode.append(Model_Configsheet.cell(PLix+1,13).value)
+        PL_ProcMethod.append(Model_Configsheet.cell(PLix+1,14).value) 
         PLix += 1
         
     Mylog.info('Read process list from model config sheet.')
@@ -418,7 +423,7 @@ def ParseConfigFile(Model_Configsheet,ScriptConfig,Mylog):
         else:
             break  
     
-    return IT_Aspects,IT_Description,IT_Dimension,IT_Classification,IT_Selector,IT_IndexLetter,PL_Names,PL_Description,PL_Version,PL_IndexStructure,PL_IndexMatch,PL_IndexLayer,PL_SubFolder,PL_ProxyCode,PrL_Number,PrL_Name,PrL_Comment,PrL_Type,ScriptConfig
+    return IT_Aspects,IT_Description,IT_Dimension,IT_Classification,IT_Selector,IT_IndexLetter,PL_Names,PL_Description,PL_Version,PL_IndexStructure,PL_IndexMatch,PL_IndexLayer,PL_SubFolder,PL_ProxyCode,PL_ProcMethod,PrL_Number,PrL_Name,PrL_Comment,PrL_Type,ScriptConfig
 
 
 def ReadParameter(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, MasterClassification,
@@ -930,7 +935,7 @@ def ReadParameterV2(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, Ma
     else:
         return MetaData, Values
     
-def ReadParameterXLSX(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, MasterClassification,
+def ReadParameterXLSX(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, ThisParProcMethod, MasterClassification,
                     IndexTable, IndexTable_ClassificationNames, ScriptConfig, Mylog, ParseUncertainty):
     """
     This function reads a model parameter from the corresponding parameter file and used openpyxl
@@ -973,7 +978,7 @@ def ReadParameterXLSX(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, 
     while True:
         ThisItem = ParHeader.cell(ri,1).value
         if ThisItem == 'Dataset_RecordType':  
-            print(ParHeader.cell(ri,2).value)
+            Mylog.info(ParHeader.cell(ri,2).value)
             break
         else:
             ri += 1
@@ -1190,6 +1195,115 @@ def ReadParameterXLSX(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, 
         Mylog.info('A total of ' + str(cx) + ' values was read from file for parameter ' + ThisPar + '.')                    
         Mylog.info(str(ValIns.sum()) + ' of ' + str(np.prod(IndexSizesM)) + ' values for parameter ' + ThisPar +
                    ' were assigned.')
+        
+        Processing_methods = eval(ThisParProcMethod)
+        for processing in Processing_methods:
+        
+            if processing == 'none':
+                continue
+                
+            elif processing.startswith('replicate'):
+                if len(ThisParProcMethod.split('_')) != 5:
+                    Mylog.error('Replicate processing error: instruction not recognized for parameter '+ ThisPar + '.')
+                
+                replicateIndex = processing.split('_')[1]
+                targetValue    = processing.split('_')[2]
+                copyValue      = processing.split('_')[4]
+                
+                if replicateIndex not in ThisParIx:
+                    Mylog.error('Replicate processing error: index ' + replicateIndex + ' not a dimension for parameter '+ ThisPar + '.')
+                if copyValue not in IndexTable.set_index('IndexLetter').loc[replicateIndex].Classification.Items:
+                    Mylog.error('Replicate processing error: ' + copyValue   + ' not in the classification for aspect ' + replicateIndex + ' for parameter '+ ThisPar + '.')
+                if targetValue not in IndexTable.set_index('IndexLetter').loc[replicateIndex].Classification.Items:
+                    Mylog.error('Replicate processing error: ' + targetValue + ' not in the classification for aspect ' + replicateIndex + ' for parameter '+ ThisPar + '.')
+                    
+                ix_position = ThisParIx.find(replicateIndex)
+                C_ix = IndexTable.set_index('IndexLetter').loc[replicateIndex].Classification.Items.index(copyValue)
+                T_ix = IndexTable.set_index('IndexLetter').loc[replicateIndex].Classification.Items.index(targetValue)
+                dimensions = Values.shape
+                for indices in np.ndindex(dimensions[:ix_position] + dimensions[ix_position + 1:]):
+                    Values[indices[:ix_position] + (T_ix,) + indices[ix_position:]] = Values[indices[:ix_position] + (C_ix,) + indices[ix_position:]]
+                Mylog.info('Replicated ' + copyValue + ' values in ' + targetValue + ' for aspect ' + replicateIndex + ' for parameter '+ ThisPar + '.')
+    
+    
+            elif processing.startswith('interpolate'):
+                if len(processing.split('_')) != 5:
+                    Mylog.error('Interpolate processing error: instruction not recognized for parameter '+ ThisPar + '.')
+                interpIndex = processing.split('_')[1]
+                startValue  = int(processing.split('_')[2])
+                endValue    = int(processing.split('_')[3])
+                method      = processing.split('_')[4]
+                  
+                if interpIndex not in ThisParIx:
+                    Mylog.error('Interpolation processing error: index ' + interpIndex + ' not a dimension for parameter '+ ThisPar + '.')
+                if startValue not in IndexTable.set_index('IndexLetter').loc[interpIndex].Classification.Items:
+                    Mylog.error('Interpolation processing error: ' + str(startValue) + ' not in the classification for aspect ' + interpIndex + ' for parameter '+ ThisPar + '.')
+                if endValue not in IndexTable.set_index('IndexLetter').loc[interpIndex].Classification.Items:
+                    Mylog.error('Interpolation processing error: ' + str(endValue)   + ' not in the classification for aspect ' + interpIndex + ' for parameter '+ ThisPar + '.')
+                    
+                startIndex = IndexTable.set_index('IndexLetter').loc[interpIndex].Classification.Items.index(startValue)
+                endIndex   = IndexTable.set_index('IndexLetter').loc[interpIndex].Classification.Items.index(endValue)
+                ix_position = ThisParIx.find(interpIndex)
+                ValIns_b = np.array(ValIns, dtype=bool)
+                dimensions = Values.shape
+                
+                for indices in np.ndindex(dimensions[:ix_position] + dimensions[ix_position + 1:]):
+                    if (ValIns_b[indices[:ix_position] + (startIndex,) + indices[ix_position:]] and ValIns_b[indices[:ix_position] + (endIndex,) + indices[ix_position:]]):
+                        x = [IndexTable.set_index('IndexLetter').loc[interpIndex].Classification.Items[m] for m in range(startIndex, endIndex+1) if ValIns_b[indices[:ix_position] + (m,) + indices[ix_position:]] ]
+                        y = [Values[indices[:ix_position] + (m,) + indices[ix_position:]] for m in range(startIndex, endIndex+1) if ValIns_b[indices[:ix_position] + (m,) + indices[ix_position:]] ]
+                        if method == 'spline':
+                            clamped_spline = make_interp_spline(x, y, bc_type=([(2, 0)], [(1, 0)])) #spline function, free (2nd derivative=0) for starting boundary condition and clamped (1st derivative=0) for end boundary condition
+                            for m in range(startIndex, endIndex+1):
+                                Values[indices[:ix_position] + (m,) + indices[ix_position:]] = clamped_spline(IndexTable.set_index('IndexLetter').loc[interpIndex].Classification.Items[m])
+                        elif method == 'linear':
+                            f = interp1d(x, y, kind='linear')
+                            for m in range(startIndex, endIndex+1):
+                                Values[indices[:ix_position] + (m,) + indices[ix_position:]] = f(IndexTable.set_index('IndexLetter').loc[interpIndex].Classification.Items[m])
+                        else:
+                            Mylog.error('Interpolation error: method ' + method   + ' not recognized for parameter '+ ThisPar + '.')
+                            break
+                    
+                Mylog.info('Intrpolated ' + str(interpIndex) + ' aspect from ' + str(startValue) + ' to ' + str(endValue) + ' for parameter ' + ThisPar + '.')
+                count_neg = (Values<0).sum()   
+                if count_neg >0:
+                    Values[Values<0]=0
+                    Mylog.info(str(count_neg) + ' negative values from spline interpolation set to 0.')
+                
+                
+            elif processing.startswith('copy'): 
+                if len(processing.split('_')) != 5:
+                    Mylog.error('Copy processing error: instruction not recognized for parameter '+ ThisPar + '.')
+                copyIndex    = processing.split('_')[1]
+                cloneValue    = int(processing.split('_')[2])
+                targetValues = processing.split('_')[4].strip('[]')
+                
+                if ',' in targetValues:
+                    targetList = [int(m) for m in targetValues.split(',')]
+                else:
+                    startValue, endValue = map(int, targetValues.split(':'))
+                    targetList = list(range(startValue, endValue + 1))
+                
+                if copyIndex not in ThisParIx:
+                    Mylog.error('Copy processing error: index ' + copyIndex + ' not a dimension for parameter '+ ThisPar + '.')
+                if cloneValue not in IndexTable.set_index('IndexLetter').loc[copyIndex].Classification.Items:
+                    Mylog.error('Copy processing error: ' + cloneValue + ' not in the classification for aspect ' + copyIndex + ' for parameter '+ ThisPar + '.')
+                if not set(targetList).issubset(IndexTable.set_index('IndexLetter').loc[copyIndex].Classification.Items):
+                    Mylog.error('Copy processing error: ' + str(targetList)   + ' not entirely in the classification for aspect ' + copyIndex + ' for parameter '+ ThisPar + '.')
+                
+                ix_position = ThisParIx.find(copyIndex)
+                cloneIndex = IndexTable.set_index('IndexLetter').loc[copyIndex].Classification.Items.index(cloneValue)
+                dimensions = Values.shape
+                for indices in np.ndindex(dimensions[:ix_position] + dimensions[ix_position + 1:]):
+                    for target in targetList:
+                        targetIndex = IndexTable.set_index('IndexLetter').loc[copyIndex].Classification.Items.index(target)
+                        Values[indices[:ix_position] + (targetIndex,) + indices[ix_position:]] = Values[indices[:ix_position] + (cloneIndex,) + indices[ix_position:]]
+                Mylog.info('Copied  ' + str(len(targetList)) + ' values for aspect ' + copyIndex + ' for parameter ' + ThisPar + '.')
+                    
+                
+            else:
+                Mylog.error('Data processing error: instruction not recognized for parameter '+ ThisPar + '.')
+            
+                
     if ParseUncertainty == True:
         return MetaData, Values, Uncertainty
     else:
@@ -1299,5 +1413,20 @@ def convert_log(file, file_format='html'):
     output = pypandoc.convert_file(file, file_format, outputfile=output_filename)
     assert output == ""
 
+def check_dataset(path,PL_Names,PL_Version,Mylog):
+    """
+    Checks that every parameter in Pl_Names with the corrsponding version PL_Versions is in the folder given by path
+
+    :param path: Dataset folder
+    :param PL_Names: List of parameters names
+    :param PL_versions: List of parameters versions
+    :param Mylog: log file
+
+    """
+    for m in range(len(PL_Names)):
+        if PL_Names[m]+'_'+PL_Version[m]+'.xlsx' not in os.listdir(path):
+            Mylog.error(PL_Names[m]+'_'+PL_Version[m]+'.xlsx not in the dataset.')
+    
+    
 # The End
 
