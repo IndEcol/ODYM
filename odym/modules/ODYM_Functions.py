@@ -335,6 +335,7 @@ def ParseConfigFile(Model_Configsheet,ScriptConfig,Mylog):
     PL_SubFolder      = []
     PL_ProxyCode      = []
     PL_ProcMethod     = []
+    PL_UpdateOverwrite = [] #2308 add choice to read new par data or use data from dat file
     
     PLix += 2 # start on first data row
     while Model_Configsheet.cell(PLix+1,3).value is not None:
@@ -346,7 +347,8 @@ def ParseConfigFile(Model_Configsheet,ScriptConfig,Mylog):
         PL_IndexLayer.append(ListStringToListNumbers(Model_Configsheet.cell(PLix+1,8).value)) # strip numbers out of list string
         PL_SubFolder.append(Model_Configsheet.cell(PLix+1,12).value)
         PL_ProxyCode.append(Model_Configsheet.cell(PLix+1,13).value)
-        PL_ProcMethod.append(Model_Configsheet.cell(PLix+1,14).value) 
+        PL_ProcMethod.append(Model_Configsheet.cell(PLix+1,14).value)
+        PL_UpdateOverwrite.append(Model_Configsheet.cell(PLix+1,15).value) #2308 add choice to read new par data or use data from dat file
         PLix += 1
         
     Mylog.info('Read process list from model config sheet.')
@@ -423,7 +425,7 @@ def ParseConfigFile(Model_Configsheet,ScriptConfig,Mylog):
         else:
             break  
     
-    return IT_Aspects,IT_Description,IT_Dimension,IT_Classification,IT_Selector,IT_IndexLetter,PL_Names,PL_Description,PL_Version,PL_IndexStructure,PL_IndexMatch,PL_IndexLayer,PL_SubFolder,PL_ProxyCode,PL_ProcMethod,PrL_Number,PrL_Name,PrL_Comment,PrL_Type,ScriptConfig
+    return IT_Aspects,IT_Description,IT_Dimension,IT_Classification,IT_Selector,IT_IndexLetter,PL_Names,PL_Description,PL_Version,PL_IndexStructure,PL_IndexMatch,PL_IndexLayer,PL_SubFolder,PL_ProxyCode,PL_ProcMethod,PL_UpdateOverwrite,PrL_Number,PrL_Name,PrL_Comment,PrL_Type,ScriptConfig
 
 
 def ReadParameter(ParPath, ThisPar, ThisParIx, IndexMatch, ThisParLayerSel, MasterClassification,
