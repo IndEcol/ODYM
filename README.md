@@ -11,7 +11,7 @@ The novel features of ODYM include:\
 •	Representation of system variables and parameters as objects, general data structures serve as interfaces to a wide spectrum of modules for stock-driven modelling, waste cascade optimisation, etc.
 
 __More information is available:__\
-•	Wiki pages in this repository.\
+•	[Wiki](https://github.com/IndEcol/ODYM/wiki) pages in this repository.\
 •	Tutorials (Jupyther notebooks) in the docs folder.\
 •	Documentation of the ODYM classes: https://github.com/IndEcol/ODYM/blob/master/docs/ODYM_Classes.html \
 •	Documentation of the ODYM functions: https://github.com/IndEcol/ODYM/blob/master/docs/ODYM_Functions.html \
