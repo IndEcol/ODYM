@@ -1427,9 +1427,12 @@ def check_dataset(path,PL_Names,PL_Version,PL_SubFolder,Mylog):
 
     """
     for m in range(len(PL_Names)):
-        if PL_Names[m]+'_'+PL_Version[m]+'.xlsx' not in os.listdir(path):
+        if PL_SubFolder[m] == 'default': # thus the default dataset folder and not in a data subfolder
+            if PL_Names[m]+'_'+PL_Version[m]+'.xlsx' not in os.listdir(path):
+                Mylog.error(PL_Names[m]+'_'+PL_Version[m]+'.xlsx not in the default dataset folder.')
+        else: # if a subfolder is specified as data location, checking if the file is there
             if PL_Names[m]+'_'+PL_Version[m]+'.xlsx' not in os.listdir(os.path.join(path, PL_SubFolder[m])):
-                Mylog.error(PL_Names[m]+'_'+PL_Version[m]+'.xlsx not in the dataset.')
+                Mylog.error(PL_Names[m]+'_'+PL_Version[m]+'.xlsx not in the specified dataset subfolder.')
     
     
 # The End
