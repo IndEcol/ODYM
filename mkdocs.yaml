@@ -19,6 +19,9 @@ nav:
     - tutorial: 'tutorials/tutorial_4.ipynb'
     - tutorial: 'tutorials/tutorial_5.ipynb'
     - tutorial: 'tutorials/tutorial_6.ipynb'
+  - API:
+    - Classes: 'api/classes.md'
+    - Functions: 'api/functions.md'
   - Changelog: 'changelog.md'
 theme: # https://www.mkdocs.org/user-guide/choosing-your-theme/#readthedocs
   name: material
