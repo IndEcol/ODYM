@@ -1,25 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Mar  2 17:29:41 2017
-
-@author: spauliuk
-"""
-
-"""
-File ODYM_Classes
-Check https://github.com/IndEcol/ODYM for latest version.
-
-Contains class definitions for ODYM
-
-standard abbreviation: msc (material-system-classes)
-
-dependencies:
-    numpy >= 1.9
-    scipy >= 0.14
-
-Repository for this class, documentation, and tutorials: https://github.com/IndEcol/ODYM
-
-"""
 import os
 import logging
 import numpy as np
@@ -29,9 +7,6 @@ import xlrd, xlwt
 ####################################
 #      Define classes for ODYM  #
 ####################################
-
-def __version__():
-    return str('1.0') # version number of this file
 
 
 class Obj(object):
@@ -350,13 +325,3 @@ class Parameter(Obj):
         self.Values      = Values   # parameter values, np.array, multidimensional, unit is Unit
         self.Uncert      = Uncert  # uncertainty of value in %
         self.Unit        = Unit   # Unit of parameter values
-
-  
-       
-
-
-
-        
-#   
-#
-#    

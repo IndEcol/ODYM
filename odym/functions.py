@@ -1,26 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Mar  2 17:33:00 2017
-
-@author: spauliuk
-"""
-
-"""
-File ODYM_Functions
-Check https://github.com/IndEcol/ODYM for latest version.
-
-Contains class definitions for ODYM
-
-standard abbreviation: msf (material-system-functions)
-
-dependencies:
-    numpy >= 1.9
-    scipy >= 0.14
-
-Repository for this class, documentation, and tutorials: https://github.com/IndEcol/ODYM
-
-"""
-
 import os
 import logging
 import numpy as np
@@ -30,7 +7,7 @@ import openpyxl
 import pypandoc
 from scipy.interpolate import make_interp_spline
 from scipy.interpolate import interp1d
-import ODYM_Classes as msc
+import odym.classes as msc
 
 ####################################
 #      Define functions            #
@@ -1430,7 +1407,3 @@ def check_dataset(path,PL_Names,PL_Version,PL_SubFolder,Mylog):
         if PL_Names[m]+'_'+PL_Version[m]+'.xlsx' not in os.listdir(path):
             if PL_Names[m]+'_'+PL_Version[m]+'.xlsx' not in os.listdir(os.path.join(path, PL_SubFolder[m])):
                 Mylog.error(PL_Names[m]+'_'+PL_Version[m]+'.xlsx not in the dataset.')
-    
-    
-# The End
-

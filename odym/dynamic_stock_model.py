@@ -1,38 +1,8 @@
-# -*- coding: utf-8 -*-
-"""
-Class DynamicStockModel
-Check https://github.com/IndEcol/ODYM for latest version.
-
-Methods for efficient handling of dynamic stock models (DSMs)
-
-Created on Mon Jun 30 17:21:28 2014
-
-@author: Stefan Pauliuk, NTNU Trondheim, Norway, later Uni Freiburg, Germany
-with contributions from
-Sebastiaan Deetman, CML, Leiden, NL
-Tomer Fishman, IDC Herzliya, IL
-Chris Mutel, PSI, Villingen, CH
-
-standard abbreviation: DSM or dsm
-
-dependencies:
-    numpy >= 1.9
-    scipy >= 0.14
-
-Repository for this class, documentation, and tutorials: https://github.com/IndEcol/ODYM
-
-"""
-
 import numpy as np
 import scipy.stats
 
-def __version__():
-    """Return a brief version string and statement for this class."""
-    return str('1.0'), str('Class DynamicStockModel, dsm. Version 1.0. Last change: July 25th, 2019. Check https://github.com/IndEcol/ODYM for latest version.')
-
 
 class DynamicStockModel(object):
-
     """ Class containing a dynamic stock model
 
     Attributes
@@ -737,11 +707,3 @@ class DynamicStockModel(object):
         else:
             # No stock specified
             return None, None, None, None
-      
-        
-
-#
-#
-# The end.
-#
-
