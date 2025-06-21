@@ -10,15 +10,6 @@ The ODYM model framework is a software library for dynamic material flow analysi
 - Flexibility regarding different data formats (table and list) and subsets of classifications used (only certain years or chemical elements, for example).
 - Representation of system variables and parameters as objects, general data structures serve as interfaces to a wide spectrum of modules for stock-driven modelling, waste cascade optimisation, etc.
 
-**More information is available:**
-- [Wiki](https://github.com/IndEcol/ODYM/wiki) pages in this repository.
-- Tutorials (Jupyther notebooks) in the docs folder.
-- Documentation of the ODYM classes: https://github.com/IndEcol/ODYM/blob/master/docs/ODYM_Classes.html 
-- Documentation of the ODYM functions: https://github.com/IndEcol/ODYM/blob/master/docs/ODYM_Functions.html 
-- Documentation of the dynamic stock model class: https://github.com/IndEcol/ODYM/blob/master/docs/dynamic_stock_model.html 
-- A journal paper on ODYM, available via https://doi.org/10.1111/jiec.12952.
-
-
 ## Background
 
 ODYM was developed to handle the typical types of model equations and approaches in a dynamic MFA model in a systematic manner. 
@@ -52,10 +43,3 @@ The methods and algorithms of MFA have significantly improved over the last year
 To fill that gap we developed ODYM (Open Dynamic Material Systems Model), an open source framework for material systems modelling programmed in Python. The description of systems, processes, stocks, flows, and parameters is object-based, which facilitates the development of modular software and testing routines for individual model blocks. 
 
 ODYM MFA models can handle any depth of flow and stock specification: products, components, sub-components, materials, alloys, waste, and chemical elements can be traced simultaneously. ODYM features a new data structure for material flow analysis; all input and output data are stored in a standardized file format and can thus be exchanged across projects. It comes with an extended library for dynamic stock modelling. 
-
-
-## Folder structure of the ODYM repo
-
-The folder structure of the ODYM repository is shown in the figure below. It shows the main module files, the tutorials with related material, and the unit tests. 
-
-![ODYM directory tree](https://github.com/IndEcol/ODYM/blob/master/docs/Images/ODYM_DirectoryTree.png "ODYM directory tree")
