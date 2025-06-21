@@ -17,7 +17,7 @@ dynamic = ["version"]
 # Add here all kinds of additional classifiers as defined under
 # https://pypi.org/classifiers/
 classifiers = [
-    "Development Status :: 5 - Production/Stable",
+    "Development Status :: 4 - Beta",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.9",
@@ -31,9 +31,13 @@ classifiers = [
 requires-python = ">=3.9"
 dependencies = [
     "numpy >= 1.9",
+    "pandas >= 0.18",
     "scipy >= 0.14",
     "openpyxl",
-    "xlwt"
+    "xlwt",
+    "xlrd",
+    "matplotlib",
+    "pypandoc",
 ]
 
 [project.urls]
@@ -49,7 +53,6 @@ testing = [
     "pytest-cov",
     "python-coveralls",
 ]
-
 
 [tool.setuptools.dynamic]
 version = {attr = "odym.__version__"} 

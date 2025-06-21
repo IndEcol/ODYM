@@ -4,11 +4,6 @@ import numpy as np
 import pandas as pd
 import xlrd, xlwt
 
-####################################
-#      Define classes for ODYM  #
-####################################
-
-
 class Obj(object):
     """
     Class with the object definition for a data object (system, process, flow, ...) in ODYM
@@ -22,9 +17,7 @@ class Obj(object):
         self.Dimensions      = {'Time': 'Time', 'Process':'Process', 'Region': 'Region', 'Good': 'Process, good, or commodity', 'Material': 'Material: ore, alloy, scrap type, ...','Element': 'Chemical element' } # Define the dimensions of the system variables
 
 
-        
 class Classification(Obj):
-  
     """
     Class for aspect classification
     """
@@ -36,10 +29,9 @@ class Classification(Obj):
         self.Items             = Items # list with names of items
         self.IDs               = IDs # list with IDs of items
         self.AdditionalProps   = AdditionalProporties # Like population for regions, element composition for alloys, ...
-        
-        
-class MFAsystem(Obj):
 
+
+class MFAsystem(Obj):
     """
     Class with the definition and methods for a system in ODYM
     """
@@ -310,7 +302,6 @@ class Stock(Obj): # Flow needs to at least have dimension time x element
 
 
 class Parameter(Obj):
-  
     """
     Class with the definition and methods for parameters
     """

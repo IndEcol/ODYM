@@ -1,21 +1,12 @@
 import os
 import logging
 import numpy as np
-#import pandas as pd
 import xlrd
 import openpyxl
 import pypandoc
 from scipy.interpolate import make_interp_spline
 from scipy.interpolate import interp1d
 import odym.classes as msc
-
-####################################
-#      Define functions            #
-####################################
-
-def __version__():  # return version of this file
-    return str('1.0')
-
 
 
 def function_logger(log_filename, log_pathname, file_level=logging.DEBUG, console_level=logging.WARNING):

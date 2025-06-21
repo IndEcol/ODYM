@@ -3,28 +3,30 @@ import scipy.stats
 
 
 class DynamicStockModel(object):
-    """ Class containing a dynamic stock model
+    """Class containing a dynamic stock model.
 
     Attributes
     ----------
-    t : Series of years or other time intervals
-    i : Discrete time series of inflow to stock
-
-    o : Discrete time series of outflow from stock
-    o_c :Discrete time series of outflow from stock, by cohort
-
-    s_c : dynamic stock model (stock broken down by year and age- cohort)
-    s : Discrete time series for stock, total
-
-    lt : lifetime distribution: dictionary
-
-    pdf: probability density function, distribution of outflow from a specific age-cohort
-    
-    sf: survival function for different age-cohorts, year x age-cohort table
-
-
-    name : string, optional
-        Name of the dynamic stock model, default is 'DSM'
+    t : ndarray
+        Series of years or other time intervals.
+    i : ndarray
+        Discrete time series of inflow to stock.
+    o : ndarray
+        Discrete time series of outflow from stock.
+    o_c : ndarray
+        Discrete time series of outflow from stock, by cohort.
+    s_c : ndarray
+        Dynamic stock model (stock broken down by year and age-cohort).
+    s : ndarray
+        Discrete time series for stock, total.
+    lt : dict
+        Lifetime distribution: dictionary.
+    pdf : ndarray
+        Probability density function, distribution of outflow from a specific age-cohort.
+    sf : ndarray
+        Survival function for different age-cohorts, year x age-cohort table.
+    name : str, optional
+        Name of the dynamic stock model, default is 'DSM'.
     """
 
     """
