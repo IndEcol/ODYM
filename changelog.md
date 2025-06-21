@@ -1,5 +1,5 @@
 # ODYM Changelog
 
-# Version 0.1.0 (2025-06-20)
+# Version 1.0.0 (2025-06-21)
 
-- Initial `pip` release of ODYM, a Python package for Open Dynamic Model (ODM) simulations.
+- Initial release of ODYM through the Python Package Index (PyPI).

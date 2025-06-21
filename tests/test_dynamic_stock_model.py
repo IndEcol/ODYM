@@ -1,21 +1,6 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Aug 11 16:19:39 2014
-
-"""
-import os
-import sys
-import imp
-# Put location of 
-sys.path.insert(0,  os.path.abspath(os.path.join(os.path.dirname(__file__), '..\\..')) + '\\modules') # add ODYM module directory to system path
-#NOTE: Hidden variable __file__ must be know to script for the directory structure to work.
-# Therefore: When first using the model, run the entire script with F5 so that the __file__ variable can be created.
-
-import dynamic_stock_model as dsm # remove and import the class manually if this unit test is run as standalone script
-imp.reload(dsm)
-
+import odym.dynamic_stock_model as dsm # remove and import the class manually if this unit test is run as standalone script
 import numpy as np
-import unittest
+import pytest
 import scipy
 
 
