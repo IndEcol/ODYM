@@ -60,3 +60,6 @@ readme = {file = "README.md"}
 
 [tool.pytest.ini_options]
 testpaths = ["tests/*.py"] 
+
+[tool.setuptools.packages.find]
+include = ["odym"]
