@@ -22,6 +22,7 @@ nav:
   - API:
     - Classes: 'api/classes.md'
     - Functions: 'api/functions.md'
+    - Dynamic Stock Model: 'api/dynamicstockmodel.md'
   - Changelog: 'changelog.md'
 theme: # https://www.mkdocs.org/user-guide/choosing-your-theme/#readthedocs
   name: material
