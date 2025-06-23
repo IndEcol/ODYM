@@ -1,7 +1,7 @@
 import numpy as np
-import xlrd
 import openpyxl
-from scipy.interpolate import make_interp_spline, interp1d
+import xlrd
+from scipy.interpolate import interp1d, make_interp_spline
 
 from odym.functions.utils import Tuple_MI
 
