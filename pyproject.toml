@@ -1,13 +1,14 @@
 [build-system]
-requires = ["setuptools>=75.0"]
+requires = ["setuptools >= 77.0.3"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "ODYM"
 authors = [
-  { name="Michael Weinold", email="michaelphilippweinold+odym@gmail.com" }
+  { name="Stefan Pauliuk", email="stefan.pauliuk@indecol.uni-freiburg.de " },
 ]
 maintainers = [
+  { name="Stefan Pauliuk", email="stefan.pauliuk@indecol.uni-freiburg.de " },
   { name="Michael Weinold", email="michaelphilippweinold+odym@gmail.com" }
 ]
 description = "A Python package for dynamic material flow analysis (MFA)"
@@ -24,15 +25,16 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Natural Language :: English",
     "Operating System :: OS Independent",
     "Topic :: Scientific/Engineering"
 ]
 requires-python = ">=3.9"
 dependencies = [
-    "numpy >= 1.9",
-    "pandas >= 0.18",
-    "scipy >= 0.14",
+    "numpy",
+    "pandas",
+    "scipy",
     "openpyxl",
     "xlwt",
     "xlrd",
@@ -51,6 +53,3 @@ readme = {file = "README.md"}
 
 [tool.pytest.ini_options]
 testpaths = ["tests/*.py"] 
-
-[tool.setuptools.packages.find]
-include = ["odym"]
