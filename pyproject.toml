@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=75.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ODYM"
+authors = [
+  { name="Michael Weinold", email="michaelphilippweinold+odym@gmail.com" }
+]
+maintainers = [
+  { name="Michael Weinold", email="michaelphilippweinold+odym@gmail.com" }
+]
+description = "A Python package for dynamic material flow analysis (MFA)"
+readme = "README.md"
+license = {text = "MIT"}
+dynamic = ["version"]
+# Add here all kinds of additional classifiers as defined under
+# https://pypi.org/classifiers/
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering"
+]
+requires-python = ">=3.9"
+dependencies = [
+    "numpy >= 1.9",
+    "pandas >= 0.18",
+    "scipy >= 0.14",
+    "openpyxl",
+    "xlwt",
+    "xlrd",
+    "matplotlib",
+    "pypandoc",
+]
+
+[project.urls]
+source = "https://github.com/IndEcol/ODYM"
+homepage = "https://odym.readthedocs.io"
+tracker = "https://github.com/IndEcol/ODYM/issues"
+
+[tool.setuptools.dynamic]
+version = {attr = "odym.__version__"} 
+readme = {file = "README.md"}
+
+[tool.pytest.ini_options]
+testpaths = ["tests/*.py"] 
+
+[tool.setuptools.packages.find]
+include = ["odym"]

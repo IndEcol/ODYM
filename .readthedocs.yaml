@@ -1,0 +1,13 @@
+version: 2
+
+build:
+  os: "ubuntu-lts-latest"
+  tools:
+    python: "latest"
+
+mkdocs:
+  configuration: mkdocs.yaml
+
+python:
+  install:
+    - requirements: docs/_requirements.txt

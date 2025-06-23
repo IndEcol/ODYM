@@ -1,0 +1,93 @@
+# https://www.mkdocs.org/user-guide/configuration/
+site_name: ODYM Documentation
+repo_url: https://github.com/sustainableaviation/jetfuelburn
+copyright: © International Society for Industrial Ecology and Contributors | Code under MIT License
+nav: 
+  - Home: 'index.md'
+  - About: 'about.md'
+  - FAQ: 'faq.md'
+  - Use:
+    - Getting Started: 'use/gettingstarted.md'
+    - Config File: 'use/configfile.md'
+    - Data Templates: 'use/datatemplates.md'
+    - Data Structure: 'use/datastructure.md'
+    - Version Management: 'use/versionmanagement.md'
+  - Tutorials:
+    - tutorial: 'tutorials/tutorial_1.ipynb'
+    - tutorial: 'tutorials/tutorial_2.ipynb'
+    - tutorial: 'tutorials/tutorial_3.ipynb'
+    - tutorial: 'tutorials/tutorial_4.ipynb'
+    - tutorial: 'tutorials/tutorial_5.ipynb'
+    - tutorial: 'tutorials/tutorial_6.ipynb'
+  - API:
+    - Classes: 'api/classes.md'
+    - Functions: 'api/functions.md'
+    - Dynamic Stock Model: 'api/dynamicstockmodel.md'
+  - Changelog: 'changelog.md'
+theme: # https://www.mkdocs.org/user-guide/choosing-your-theme/#readthedocs
+  name: material
+  #custom_dir: docs/_overrides
+  logo: _logos/logo.svg
+  favicon: _logos/logo.svg
+  highlightjs: true
+  navigation_depth: 4
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.expand
+    - navigation.path
+    - navigation.indexes
+    - navigation.top
+    - content.footnote.tooltips
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/brightness-7 
+        name: Switch to dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+plugins:
+  - search
+  - mkdocstrings: # https://mkdocstrings.github.io/python/usage/
+      handlers:
+        python:
+          options:
+            docstring_style: numpy
+            show_root_toc_entry: True
+            show_root_heading: true
+            heading_level: 2
+            show_source: true
+            filters: []
+  - include-markdown
+  - mkdocs-jupyter
+markdown_extensions:
+  - admonition
+  - pymdownx.superfences
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.snippets
+  - pymdownx.highlight:
+      use_pygments: false
+
+extra_javascript:
+  - _javascripts/katex.js
+  # https://cdnjs.com/libraries/KaTeX
+  # unpkg is incredibly slow (17s to load the css file)
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js
+extra_css:
+  # https://cdnjs.com/libraries/KaTeX
+  # unpkg is incredibly slow (17s to load the css file)
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css
+  - _css/extra.css
+
+watch:
+  - odym
+
+extra:
+  generator: false
