@@ -1,44 +1,17 @@
-import os
-import logging
 import numpy as np
-import pandas as pd
-import xlrd, xlwt
+import xlwt
 
-class Obj(object):
-    """
-    Class with the object definition for a data object (system, process, flow, ...) in ODYM
-    """
-    def __init__(self, Name=None, ID=None, UUID=None):
-        """ Basic initialisation of Obj."""
-        self.Name            = Name # object name
-        self.ID              = ID   # object ID
-        self.UUID            = UUID # object UUID
-        self.Aspects         = {'Time': 'Model time','Cohort': 'Age-cohort','OriginProcess':'Process where flow originates','DestinationProcess':'Destination process of flow','OriginRegion': 'Region where flow originates from','DestinationRegion': 'Region where flow is bound to', 'Good': 'Process, good, or commodity', 'Material': 'Material: ore, alloy, scrap type, ...','Element': 'Chemical element' } # Define the aspects of the system variables
-        self.Dimensions      = {'Time': 'Time', 'Process':'Process', 'Region': 'Region', 'Good': 'Process, good, or commodity', 'Material': 'Material: ore, alloy, scrap type, ...','Element': 'Chemical element' } # Define the dimensions of the system variables
+from odym.classes.base import ODYMBaseClass
 
 
-class Classification(Obj):
-    """
-    Class for aspect classification
-    """
-    
-    def __init__(self, Name = None, ID = None, UUID = None, Dimension = None, Items = None, IDs = None, AdditionalProporties = {}):
-        """ Basic initialisation of an item list for alloys, materials, etc."""
-        Obj.__init__(self, Name = Name, ID = ID, UUID = UUID) # Hand over parameters to parent class init
-        self.Dimension         = Dimension # Dimension of classification: Time, Region, process, material, goods, ...
-        self.Items             = Items # list with names of items
-        self.IDs               = IDs # list with IDs of items
-        self.AdditionalProps   = AdditionalProporties # Like population for regions, element composition for alloys, ...
-
-
-class MFAsystem(Obj):
+class MFAsystem(ODYMBaseClass):
     """
     Class with the definition and methods for a system in ODYM
     """
     
-    def __init__(self, Name, Time_Start, Time_End, Geogr_Scope, Unit, IndexTable, Elements, ProcessList = [], FlowDict = {}, StockDict = {}, ParameterDict = {}, Graphical = None, ID = None, UUID = None, ):
+    def __init__(self, Name, Time_Start: int, Time_End: int, Geogr_Scope: str, Unit, IndexTable, Elements, ProcessList = [], FlowDict = {}, StockDict = {}, ParameterDict = {}, Graphical = None, ID = None, UUID = None, ):
         """ Initialisation of MFAsystem."""
-        Obj.__init__(self, Name = Name, ID = ID, UUID = UUID) # Hand over parameters to parent class init
+        super().__init__(Name = Name, ID = ID, UUID = UUID) # Hand over parameters to parent class init
         
         self.Time_Start      = Time_Start # start time of model (year: int)
         self.Time_End        = Time_End # end time of model (year: int)
@@ -235,84 +208,3 @@ class MFAsystem(Obj):
             Result_worksheet.write(m +1, 3, label = self.FlowDict[key].Color)
             
         Result_workbook.save(Path + self.Name + '_' + str(TimeIndex) + '_' + str(Element) + '_Sankey.xls')  
-        
-        
-class Process(Obj):
-
-    """
-    Class with the definition and methods for a process in ODYM
-    """
-    
-    def __init__(self, Name = None, ID = None, UUID = None, Bipartite = None, Graphical = None, Extensions = None, Parameters = None):
-        """ Basic initialisation of a process."""
-        Obj.__init__(self, Name = Name, ID = ID, UUID = UUID) # Hand over parameters to parent class init        
-        self.Bipartite = Bipartite   # For bipartite system graphs, a string with value 't' or 'd' for transformation and distribution process indicates which group the process belongs to.
-        self.Extensions= Extensions  # Dictionary of     
-        self.Graphical = Graphical   # # Dictionary of graphical properties: xPos = None, yPos = None, Orientation = None, Color=None, Width = None, Height=None, 
-        
-    def add_extension(self,Time = None, Name = None, Value=None, Unit = None, Uncert=None): # Extensions flows that are not part of the system-wide mass balance!
-        if self.Extensions is None:
-            self.Extensions = []
-        self.Extensions.append(Flow(P_Start = self.ID, P_End = None, Time = Time, Name = Name, Unit = Unit, Value = Value, Uncert = Uncert))
-      
-    def add_parameter(self,Name = None):
-        if self.Parameters is None:
-            self.Parameters = []
-        self.Parameters.append(Parameter(Value = None))
-            
-class Flow(Obj): # Flow needs to at least have dimension time x element
-
-    """
-    Class with the definition and methods for a flow in ODYM
-    """
-    
-    def __init__(self, Name = None, ID = None, UUID = None, P_Start = None, P_End = None, Indices = None, Values=None, Uncert=None, Unit = None, Color = None):
-        """ Basic initialisation of a flow."""
-        Obj.__init__(self, Name = Name, ID = ID, UUID = UUID) # Hand over parameters to parent class init
-        self.P_Start     = P_Start # id of start process of flow (id: int)
-        self.P_End       = P_End   # id of end process of flow (id: int)
-        self.Indices     = Indices # String with indices as defined in IndexTable, separated by ,: 't,c,p,s,e'
-        
-        self.Values      = Values   # flow values, np.array, multidimensional, unit is system-wide unit
-        self.Uncert      = Uncert  # uncertainty of value in %
-        self.Unit        = Unit    # Unit string
-        
-        self.Color       = Color   # color as string 'R,G,B', where each of R, G, B has a value of 0...255
-
-
-
-class Stock(Obj): # Flow needs to at least have dimension time x element
-
-    """
-    Class with the definition and methods for a stock in ODYM
-    """
-    
-    def __init__(self, Name = None, ID = None, UUID = None, P_Res = None, Indices = None, Type = None, Values=None, Uncert=None, Unit = None, Color = None):
-        """ Basic initialisation of a stock."""
-        Obj.__init__(self, Name = Name, ID = ID, UUID = UUID) # Hand over parameters to parent class init
-        self.P_Res       = P_Res   # id of process where stock resides (id: int)
-        self.Indices     = Indices # String with indices as defined in IndexTable, separated by ,: 't,c,p,s,e'
-        self.Type        = Type  # Type is an int value, indicating: 0: stock, 1: (net) stock change or addition to stock, 2: removal from stock
-        
-        self.Values      = Values  # flow values, np.array, multidimensional, unit is system-wide unit
-        self.Uncert      = Uncert  # uncertainty of value in %
-        self.Unit        = Unit    # Unit string
-
-        self.Color       = Color   # color as string 'R,G,B', where each of R, G, B has a value of 0...255
-
-
-class Parameter(Obj):
-    """
-    Class with the definition and methods for parameters
-    """
-    
-    def __init__(self, Name = None, ID = None, UUID = None, P_Res = None, MetaData = None, Indices = None, Values=None, Uncert=None, Unit = None):
-        """ Basic initialisation of a parameter."""
-        Obj.__init__(self, Name = Name, ID = ID, UUID = UUID) # Hand over parameters to parent class init
-        self.P_Res       = P_Res   # id of process to which parameter is assigned (id: int)
-        self.Indices     = Indices # String with indices as defined in IndexTable, separated by ,: 't,c,p,s,e'
-        self.MetaData    = MetaData # Dictionary with additional metadata
-        
-        self.Values      = Values   # parameter values, np.array, multidimensional, unit is Unit
-        self.Uncert      = Uncert  # uncertainty of value in %
-        self.Unit        = Unit   # Unit of parameter values
