@@ -49,13 +49,6 @@ def function_logger(log_filename, log_pathname, file_level=logging.DEBUG, consol
     logger.addHandler(file_log)
 
     return logger,  console_log, file_log
-
-
-
-def ensure_dir(f): # Checks whether a given directory f exists, and creates it if not
-    d = os.path.dirname(f)
-    if not os.path.exists(d):
-        os.makedirs(d)     
         
         
         
