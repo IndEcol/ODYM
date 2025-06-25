@@ -4,3 +4,4 @@ pymdown-extensions
 markdown-exec
 mkdocs-include-markdown-plugin
 mkdocs-jupyter
+mkdocs-autoapi
