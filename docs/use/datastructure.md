@@ -35,12 +35,13 @@ Each extrinsic dataset needs to be located in the system. The system location of
 
 The extrinsic data have general data structure: X(aspect1, aspect2, aspect3, ...). Each dataset can be desribed as mapping (function) from the multidimensional aspect space into the co-domain of the dataset, which is usually a subset of the real numbers. In database engineering such a multidimensional data structure is called [OLAP cube](https://en.wikipedia.org/wiki/OLAP_cube) or data cube; it was introduced to material and energy flow accounting by Löfving et al. (2006) and Lupton and Allwood (2017).
 
-###   The star schema database
+###  The star schema database
+
 The tupel structure X(aspect1, aspect2, aspect3, ...) can be implemented in different database types. Multi-aspect data can be stored as multidimensional arrays with each dimension corresponding to a single index (done in ODYM using numpy.array), partly flattened arrays with multiindices for rows and/or columns (typical storage format of multiregional input-output tables), or lists of data indexed by tuples. For the latter two formats, Excel templates and parsing routines were developed as part of ODYM, which allow for using any number of aspects, storing and parsing incomplete and overlapping data, and using custom order of data and indices. The input data need to be indexed by indices present in the model classification but the exact shape and order of the data is flexible. 
 
 The storage of multidimensional data in tuples is called a [star schema database](https://en.wikipedia.org/wiki/Star_schema). A star schema database has a central element, which is a table of all data to be described by tuples of different aspects/dimensions. In this table the observation and derived data such as stocks, flows, composition, etc. can be recorded, each dataset in its type-specific dimensions. Each aspect or dimensions is then link to a custom dimesion table, which form the edges of the star and which contain the _intrinsic_ information about the different dimensions.
 
-![Star Schema Database](http://www.industrialecology.uni-freiburg.de/resources/StarSchema_ODYM.png)
+![Star Schema Database](./_media//StarSchema_ODYM.png)
 
 __Figure.__ Star Schema database, with Fact table at the center and aspect/dimension tables arranged around the fact table.
 

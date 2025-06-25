@@ -1,9 +1,10 @@
 # https://www.mkdocs.org/user-guide/configuration/
 site_name: ODYM Documentation
-repo_url: https://github.com/sustainableaviation/jetfuelburn
+repo_url: https://github.com/IndEcol/ODYM
 copyright: © International Society for Industrial Ecology and Contributors | Code under MIT License
 nav: 
   - Home: 'index.md'
+  - Overview: 'overview.md'
   - About: 'about.md'
   - FAQ: 'faq.md'
   - Use:
@@ -26,7 +27,7 @@ nav:
   - Changelog: 'changelog.md'
 theme: # https://www.mkdocs.org/user-guide/choosing-your-theme/#readthedocs
   name: material
-  #custom_dir: docs/_overrides
+  custom_dir: docs/_overrides
   logo: _logos/logo.svg
   favicon: _logos/logo.svg
   highlightjs: true
@@ -62,10 +63,12 @@ plugins:
             show_source: true
             filters: []
   - include-markdown
-  - mkdocs-jupyter
+  - mkdocs-jupyter:
+      include_source: True
 markdown_extensions:
   - admonition
   - pymdownx.superfences
+  - attr_list
   - toc:
       permalink: true
   - pymdownx.arithmatex:
