@@ -1,6 +1,6 @@
 # https://www.mkdocs.org/user-guide/configuration/
 site_name: ODYM Documentation
-repo_url: https://github.com/sustainableaviation/jetfuelburn
+repo_url: https://github.com/IndEcol/ODYM
 copyright: © International Society for Industrial Ecology and Contributors | Code under MIT License
 nav: 
   - Home: 'index.md'
