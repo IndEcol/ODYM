@@ -1,15 +1,17 @@
 # ODYM – Open Dynamic Material Systems Model
 
-## Building the Documentation
 
-To build the documentation pages, first install the required dependencies:
 
-```bash
-pip install -r docs/_requirements.txt
-```
+The ODYM model framework is a software library for dynamic material flow analysis (MFA). It can best be described as a framework for modeling biophysical stock-flow relations in socioeconomic metabolism.
 
-Then, build the documentation using [mkdocs](https://www.mkdocs.org):
 
-```bash
-mkdocs serve
+For full documentation please see the [documentation page](https://odym.readthedocs.io/en/latest/)
+
+
+## Installation
+
+To install 'ODYM' please download this repository, navigate to the main directory (activate your environment of choice)  and use:
+
+```console
+$ pip install -e .
 ```
