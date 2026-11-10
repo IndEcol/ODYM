@@ -457,7 +457,7 @@ def ReadParameterV2(
 
         # Read parameter values into array, uncertainty into list:
         Values = np.zeros((IndexSizesM))  # Array for parameter values
-        Uncertainty = [None] * np.product(IndexSizesM)  # parameter value uncertainties
+        Uncertainty = [None] * np.prod(IndexSizesM)  # parameter value uncertainties
         ValIns = np.zeros(
             (IndexSizesM)
         )  # Array to check how many values are actually loaded
@@ -599,7 +599,7 @@ def ReadParameterV2(
 
         # Read parameter values into array:
         Values = np.zeros((IndexSizesM))  # Array for parameter values
-        Uncertainty = [None] * np.product(IndexSizesM)  # parameter value uncertainties
+        Uncertainty = [None] * np.prod(IndexSizesM)  # parameter value uncertainties
         ValIns = np.zeros(
             (IndexSizesM)
         )  # Array to check how many values are actually loaded, contains 0 or 1.
@@ -828,7 +828,7 @@ def ReadParameterXLSX(
             )
         # Read parameter values into array, uncertainty into list:
         Values = np.zeros((IndexSizesM))  # Array for parameter values
-        Uncertainty = [None] * np.product(IndexSizesM)  # parameter value uncertainties
+        Uncertainty = [None] * np.prod(IndexSizesM)  # parameter value uncertainties
         ValIns = np.zeros(
             (IndexSizesM)
         )  # Array to check how many values are actually loaded
@@ -971,7 +971,7 @@ def ReadParameterXLSX(
 
         # Read parameter values into array:
         Values = np.zeros((IndexSizesM))  # Array for parameter values
-        Uncertainty = [None] * np.product(IndexSizesM)  # parameter value uncertainties
+        Uncertainty = [None] * np.prod(IndexSizesM)  # parameter value uncertainties
         ValIns = np.zeros(
             (IndexSizesM)
         )  # Array to check how many values are actually loaded, contains 0 or 1.
